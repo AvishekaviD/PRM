@@ -1,0 +1,26 @@
+SELECT a."Date",z.zip_code,z.Taluk, z."Districtname",'Redemption Calls' CallType
+, a."voucher_code", a."entry_id", a."profile_id",a.product_id, 0 as ValidInvalid
+FROM "GAIN_THEORY"."Temp_taj2_Mapping" a
+left join GAIN_THEORY.taj2_profile_picode z on substr(a.profile_id,8,length(a.profile_id)) = z.profile_id
+
+union all
+
+SELECT a."Date",z.zip_code,z.Taluk, z."Districtname",'Redemption Calls' CallType
+, a."voucher_code", a."entry_id", a."profile_id",a.product_id, -1 as ValidInvalid
+FROM (select distinct cast(substr(cast(cast(a."entry_date" as timestamp(6) format 'YYYY-MM-DDBHH:MI:SS.s(6)') as varchar(50)),1,10)||' 00:00:00' as timestamp(0) format 'YYYY-MM-DDBHH:MI:SS') "Date",
+a."voucher_code" ,a.best_mobile_number_hash,a.entry_id,a.profile_id,a.entry_status,a.error_code,product_id
+from "PRM"."bt_entry" a 
+where a."campaign_id" = '2626'
+and a."voucher_code" not in (select a.voucher_code from "PRM"."bt_entry" a 
+where a."campaign_id" = '2626'
+and ((a.entry_status= 0 AND a.error_code= 0) OR (a.entry_status= -1 AND a.error_code= -9) OR (a.entry_status= 0 and a.error_code= -15)))
+and a.voucher_code is not null and a.voucher_code <> '') a
+left join GAIN_THEORY.taj2_profile_picode z on substr(a.profile_id,8,length(a.profile_id)) = z.profile_id
+
+union all 
+
+select 
+cast(substr(cast(cast(a.miss_call_date as timestamp(6) format 'YYYY-MM-DDBHH:MI:SS.s(6)') as varchar(50)),1,13)||':00:00' as timestamp(0) format 'YYYY-MM-DDBHH:MI:SS') "Date",
+a.pincode,a.Taluk,a.Districtname,a.CallType,'' as question_text,'' as answer_text
+,a."best_mobile_number_hash",a.product_id,2 as "ValidInvalid"
+from GAIN_THEORY.TEMP_taj2_Dashboard a

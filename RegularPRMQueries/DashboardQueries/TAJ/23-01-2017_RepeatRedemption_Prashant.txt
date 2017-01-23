@@ -1,0 +1,8 @@
+select CallorMessageType
+,pincode
+,taluk
+,district
+,Datediff
+,product_id
+,mobile_number_hash
+from GAIN_THEORY.Temp_taj2_ContentToPurchase

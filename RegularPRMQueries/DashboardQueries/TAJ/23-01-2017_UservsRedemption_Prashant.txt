@@ -1,0 +1,9 @@
+select 'User Vs Redemption' as calltype,a.counts,product_id SKU,count(distinct a."profile_id") as redemptions 
+from (select a."profile_id",product_id,count(distinct a."voucher_code") as counts
+FROM "GAIN_THEORY"."Temp_taj2_Mapping" a group by 1,2) a 
+group by 1,2,3
+union all
+select 'User Vs Redemption' as calltype,a.counts,'ALL' SKU,count(distinct a."profile_id") as redemptions 
+from (select a."profile_id",count(distinct a."voucher_code") as counts
+FROM "GAIN_THEORY"."Temp_taj2_Mapping" a group by 1) a 
+group by 1,2,3

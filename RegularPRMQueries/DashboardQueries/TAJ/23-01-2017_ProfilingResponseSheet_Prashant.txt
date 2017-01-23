@@ -1,0 +1,3 @@
+select distinct a.profile_id ,a.best_mobile_number_hash as voucher_code ,a.pincode as zip_code,a.Taluk, a.district as "Districtname",product_id,
+a.question_text1 ,a.answer_text1 ,a.question_text2 ,a.answer_text2,a.question_text3 ,a.answer_text3 ,a.question_text4 ,a.answer_text4
+from GAIN_THEORY.Temp_taj2_QA1 a
