@@ -1,0 +1,599 @@
+1. first interaction date
+2. Be beautiful -kkT 2lakh last numbers 
+
+
+
+
+
+
+
+
+
+
+
+create multiset table "GAIN_THEORY".PRMActiveInactiveOriginalminmin
+(
+best_mobile_number_hash varchar(300),region_lookup_number varchar(30),
+region varchar(100),source varchar(100),Updatedsource varchar(100),lastinteractiondate date,brand_name varchar(100),updated_Brand_Name 
+varchar(100));
+
+---bb
+
+insert into "GAIN_THEORY".PRMActiveInactiveOriginalmin(best_mobile_number_hash ,region_lookup_number ,source,Updatedsource,lastinteractiondate)
+select distinct best_mobile_number_hash ,region_lookup_number ,'BB','BB',min(cast(date_created as date))
+from PRM.bb_registration
+--where cast(date_created as date) >(select min(lastinteractiondate) from "GAIN_THEORY".PRMActiveInactiveOriginalmin where source like '%BB%')
+group by best_mobile_number_hash ,region_lookup_number;
+
+
+
+---kkt
+insert into "GAIN_THEORY".PRMActiveInactiveOriginalmin(best_mobile_number_hash ,region_lookup_number ,source,Updatedsource,lastinteractiondate)
+select distinct best_mobile_number_hash ,region_lookup_number ,'KKTcdrl 1800','KKT',min(cast(call_time as date))
+from PRM.kkt_cdrl_1800
+--where cast(call_time as date) >(select min(lastinteractiondate) from "GAIN_THEORY".PRMActiveInactiveOriginalmin where source like 'KKTcdrl 
+
+--1800')
+group by best_mobile_number_hash ,region_lookup_number;
+
+insert into "GAIN_THEORY".PRMActiveInactiveOriginalmin(best_mobile_number_hash ,region_lookup_number ,source,Updatedsource,lastinteractiondate)
+select distinct best_mobile_number_hash ,region_lookup_number ,'KKTcdrlobd','KKT',min(cast(call_start_time as date))
+from PRM.kkt_cdrlobd
+--where cast(call_start_time as date) >(select min(lastinteractiondate) from "GAIN_THEORY".PRMActiveInactiveOriginalmin where source like 
+
+--'KKTcdrlobd')
+group by best_mobile_number_hash ,region_lookup_number;
+
+insert into "GAIN_THEORY".PRMActiveInactiveOriginalmin(best_mobile_number_hash ,region_lookup_number ,source,Updatedsource,lastinteractiondate)
+select distinct best_mobile_number_hash ,region_lookup_number ,'KKTnew','KKT',min(cast(call_date as date))
+from PRM.kkt_new
+--where cast(call_date as date) >(select min(lastinteractiondate) from "GAIN_THEORY".PRMActiveInactiveOriginalmin where source like 'KKTnew')
+group by best_mobile_number_hash ,region_lookup_number;
+
+insert into "GAIN_THEORY".PRMActiveInactiveOriginalmin(best_mobile_number_hash ,region_lookup_number ,source,Updatedsource,lastinteractiondate)
+select distinct best_mobile_number_hash ,region_lookup_number ,'KKTresponse','KKT',min(cast(date_of_interaction as date))
+from PRM.kkt_response
+--where cast(date_of_interaction as date) >(select min(lastinteractiondate) from "GAIN_THEORY".PRMActiveInactiveOriginalmin where source like 
+
+--'KKTresponse')
+group by best_mobile_number_hash ,region_lookup_number;
+
+insert into "GAIN_THEORY".PRMActiveInactiveOriginalmin(best_mobile_number_hash ,region_lookup_number ,source,Updatedsource,lastinteractiondate)
+select distinct best_mobile_number_hash ,region_lookup_number ,'KKTcontest','KKT',min(cast(call_start_time as date))
+from PRM.kkt_cdrl_contest
+--where cast(call_start_time as date) >(select min(lastinteractiondate) from "GAIN_THEORY".PRMActiveInactiveOriginalmin where source like 
+
+--'KKTcontest')
+group by best_mobile_number_hash ,region_lookup_number;
+
+insert into "GAIN_THEORY".PRMActiveInactiveOriginalmin(best_mobile_number_hash ,region_lookup_number ,source,Updatedsource,lastinteractiondate)
+select distinct best_mobile_number_hash ,region_lookup_number ,'KKTcontest_trans_ST','KKT',min(cast(call_date_time as date))
+from PRM.kkt_cdr_contest_trans_ST
+--where cast(call_date_time as date) >(select min(lastinteractiondate) from "GAIN_THEORY".PRMActiveInactiveOriginalmin where source like 
+
+--'KKTcontest_trans_ST')
+group by best_mobile_number_hash ,region_lookup_number;
+
+
+insert into "GAIN_THEORY".PRMActiveInactiveOriginalmin(best_mobile_number_hash ,region_lookup_number ,source,Updatedsource,lastinteractiondate)
+select distinct best_mobile_number_hash ,region_lookup_number ,'KKTcdrm_1800_jul_aug_2014','KKT',min(cast(transaction_date as date))
+from PRM.kkt_cdrm_1800_jul_aug_2014
+--where cast(transaction_date as date) >(select min(lastinteractiondate) from "GAIN_THEORY".PRMActiveInactiveOriginalmin where source like 
+
+--'KKTcdrm_1800_jul_aug_2014')
+group by best_mobile_number_hash ,region_lookup_number;
+
+
+insert into "GAIN_THEORY".PRMActiveInactiveOriginalmin(best_mobile_number_hash ,region_lookup_number ,source,Updatedsource,lastinteractiondate)
+select distinct best_mobile_number_hash ,region_lookup_number ,'KKTtrans_cdrlobd_supplmnt','KKT',min(cast(call_start_time as date))
+from PRM.kkt_trans_cdrlobd_supplmnt
+--where cast(call_start_time as date) >(select min(lastinteractiondate) from "GAIN_THEORY".PRMActiveInactiveOriginalmin where source like 
+
+--'KKTtrans_cdrlobd_supplmnt%')
+group by best_mobile_number_hash ,region_lookup_number;
+
+
+
+---lakme
+
+insert into "GAIN_THEORY".PRMActiveInactiveOriginalmin(best_mobile_number_hash ,region_lookup_number,source,Updatedsource,lastinteractiondate)
+select distinct best_mobile_number_hash ,region_lookup_number ,'LKtransaction_all_years','LK'
+,min(cast(transaction_date as date))
+from PRM.lk_transaction_all_years
+--where cast(transaction_date as date) >(select min(lastinteractiondate) from "GAIN_THEORY".PRMActiveInactiveOriginalmin where source like 
+--'LKtransaction_all_years')
+group by best_mobile_number_hash ,region_lookup_number;
+
+insert into "GAIN_THEORY".PRMActiveInactiveOriginalmin(best_mobile_number_hash ,region_lookup_number ,source,Updatedsource,lastinteractiondate)
+select distinct best_mobile_number_hash ,region_lookup_number ,'LKtransaction','LK'
+,min(cast(SUBSTR(trans_date,7,4)||'-'||SUBSTR(trans_date,1,2)||'-'||SUBSTR(trans_date,4,2) as date))
+from PRM.lk_transaction
+--where cast(SUBSTR(trans_date,7,4)||'-'||SUBSTR(trans_date,1,2)||'-'||SUBSTR(trans_date,4,2) as date) >(select min(lastinteractiondate) 
+--from "GAIN_THEORY".PRMActiveInactiveOriginalmin where source like 'LKtransaction')
+group by best_mobile_number_hash ,region_lookup_number;
+
+insert into "GAIN_THEORY".PRMActiveInactiveOriginalmin(best_mobile_number_hash ,region_lookup_number ,source,Updatedsource,lastinteractiondate)
+select distinct best_mobile_number_hash ,region_lookup_number ,'LKcustomer','LK',min(cast(date_created as date))
+from  PRM.lk_customer
+--where cast(date_created as date) >(select min(lastinteractiondate) from "GAIN_THEORY".PRMActiveInactiveOriginalmin where source like 
+--'LKcustomer')
+group by best_mobile_number_hash ,region_lookup_number;
+
+insert into "GAIN_THEORY".PRMActiveInactiveOriginalmin(best_mobile_number_hash ,region_lookup_number ,source,Updatedsource,lastinteractiondate)
+select distinct best_mobile_number_hash ,region_lookup_number ,'LKredeemtransaction','LK'
+,min(cast(SUBSTR(lk_date,7,4)||'-'||SUBSTR(lk_date,1,2)||'-'||SUBSTR(lk_date,4,2) as date))
+from PRM.lk_redeem_transaction
+--where cast(SUBSTR(lk_date,7,4)||'-'||SUBSTR(lk_date,1,2)||'-'||SUBSTR(lk_date,4,2) as date) >(select min(lastinteractiondate) from 
+--"GAIN_THEORY".PRMActiveInactiveOriginalmin where source like 'LKredeemtransaction')
+group by best_mobile_number_hash ,region_lookup_number;
+
+
+insert into "GAIN_THEORY".PRMActiveInactiveOriginalmin(best_mobile_number_hash ,region_lookup_number ,source,Updatedsource,lastinteractiondate)
+select distinct best_mobile_number_hash ,region_lookup_number ,'LKredemptionallyears','LK'
+,min(cast(SUBSTR(transaction_date,7,4)||'-'||SUBSTR(transaction_date,1,2)||'-'||SUBSTR(transaction_date,4,2) as date))
+from PRM.lk_redemption_all_years
+--where cast(SUBSTR(transaction_date,7,4)||'-'||SUBSTR(transaction_date,1,2)||'-'||SUBSTR(transaction_date,4,2) as date) >(select max
+--(lastinteractiondate) from "GAIN_THEORY".PRMActiveInactiveOriginalmin where source like 'LKredemptionallyears')
+group by best_mobile_number_hash ,region_lookup_number;
+
+
+---pureit
+
+insert into "GAIN_THEORY".PRMActiveInactiveOriginalmin(best_mobile_number_hash ,region_lookup_number ,source,Updatedsource,lastinteractiondate)
+select distinct best_mobile_number_hash ,region_lookup_number ,'PIconsumer','PI'
+,min(cast(SUBSTR(create_date,1,10) as date))
+from PRM.pi_consumer
+where LENGTH(create_date)>1
+-- and cast(SUBSTR(create_date,1,10) as date) >(select min(lastinteractiondate) from "GAIN_THEORY".PRMActiveInactiveOriginalmin where source 
+--like 'PIconsumer')
+group by best_mobile_number_hash ,region_lookup_number;
+
+insert into "GAIN_THEORY".PRMActiveInactiveOriginalmin(best_mobile_number_hash ,region_lookup_number ,source,Updatedsource,lastinteractiondate)
+select distinct best_mobile_number_hash ,region_lookup_number ,'PIconsumer','PI'
+,min(cast(date_created as date))
+from PRM.pi_consumer
+where LENGTH(create_date)<1
+-- and cast(date_created as date) >(select min(lastinteractiondate) from "GAIN_THEORY".PRMActiveInactiveOriginalmin where source like 
+--'PIconsumer')
+group by best_mobile_number_hash ,region_lookup_number;
+
+--complaint
+insert into "GAIN_THEORY".PRMActiveInactiveOriginalmin(best_mobile_number_hash ,region_lookup_number ,source,Updatedsource,lastinteractiondate)
+select distinct a.best_mobile_number_hash ,a.region_lookup_number ,'PIcomplaint','PI'
+,min(cast(SUBSTR(b.create_date,1,10) as date))
+from PRM.pi_consumer a
+inner join PRM.pi_complaint b on a.customer_number=b.customer_number
+where LENGTH(b.create_date)>1
+-- and cast(SUBSTR(b.create_date,1,10) as date) >(select min(lastinteractiondate) from "GAIN_THEORY".PRMActiveInactiveOriginalmin where source 
+--like 'PIcomplaint')
+group by a.best_mobile_number_hash ,a.region_lookup_number;
+
+
+insert into "GAIN_THEORY".PRMActiveInactiveOriginalmin(best_mobile_number_hash ,region_lookup_number ,source,Updatedsource,lastinteractiondate)
+select distinct a.best_mobile_number_hash ,a.region_lookup_number ,'PIcomplaint','PI'
+,min(cast(b.date_created as date))
+from PRM.pi_consumer a
+inner join PRM.pi_complaint b on a.customer_number=b.customer_number
+where LENGTH(b.create_date)<1
+-- and cast(b.date_created as date) >(select min(lastinteractiondate) from "GAIN_THEORY".PRMActiveInactiveOriginalmin where source like 
+--'PIcomplaint')
+group by a.best_mobile_number_hash ,a.region_lookup_number;
+
+
+--rfs
+
+insert into "GAIN_THEORY".PRMActiveInactiveOriginalmin(best_mobile_number_hash ,region_lookup_number ,source,Updatedsource,lastinteractiondate)
+select distinct a.best_mobile_number_hash ,a.region_lookup_number ,'PIrfs','PI'
+,min(cast(SUBSTR(b.order_date,1,10) as date))
+from PRM.pi_consumer a
+inner join PRM.pi_rfs b on a.customer_number=b.customer_number
+where LENGTH(b.order_date)>1
+-- and cast(SUBSTR(b.create_date,1,10) as date) >(select min(lastinteractiondate) from "GAIN_THEORY".PRMActiveInactiveOriginalmin where source 
+--like 'PIrfs')
+group by a.best_mobile_number_hash ,a.region_lookup_number;
+
+
+insert into "GAIN_THEORY".PRMActiveInactiveOriginalmin(best_mobile_number_hash ,region_lookup_number ,source,Updatedsource,lastinteractiondate)
+select distinct a.best_mobile_number_hash ,a.region_lookup_number ,'PIrfs','PI'
+,min(cast(b.date_created as date))
+from PRM.pi_consumer a
+inner join PRM.pi_rfs b on a.customer_number=b.customer_number
+where LENGTH(b.order_date)<1
+-- and cast(b.date_created as date) >(select min(lastinteractiondate) from "GAIN_THEORY".PRMActiveInactiveOriginalmin where source like 
+--'PIrfs')
+group by a.best_mobile_number_hash ,a.region_lookup_number;
+
+--brandtone
+
+insert into "GAIN_THEORY".PRMActiveInactiveOriginalmin(best_mobile_number_hash ,region_lookup_number 
+,source,Updatedsource,Brand_Name,updated_Brand_Name,lastinteractiondate)
+select distinct best_mobile_number_hash ,region_lookup_number ,'BT','BT',b.campaign_brand,b.campaign_brand,min(cast(entry_date as date))
+from PRM.bt_entry a
+inner join PRM.bt_campaign b on a.campaign_id=b.campaign_id
+where b.country_code='IN'
+--and cast(entry_date as date) >(select min(lastinteractiondate) from "GAIN_THEORY".PRMActiveInactiveOriginalmin where source like 'BT')
+group by best_mobile_number_hash ,region_lookup_number,b.campaign_brand;
+
+----H2H
+
+insert into "GAIN_THEORY".PRMActiveInactiveOriginalmin(best_mobile_number_hash ,region_lookup_number 
+,source,Updatedsource,Brand_Name,updated_Brand_Name,lastinteractiondate)
+select distinct best_mobile_number_hash ,region_lookup_number ,'H2H','H2H',a.brand,updatedbrand_name
+,min(cast(SUBSTR(interaction_date,1,10) as date))
+from PRM.h2h_transaction a
+inner join GAIN_THEORY.PRMActiveInactiveBrandMapping b on a.Brand=b.Brand_name
+where interaction_date  NOT LIKE ALL ('%Jan%','%Feb%','%Mar%','%Apr%','%May%'
+,'%Jun%','%Jul%','%Aug%','%Sep%','%Oct%','%Nov%','%Dec%','%/%')and LENGTH(interaction_date)>0
+--and  cast(date_created as date) >(select min(lastinteractiondate) from "GAIN_THEORY".PRMActiveInactiveOriginalmin where source like '%H2H%')
+group by  best_mobile_number_hash ,region_lookup_number ,a.brand,updatedbrand_name;
+
+
+insert into "GAIN_THEORY".PRMActiveInactiveOriginalmin(best_mobile_number_hash ,region_lookup_number 
+,source,Updatedsource,Brand_Name,updated_Brand_Name,lastinteractiondate)
+select distinct best_mobile_number_hash ,region_lookup_number ,'mindtree','H2H',a.brand,updatedbrand_name
+,min(cast(SUBSTR(geo_timestamp,1,10) as date))
+from PRM.mindtree_data a
+inner join GAIN_THEORY.PRMActiveInactiveBrandMapping b on a.Brand=b.Brand_name
+where geo_timestamp  NOT LIKE ALL ('%Jan%','%Feb%','%Mar%','%Apr%','%May%'
+,'%Jun%','%Jul%','%Aug%','%Sep%','%Oct%','%Nov%','%Dec%','%/%')
+and LENGTH(geo_timestamp)>0
+--and  cast(date_created as date) >(select min(lastinteractiondate) from "GAIN_THEORY".PRMActiveInactiveOriginalmin where source like 
+
+--'%mindtree%')
+group by best_mobile_number_hash ,region_lookup_number,a.brand,updatedbrand_name;
+
+
+
+insert into "GAIN_THEORY".PRMActiveInactiveOriginalmin(best_mobile_number_hash ,region_lookup_number 
+,source,Updatedsource,Brand_Name,updated_Brand_Name,lastinteractiondate)
+select distinct best_mobile_number_hash ,region_lookup_number ,'H2H','H2H',a.brand,updatedbrand_name
+,min(cast(SUBSTR(interaction_date,7,4)||'-'||SUBSTR(interaction_date,4,2)||'-'||SUBSTR(interaction_date,1,2) as date))
+from PRM.h2h_transaction a
+inner join GAIN_THEORY.PRMActiveInactiveBrandMapping b on a.Brand=b.Brand_name
+where interaction_date  NOT LIKE ALL ('%Jan%','%Feb%','%Mar%','%Apr%','%May%'
+,'%Jun%','%Jul%','%Aug%','%Sep%','%Oct%','%Nov%','%Dec%')
+and  interaction_date LIKE ANY ('%/%') and LENGTH(interaction_date)>0
+--and  cast(date_created as date) >(select min(lastinteractiondate) from "GAIN_THEORY".PRMActiveInactiveOriginalmin where source like '%H2H%')
+group by best_mobile_number_hash ,region_lookup_number,a.brand,updatedbrand_name;
+
+
+insert into "GAIN_THEORY".PRMActiveInactiveOriginalmin(best_mobile_number_hash ,region_lookup_number 
+,source,Updatedsource,Brand_Name,updated_Brand_Name,lastinteractiondate)
+select distinct best_mobile_number_hash ,region_lookup_number ,'mindtree','H2H',a.brand,updatedbrand_name
+,min(cast(SUBSTR(geo_timestamp,7,4)||'-'||SUBSTR(geo_timestamp,4,2)||'-'||SUBSTR(geo_timestamp,1,2) as date))
+from PRM.mindtree_data a
+inner join GAIN_THEORY.PRMActiveInactiveBrandMapping b on a.Brand=b.Brand_name
+where geo_timestamp  NOT LIKE ALL ('%Jan%','%Feb%','%Mar%','%Apr%','%May%'
+,'%Jun%','%Jul%','%Aug%','%Sep%','%Oct%','%Nov%','%Dec%')
+and  geo_timestamp LIKE ANY ('%/%') and LENGTH(geo_timestamp)>0
+--and  cast(date_created as date) >(select min(lastinteractiondate) from "GAIN_THEORY".PRMActiveInactiveOriginalmin where source like 
+
+--'%mindtree%')
+group by best_mobile_number_hash ,region_lookup_number,a.brand,updatedbrand_name;
+
+
+insert into "GAIN_THEORY".PRMActiveInactiveOriginalmin(best_mobile_number_hash ,region_lookup_number 
+
+,source,Updatedsource,Brand_Name,updated_Brand_Name,lastinteractiondate)
+select distinct  best_mobile_number_hash ,region_lookup_number ,'mindtree','H2H',brand,updatedbrand_name,min(cast
+
+(("year"||'-'||"Month"||'-'||"Day") as 
+
+date))
+from (
+select distinct  best_mobile_number_hash ,region_lookup_number ,c.brand,updatedbrand_name,
+Case
+when substr(geo_timestamp,8,2)='12' then '2012' when substr(geo_timestamp,8,2)='13' then '2013'
+when substr(geo_timestamp,8,2)='14' then '2014' when substr(geo_timestamp,8,3)='15' then '2015'
+when substr(geo_timestamp,8,3)='16' then '2016' when substr(geo_timestamp,8,3)='17' then '2017'
+when substr(geo_timestamp,8,3)='18' then '2018'when substr(geo_timestamp,8,3)='19' then '2019' end "Year",
+case 
+when substr(geo_timestamp,4,3)='Jan' then '01' when substr(geo_timestamp,4,3)='Feb' then '02'
+when substr(geo_timestamp,4,3)='Mar' then '03' when substr(geo_timestamp,4,3)='Apr' then '04'
+when substr(geo_timestamp,4,3)='May' then '05' when substr(geo_timestamp,4,3)='Jun' then '06'
+when substr(geo_timestamp,4,3)='Jul' then '07' when substr(geo_timestamp,4,3)='Aug' then '08'
+when substr(geo_timestamp,4,3)='Sep' then '09' when substr(geo_timestamp,4,3)='Oct' then '10'
+when substr(geo_timestamp,4,3)='Nov' then '11'when substr(geo_timestamp,4,3)='Dec' then '12' end "Month"
+,substr(geo_timestamp,1,2) "Day"
+from PRM.mindtree_data c
+inner join GAIN_THEORY.PRMActiveInactiveBrandMapping b on c.Brand=b.Brand_name
+where  geo_timestamp   LIKE ANY ('%Jan%','%Feb%','%Mar%','%Apr%','%May%'
+,'%Jun%','%Jul%','%Aug%','%Sep%','%Oct%','%Nov%','%Dec%')
+and LENGTH(geo_timestamp)>0
+--and  cast(date_created as date) >(select min(lastinteractiondate) from "GAIN_THEORY".PRMActiveInactiveOriginalmin where source like 
+
+--'%mindtree%')
+
+ ) as a group by best_mobile_number_hash ,region_lookup_number,brand,updatedbrand_name;
+
+
+insert into "GAIN_THEORY".PRMActiveInactiveOriginalmin(best_mobile_number_hash ,region_lookup_number 
+
+,source,Updatedsource,Brand_Name,updated_Brand_Name,lastinteractiondate)
+select distinct best_mobile_number_hash ,region_lookup_number ,'H2H','H2H',brand,updatedbrand_name,min(cast
+
+(("year"||'-'||"Month"||'-'||"Day") as 
+
+date))
+from (
+select distinct  best_mobile_number_hash ,region_lookup_number ,c.brand,updatedbrand_name,
+Case
+when substr(interaction_date,8,2)='12' then '2012' when substr(interaction_date,8,2)='13' then '2013'
+when substr(interaction_date,8,2)='14' then '2014' when substr(interaction_date,8,3)='15' then '2015'
+when substr(interaction_date,8,3)='16' then '2016' when substr(interaction_date,8,3)='17' then '2017'
+when substr(interaction_date,8,3)='18' then '2018'when substr(interaction_date,8,3)='19' then '2019' end "Year",
+case 
+when substr(interaction_date,4,3)='Jan' then '01' when substr(interaction_date,4,3)='Feb' then '02'
+when substr(interaction_date,4,3)='Mar' then '03' when substr(interaction_date,4,3)='Apr' then '04'
+when substr(interaction_date,4,3)='May' then '05' when substr(interaction_date,4,3)='Jun' then '06'
+when substr(interaction_date,4,3)='Jul' then '07' when substr(interaction_date,4,3)='Aug' then '08'
+when substr(interaction_date,4,3)='Sep' then '09' when substr(interaction_date,4,3)='Oct' then '10'
+when substr(interaction_date,4,3)='Nov' then '11'when substr(interaction_date,4,3)='Dec' then '12' end "Month"
+,substr(interaction_date,1,2) "Day"
+from PRM.h2h_transaction c
+inner join GAIN_THEORY.PRMActiveInactiveBrandMapping b on c.Brand=b.Brand_name
+where  interaction_date   LIKE ANY ('%Jan%','%Feb%','%Mar%','%Apr%','%May%'
+,'%Jun%','%Jul%','%Aug%','%Sep%','%Oct%','%Nov%','%Dec%')
+and LENGTH(interaction_date)>0 
+--and  cast(date_created as date) >(select min(lastinteractiondate) from "GAIN_THEORY".PRMActiveInactiveOriginalmin where source like '%H2H%')
+) as a group by best_mobile_number_hash ,region_lookup_number,brand,updatedbrand_name;
+
+
+----careline 
+insert into "GAIN_THEORY".PRMActiveInactiveOriginalmin(best_mobile_number_hash ,region_lookup_number ,source,Updatedsource,lastinteractiondate)
+select distinct best_mobile_number_hash ,region_lookup_number ,'CL','CL'
+,min(cast(SUBSTR(posting_date,7,4)||'-'||SUBSTR(posting_date,4,2)||'-'||SUBSTR(posting_date,1,2) as date))
+from PRM.cl_call
+-- where cast(date_created as date) >(select min(lastinteractiondate) from "GAIN_THEORY".PRMActiveInactiveOriginalmin where source like 'CL')
+group by best_mobile_number_hash ,region_lookup_number;
+
+insert into "GAIN_THEORY".PRMActiveInactiveOriginalmin(best_mobile_number_hash ,region_lookup_number ,source,Updatedsource,lastinteractiondate)
+select distinct best_mobile_number_hash ,region_lookup_number ,'CL','CL'
+,min(cast(SUBSTR(posting_date,7,4)||'-'||SUBSTR(posting_date,4,2)||'-'||SUBSTR(posting_date,1,2) as date))
+from PRM.cl_call_pti748
+-- where cast(date_created as date) >(select min(lastinteractiondate) from "GAIN_THEORY".PRMActiveInactiveOriginalmin where source like 'CL')
+group by best_mobile_number_hash ,region_lookup_number;
+
+insert into "GAIN_THEORY".PRMActiveInactiveOriginalmin(best_mobile_number_hash ,region_lookup_number ,source,Updatedsource,lastinteractiondate)
+select distinct best_mobile_number_hash ,region_lookup_number ,'CL','CL'
+,min(cast(SUBSTR(posting_date,7,4)||'-'||SUBSTR(posting_date,4,2)||'-'||SUBSTR(posting_date,1,2) as date))
+from PRM.cl_call_till_dec2015
+-- where cast(date_created as date) >(select min(lastinteractiondate) from "GAIN_THEORY".PRMActiveInactiveOriginalmin where source like 'CL')
+group by best_mobile_number_hash ,region_lookup_number;
+
+
+insert into "GAIN_THEORY".PRMActiveInactiveOriginalmin(best_mobile_number_hash ,region_lookup_number ,source,Updatedsource,lastinteractiondate)
+select distinct best_mobile_number_hash ,region_lookup_number ,'CL','CL'
+,min(cast(posting_date as date))
+from PRM.cl_calls_01Mar2014_30jun2014
+group by best_mobile_number_hash ,region_lookup_number;
+
+
+insert into "GAIN_THEORY".PRMActiveInactiveOriginalmin(best_mobile_number_hash ,region_lookup_number ,source,Updatedsource,lastinteractiondate)
+select distinct best_mobile_number_hash ,region_lookup_number ,'CL','CL'
+,min(cast(cl_call_date as date))
+from PRM.cl_calls_2012_2013
+group by best_mobile_number_hash ,region_lookup_number;
+
+insert into "GAIN_THEORY".PRMActiveInactiveOriginalmin(best_mobile_number_hash ,region_lookup_number ,source,Updatedsource,lastinteractiondate)
+select distinct best_mobile_number_hash ,region_lookup_number ,'CL','CL'
+,min(cast(posting_date as date))
+from PRM.cl_calls_2013_2014
+group by best_mobile_number_hash ,region_lookup_number;
+
+
+
+
+
+
+
+----digital
+
+insert into "GAIN_THEORY".PRMActiveInactiveOriginalmin(best_mobile_number_hash ,region_lookup_number 
+,source,Updatedsource,Brand_Name,updated_Brand_Name,lastinteractiondate)
+select distinct best_mobile_number_hash ,region_lookup_number ,'DLall','DL',a.Brand_name,updatedbrand_name
+,min(cast(entry_date as date))
+from PRM.dl_all_campaigns  a
+inner join GAIN_THEORY.PRMActiveInactiveBrandMapping b on a.Brand_name=b.Brand_name
+where entry_date is not null
+--and  cast(date_created as date) >(select min(lastinteractiondate) from "GAIN_THEORY".PRMActiveInactiveOriginalmin where source like '%DLall%')
+group by best_mobile_number_hash ,region_lookup_number,a.Brand_name,updatedbrand_name;
+
+
+insert into "GAIN_THEORY".PRMActiveInactiveOriginalmin(best_mobile_number_hash ,region_lookup_number 
+,source,Updatedsource,Brand_Name,updated_Brand_Name,lastinteractiondate)
+select distinct best_mobile_number_hash ,region_lookup_number ,'DLoz','DL',a.Brand_name,updatedbrand_name
+,min(cast(date_of_interaction as date))
+from PRM.dloz_tier3 a
+inner join GAIN_THEORY.PRMActiveInactiveBrandMapping b on a.Brand_name=b.Brand_name
+--where  cast(date_created as date) >(select min(lastinteractiondate) from "GAIN_THEORY".PRMActiveInactiveOriginalmin where source like '%DLoz%')
+group by best_mobile_number_hash ,region_lookup_number,a.Brand_name,updatedbrand_name;
+
+insert into "GAIN_THEORY".PRMActiveInactiveOriginalmin(best_mobile_number_hash ,region_lookup_number 
+,source,Updatedsource,Brand_Name,updated_Brand_Name,lastinteractiondate)
+select distinct best_mobile_number_hash ,region_lookup_number ,'DLts','DL',a.Brand_name,updatedbrand_name
+,min(cast(substr(datetime_of_interaction ,1,10) as date))
+from PRM.dlts_transaction a
+inner join GAIN_THEORY.PRMActiveInactiveBrandMapping b on a.Brand_name=b.Brand_name
+where datetime_of_interaction like '%-%'
+--and  cast(date_created as date) >(select min(lastinteractiondate) from "GAIN_THEORY".PRMActiveInactiveOriginalmin where source like '%DLts%')
+group by best_mobile_number_hash ,region_lookup_number,a.Brand_name,updatedbrand_name;
+
+insert into "GAIN_THEORY".PRMActiveInactiveOriginalmin(best_mobile_number_hash ,region_lookup_number 
+,source,Updatedsource,Brand_Name,updated_Brand_Name,lastinteractiondate)
+select distinct best_mobile_number_hash ,region_lookup_number ,'DLts','DL',a.Brand_name,updatedbrand_name
+,min(cast(SUBSTR(datetime_of_interaction,7,4)||'-'||SUBSTR(datetime_of_interaction,4,2)||'-'||SUBSTR(datetime_of_interaction,1,2) as date))
+from PRM.dlts_transaction a
+inner join GAIN_THEORY.PRMActiveInactiveBrandMapping b on a.Brand_name=b.Brand_name
+where datetime_of_interaction like '%/%' and datetime_of_interaction not like '%Date/Time%'
+--and  cast(date_created as date) >(select min(lastinteractiondate) from "GAIN_THEORY".PRMActiveInactiveOriginalmin where source like '%DLts%')
+group by best_mobile_number_hash ,region_lookup_number,a.Brand_name,updatedbrand_name;
+
+insert into "GAIN_THEORY".PRMActiveInactiveOriginalmin(best_mobile_number_hash ,region_lookup_number 
+,source,Updatedsource,Brand_Name,updated_Brand_Name,lastinteractiondate)
+select distinct best_mobile_number_hash ,region_lookup_number ,'DLzd','DL',a.Brand,updatedbrand_name
+,min(cast(SUBSTR(datetime_of_interaction,7,4)||'-'||SUBSTR(datetime_of_interaction,4,2)||'-'||SUBSTR(datetime_of_interaction,1,2) as date))
+from PRM.dlzd_transaction a
+inner join GAIN_THEORY.PRMActiveInactiveBrandMapping b on a.Brand=b.Brand_name
+where datetime_of_interaction like '%/%' and datetime_of_interaction not like '%Date/Time%'
+--and  cast(date_created as date) >(select min(lastinteractiondate) from "GAIN_THEORY".PRMActiveInactiveOriginalmin where source like '%DLzd%')
+group by best_mobile_number_hash ,region_lookup_number,a.Brand,updatedbrand_name;
+
+insert into "GAIN_THEORY".PRMActiveInactiveOriginalmin(best_mobile_number_hash ,region_lookup_number 
+,source,Updatedsource,Brand_Name,updated_Brand_Name,lastinteractiondate)
+select distinct best_mobile_number_hash ,region_lookup_number ,'DLzd','DL',a.Brand,updatedbrand_name
+,min(cast(substr(datetime_of_interaction ,1,10) as date))
+from PRM.dlzd_transaction a
+inner join GAIN_THEORY.PRMActiveInactiveBrandMapping b on a.Brand=b.Brand_name
+where datetime_of_interaction like '%-%'
+--and  cast(date_created as date) >(select min(lastinteractiondate) from "GAIN_THEORY".PRMActiveInactiveOriginalmin where source like '%DLzd%')
+group by best_mobile_number_hash ,region_lookup_number,a.Brand,updatedbrand_name;
+
+
+
+
+insert into "GAIN_THEORY".PRMActiveInactiveOriginalmin(best_mobile_number_hash ,region_lookup_number 
+,source,Updatedsource,Brand_Name,updated_Brand_Name,lastinteractiondate)
+select distinct best_mobile_number_hash ,region_lookup_number ,'DLimi','DL',a.Brand_name,updatedbrand_name
+,min(cast(date_of_interaction as date))
+from PRM.imimobile_tier3 a
+inner join GAIN_THEORY.PRMActiveInactiveBrandMapping b on a.Brand_name=b.Brand_name
+--where  cast(date_created as date) >(select min(lastinteractiondate) from "GAIN_THEORY".PRMActiveInactiveOriginalmin where source like '%DLimi%')
+group by best_mobile_number_hash ,region_lookup_number,a.Brand_name,updatedbrand_name;
+
+
+insert into "GAIN_THEORY".PRMActiveInactiveOriginalmin(best_mobile_number_hash ,region 
+,source,Updatedsource,Brand_Name,updated_Brand_Name,lastinteractiondate)
+select distinct best_mobile_number_hash ,circle ,'DLimiobd','DL',c.Brand_name,updatedbrand_name
+,min(cast(date_time_interaction as date))
+from PRM.imimobile_tier4_obd_master a 
+inner join PRM.imimobile_tier4_campaign_master b on a.campaign_id=b.campaign_id
+inner join GAIN_THEORY.PRMActiveInactiveBrandMapping c on b.Brand=c.Brand_name
+--where  cast(date_created as date) >(select min(lastinteractiondate) from "GAIN_THEORY".PRMActiveInactiveOriginalmin where source like '%DLimiobd%')
+group by best_mobile_number_hash ,circle,c.Brand_name,updatedbrand_name;
+
+insert into "GAIN_THEORY".PRMActiveInactiveOriginalmin(best_mobile_number_hash ,region 
+,source,Updatedsource,Brand_Name,updated_Brand_Name,lastinteractiondate)
+select distinct best_mobile_number_hash ,circle ,'DLimisms','DL',c.Brand_name,updatedbrand_name
+,min(cast(date_and_time_of_interaction as date))
+from PRM.imimobile_tier4_sms_master  a 
+inner join PRM.imimobile_tier4_campaign_master b on a.campaign_id=b.campaign_id
+inner join GAIN_THEORY.PRMActiveInactiveBrandMapping c on b.Brand=c.Brand_name
+--where cast(date_created as date) >(select min(lastinteractiondate) from "GAIN_THEORY".PRMActiveInactiveOriginalmin where source like '%DLimisms%')
+group by best_mobile_number_hash ,circle,c.Brand_name,updatedbrand_name;
+
+
+
+insert into "GAIN_THEORY".PRMActiveInactiveOriginalmin(best_mobile_number_hash ,region_lookup_number 
+,source,Updatedsource,Brand_Name,updated_Brand_Name,lastinteractiondate)
+select distinct best_mobile_number_hash ,region_lookup_number ,'DLmgage','DL',a.Brand_name,updatedbrand_name
+,min(cast(SUBSTR(date_of_interaction,7,4)||'-'||SUBSTR(date_of_interaction,4,2)||'-'||SUBSTR(date_of_interaction,1,2) as date))
+from PRM.mgage_tier3 a
+inner join GAIN_THEORY.PRMActiveInactiveBrandMapping b on a.Brand_name=b.Brand_name
+where LENGTH(date_of_interaction)>='10' 
+-- and cast(date_created as date) >(select min(lastinteractiondate) from "GAIN_THEORY".PRMActiveInactiveOriginalmin where source like '%DLmgage%')
+group by best_mobile_number_hash ,region_lookup_number,a.Brand_name,updatedbrand_name;
+
+
+
+insert into "GAIN_THEORY".PRMActiveInactiveOriginalmin(best_mobile_number_hash ,region_lookup_number 
+,source,Updatedsource,Brand_Name,updated_Brand_Name,lastinteractiondate)
+select distinct best_mobile_number_hash ,region_lookup_number ,'DLmgage','DL',a.Brand_name,updatedbrand_name
+,min(cast(b.date_of_interaction1 as date))
+from PRM.mgage_tier3 a inner join GAIN_THEORY.PRMActiveInactiveDateMapping b
+on a.date_of_interaction=b.date_of_interaction
+inner join GAIN_THEORY.PRMActiveInactiveBrandMapping c on a.Brand_name=c.Brand_name
+where LENGTH(a.date_of_interaction)<'10'
+-- and cast(date_created as date) >(select min(lastinteractiondate) from "GAIN_THEORY".PRMActiveInactiveOriginalmin where source like '%DLmgage%')
+group by best_mobile_number_hash ,region_lookup_number,a.Brand_name,updatedbrand_name;
+
+
+insert into "GAIN_THEORY".PRMActiveInactiveOriginalmin(best_mobile_number_hash ,region_lookup_number 
+,source,Updatedsource,Brand_Name,updated_Brand_Name,lastinteractiondate)
+select distinct best_mobile_number_hash ,region_lookup_number ,'DLthink','DL',a.Brand_name,updatedbrand_name
+,min(cast(SUBSTR(date_of_interaction,7,4)||'-'||SUBSTR(date_of_interaction,4,2)||'-'||SUBSTR(date_of_interaction,1,2) as date))
+from PRM.thinkwalnut_tier3  a
+inner join GAIN_THEORY.PRMActiveInactiveBrandMapping b on a.Brand_name=b.Brand_name
+where date_of_interaction like '%-%' and LENGTH(date_of_interaction)>='10'
+and date_of_interaction not like '%0000-00-00%'
+-- and cast(date_created as date) >(select min(lastinteractiondate) from "GAIN_THEORY".PRMActiveInactiveOriginalmin where source like '%DLthink%')
+group by best_mobile_number_hash ,region_lookup_number,a.Brand_name,updatedbrand_name;
+
+
+insert into "GAIN_THEORY".PRMActiveInactiveOriginalmin(best_mobile_number_hash ,region_lookup_number 
+,source,Updatedsource,Brand_Name,updated_Brand_Name,lastinteractiondate)
+select distinct best_mobile_number_hash ,region_lookup_number ,'DLthink','DL',a.Brand_name,updatedbrand_name
+,min(cast(SUBSTR(date_of_interaction,7,4)||'-'||SUBSTR(date_of_interaction,4,2)||'-'||SUBSTR(date_of_interaction,1,2) as date))
+from PRM.thinkwalnut_tier3  a
+inner join GAIN_THEORY.PRMActiveInactiveBrandMapping b on a.Brand_name=b.Brand_name
+where date_of_interaction like '%/%' and LENGTH(date_of_interaction)>='10'
+-- and cast(date_created as date) >(select min(lastinteractiondate) from "GAIN_THEORY".PRMActiveInactiveOriginalmin where source like '%DLthink%')
+group by best_mobile_number_hash ,region_lookup_number,a.Brand_name,updatedbrand_name;
+
+
+insert into "GAIN_THEORY".PRMActiveInactiveOriginalmin(best_mobile_number_hash ,region_lookup_number 
+,source,Updatedsource,Brand_Name,updated_Brand_Name,lastinteractiondate)
+select distinct best_mobile_number_hash ,region_lookup_number ,'DL197','DL',a.Brand_name,updatedbrand_name
+,min(cast(SUBSTR(date_of_interaction,7,4)||'-'||SUBSTR(date_of_interaction,4,2)||'-'||SUBSTR(date_of_interaction,1,2) as date))
+from PRM.dl197_transaction  a
+inner join GAIN_THEORY.PRMActiveInactiveBrandMapping b on a.Brand_name=b.Brand_name
+where date_of_interaction like '%/%' and LENGTH(date_of_interaction)>='10'
+-- and cast(date_created as date) >(select min(lastinteractiondate) from "GAIN_THEORY".PRMActiveInactiveOriginalmin where source like '%DL197%')
+group by best_mobile_number_hash ,region_lookup_number,a.Brand_name,updatedbrand_name;
+
+
+
+insert into "GAIN_THEORY".PRMActiveInactiveOriginalmin(best_mobile_number_hash ,region_lookup_number 
+,source,Updatedsource,Brand_Name,updated_Brand_Name,lastinteractiondate)
+select distinct best_mobile_number_hash ,region_lookup_number ,'DL197','DL',a.Brand_name,updatedbrand_name
+,min(cast(SUBSTR(date_of_interaction,7,4)||'-'||SUBSTR(date_of_interaction,4,2)||'-'||SUBSTR(date_of_interaction,1,2) as date))
+from PRM.dl197_transaction  a
+inner join GAIN_THEORY.PRMActiveInactiveBrandMapping b on a.Brand_name=b.Brand_name
+where date_of_interaction like '%-%' and LENGTH(date_of_interaction)>='10'
+-- and cast(date_created as date) >(select min(lastinteractiondate) from "GAIN_THEORY".PRMActiveInactiveOriginalmin where source like '%DL197%')
+group by best_mobile_number_hash ,region_lookup_number,a.Brand_name,updatedbrand_name;
+
+
+insert into "GAIN_THEORY".PRMActiveInactiveOriginalmin(best_mobile_number_hash ,region_lookup_number 
+,source,Updatedsource,Brand_Name,updated_Brand_Name,lastinteractiondate)
+select distinct best_mobile_number_hash ,region_lookup_number ,'DL197','DL',a.Brand_name,updatedbrand_name
+,min(cast(b.date_of_interaction1 as date))
+from PRM.dl197_transaction a inner join GAIN_THEORY.PRMActiveInactiveDateMapping b
+on a.date_of_interaction=b.date_of_interaction
+inner join GAIN_THEORY.PRMActiveInactiveBrandMapping c on a.Brand_name=c.Brand_name
+where LENGTH(a.date_of_interaction)<'10'
+-- and cast(date_created as date) >(select min(lastinteractiondate) from "GAIN_THEORY".PRMActiveInactiveOriginalmin where source like '%DL197%')
+group by best_mobile_number_hash ,region_lookup_number,a.Brand_name,updatedbrand_name;
+
+
+
+
+
+select UpdatedSource,Datediff,sum("MobileCount") from(
+select UpdatedSource,case
+when CURRENT_DATE - lastinteractiondate  >='0' and CURRENT_DATE - lastinteractiondate  <='90' then '0-90 Days'
+when CURRENT_DATE - lastinteractiondate  >='91' and CURRENT_DATE - lastinteractiondate  <='180' then '91-180 Days'
+when CURRENT_DATE - lastinteractiondate  >='181' and CURRENT_DATE - lastinteractiondate  <='270' then '181-270 Days'
+when CURRENT_DATE - lastinteractiondate  >='271' and CURRENT_DATE - lastinteractiondate  <='360' then '271-360 Days'
+when CURRENT_DATE - lastinteractiondate  >='361' and CURRENT_DATE - lastinteractiondate  <='450' then '361-450 Days'
+when CURRENT_DATE - lastinteractiondate  >='451' and CURRENT_DATE - lastinteractiondate  <='540' then '451-540 Days'
+when CURRENT_DATE - lastinteractiondate  >='541' and CURRENT_DATE - lastinteractiondate  <='630' then '541-630 Days'
+when CURRENT_DATE - lastinteractiondate  >='631' and CURRENT_DATE - lastinteractiondate  <='720' then '631-720 Days'
+when CURRENT_DATE - lastinteractiondate  >='721'  then '>720 Days' end as "DateDiff",count(distinct best_mobile_number_hash )"MobileCount"
+from 
+(select best_mobile_number_hash ,UpdatedSource,min(lastinteractiondate)lastinteractiondate
+from "GAIN_THEORY".PRMActiveInactiveOriginalmin
+where lastinteractiondate is not null
+group by best_mobile_number_hash,UpdatedSource) as abc
+group by UpdatedSource,CURRENT_DATE - lastinteractiondate )as a group by UpdatedSource,DateDiff;
+
+
+
+
+
+
+
+
+
+
+

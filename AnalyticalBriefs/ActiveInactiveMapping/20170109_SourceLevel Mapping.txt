@@ -1,0 +1,111 @@
+create multiset table "GAIN_THEORY".LakmeInteractionDate
+(
+best_mobile_number_hash varchar(300),
+Source varchar(100),SourceFirstDate date,SourceLastDate date,
+PRMLastDate date,region_lookup_number varchar(10))
+
+
+
+
+
+---lakme
+insert into "GAIN_THEORY".LakmeInteractionDate(best_mobile_number_hash,region_lookup_number,Source,SourceFirstDate)
+select best_mobile_number_hash ,region_lookup_number ,'LK',min(lastinteractiondate)
+from (
+
+select distinct best_mobile_number_hash ,region_lookup_number 
+,min(cast(transaction_date as date)) "lastinteractiondate"
+from PRM.lk_transaction_all_years
+group by best_mobile_number_hash ,region_lookup_number
+
+union
+
+select distinct best_mobile_number_hash ,region_lookup_number
+,min(cast(SUBSTR(trans_date,7,4)||'-'||SUBSTR(trans_date,1,2)||'-'||SUBSTR(trans_date,4,2) as date)) "lastinteractiondate"
+from PRM.lk_transaction
+group by best_mobile_number_hash ,region_lookup_number
+
+union
+
+select distinct best_mobile_number_hash ,region_lookup_number ,min(cast(date_created as date)) "lastinteractiondate"
+from  PRM.lk_customer
+group by best_mobile_number_hash ,region_lookup_number
+
+union
+
+select distinct best_mobile_number_hash ,region_lookup_number 
+,min(cast(SUBSTR(lk_date,7,4)||'-'||SUBSTR(lk_date,1,2)||'-'||SUBSTR(lk_date,4,2) as date))
+from PRM.lk_redeem_transaction
+group by best_mobile_number_hash ,region_lookup_number
+
+union
+
+select distinct best_mobile_number_hash ,region_lookup_number 
+,min(cast(SUBSTR(transaction_date,7,4)||'-'||SUBSTR(transaction_date,1,2)||'-'||SUBSTR(transaction_date,4,2) as date))
+from PRM.lk_redemption_all_years
+group by best_mobile_number_hash ,region_lookup_number
+) as a group by best_mobile_number_hash ,region_lookup_number;
+
+
+update "GAIN_THEORY".LakmeInteractionDate
+from "GAIN_THEORY".PRMActiveInactiveSourceFinalDistinct b 
+set "SourceLastDate"=b."lastinteractiondate"
+where "GAIN_THEORY".LakmeInteractionDate."best_mobile_number_hash"=b."best_mobile_number_hash"
+and 
+"GAIN_THEORY".LakmeInteractionDate."best_mobile_number_hash" in 
+(select distinct "best_mobile_number_hash" from  "GAIN_THEORY".LakmeInteractionDate) and b.Source ='LK';
+
+
+update "GAIN_THEORY".LakmeInteractionDate
+from "GAIN_THEORY".PRMActiveInactiveOverallFinal_Distinct b 
+set "PRMLastDate"=b."lastinteractiondate"
+where "GAIN_THEORY".LakmeInteractionDate."best_mobile_number_hash"=b."best_mobile_number_hash"
+and 
+"GAIN_THEORY".LakmeInteractionDate."best_mobile_number_hash" in 
+(select distinct "best_mobile_number_hash" from  "GAIN_THEORY".LakmeInteractionDate) ;
+
+
+
+
+select SourceFirst,Sourcediff,PRMDiff1,count(distinct "best_mobile_number_hash") from(
+select distinct best_mobile_number_hash
+,case
+when CURRENT_DATE - SourceLastDate  >='0' and CURRENT_DATE - SourceLastDate  <='90' then '0-90 Days'
+when CURRENT_DATE - SourceFirstDate  >='91' and CURRENT_DATE - SourceFirstDate  <='180' then '91-180 Days'
+when CURRENT_DATE - SourceFirstDate  >='181' and CURRENT_DATE - SourceFirstDate  <='270' then '181-270 Days'
+when CURRENT_DATE - SourceFirstDate  >='271' and CURRENT_DATE - SourceFirstDate  <='360' then '271-360 Days'
+when CURRENT_DATE - SourceFirstDate  >='361' and CURRENT_DATE - SourceFirstDate  <='450' then '361-450 Days'
+when CURRENT_DATE - SourceFirstDate  >='451' and CURRENT_DATE - SourceFirstDate  <='540' then '451-540 Days'
+when CURRENT_DATE - SourceFirstDate  >='541' and CURRENT_DATE - SourceLastDate  <='630' then '541-630 Days'
+when CURRENT_DATE - SourceFirstDate  >='631' and CURRENT_DATE - SourceFirstDate  <='720' then '631-720 Days'
+when CURRENT_DATE - SourceFirstDate  >='721'  then '>720 Days' 
+end as "SourceFirst"
+
+,case
+when CURRENT_DATE - SourceLastDate  >='0' and CURRENT_DATE - SourceLastDate  <='90' then '0-90 Days'
+when CURRENT_DATE - SourceLastDate  >='91' and CURRENT_DATE - SourceLastDate  <='180' then '91-180 Days'
+when CURRENT_DATE - SourceLastDate  >='181' and CURRENT_DATE - SourceLastDate  <='270' then '181-270 Days'
+when CURRENT_DATE - SourceLastDate  >='271' and CURRENT_DATE - SourceLastDate  <='360' then '271-360 Days'
+when CURRENT_DATE - SourceLastDate  >='361' and CURRENT_DATE - SourceLastDate  <='450' then '361-450 Days'
+when CURRENT_DATE - SourceLastDate  >='451' and CURRENT_DATE - SourceLastDate  <='540' then '451-540 Days'
+when CURRENT_DATE - SourceLastDate  >='541' and CURRENT_DATE - SourceLastDate  <='630' then '541-630 Days'
+when CURRENT_DATE - SourceLastDate  >='631' and CURRENT_DATE - SourceLastDate  <='720' then '631-720 Days'
+when CURRENT_DATE - SourceLastDate  >='721'  then '>720 Days' 
+end as "SourceDiff",
+case
+when CURRENT_DATE - PRMLastDate  >='0' and CURRENT_DATE - PRMLastDate  <='90' then '0-90 Days'
+when CURRENT_DATE - PRMLastDate  >='91' and CURRENT_DATE - PRMLastDate  <='180' then '91-180 Days'
+when CURRENT_DATE - PRMLastDate  >='181' and CURRENT_DATE - PRMLastDate  <='270' then '181-270 Days'
+when CURRENT_DATE - PRMLastDate  >='271' and CURRENT_DATE - PRMLastDate  <='360' then '271-360 Days'
+when CURRENT_DATE - PRMLastDate  >='361' and CURRENT_DATE - PRMLastDate  <='450' then '361-450 Days'
+when CURRENT_DATE - PRMLastDate  >='451' and CURRENT_DATE - PRMLastDate  <='540' then '451-540 Days'
+when CURRENT_DATE - PRMLastDate  >='541' and CURRENT_DATE - PRMLastDate  <='630' then '541-630 Days'
+when CURRENT_DATE - PRMLastDate  >='631' and CURRENT_DATE - PRMLastDate  <='720' then '631-720 Days'
+when CURRENT_DATE - PRMLastDate  >='721'  then '>720 Days' 
+end as "PRMDiff1"
+from "GAIN_THEORY".LakmeInteractionDate
+) as a group by SourceFirst,Sourcediff,PRMDiff1;
+
+
+select top 10 * from "GAIN_THEORY".LakmeInteractionDate
+where (SourceFirstDate) > (PRMLastDate)
