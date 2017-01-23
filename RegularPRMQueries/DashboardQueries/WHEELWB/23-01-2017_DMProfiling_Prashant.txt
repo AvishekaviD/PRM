@@ -1,0 +1,17 @@
+--*************************************************************************************
+--DM Profiling
+--*************************************************************************************
+
+select e.[Question],f.[Answer],c.[DM],c.[CohortName] [Cohort], count(distinct d.[Mobile #]) as [Mobile count]
+from [Unilever_CampaignDashboard].[dbo].[CampaignDashboard_Generic_Wheel_WBTrader_DM_Data_OBD] a
+inner join [Unilever_CampaignDashboard].[dbo].[CampaignDashboard_Generic_Wheel_WBTrader_OBD Master] d
+on d.[Mobile #]=a.[Mobile #] and  d.[Question ID] in (2,3,4,5) and d.[Campaign ID]='WHEEL_WB_TRADER'
+inner join [Unilever_CampaignDashboard].[dbo].[CampaignDashboard_Generic_Wheel_WBTrader_Question Master] e
+on d.[Question ID] = e.[Question ID]
+inner join [Unilever_CampaignDashboard].[dbo].[CampaignDashboard_Generic_Wheel_WBTrader_Answer Master] f
+on  e.[Question ID] = f.[Question ID] and d.[Answer ID] = f.[Answer ID]
+join [Unilever_CampaignDashboard].[dbo].[CampaignDashboard_Generic_Wheel_WBTrader_DM_Mapping] c
+on substring(a.[Date and time of Interaction],1,10) = c.[Date] and a.[Cohort] = c.[Cohort]
+--and convert(date,substring(b.[Date and time of Interaction],1,10),104) < '2016-03-05' 
+--and substring(b.[Date and time of Interaction],1,10) > '2016-04-20'
+group by  e.[Question],f.[Answer],c.[DM],c.[CohortName]

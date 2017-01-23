@@ -1,0 +1,25 @@
+select SKU, Redemptions, count([Mobile #]) as usersCounts from
+(SELECT 
+case 
+when [Campaign ID] = 'WHEEL_WB_TRADER_10' then '10 Rs'
+when [Campaign ID] = 'WHEEL_WB_TRADER_400' then '400 gms'
+when [Campaign ID] = 'WHEEL_WB_TRADER_800' then '800 gms'
+else 'NA'
+end as SKU 
+,[Mobile #],count(distinct [Coupon code]) as Redemptions
+  FROM [Unilever_CampaignDashboard].[dbo].[CampaignDashboard_Generic_Wheel_WBTrader_OBD Master]
+where [Type of Call] = 'Coupon Redemption'
+and [Coupon code Valid] = 'Y'
+group by [Campaign ID],[Mobile #]) as table1
+group by SKU, Redemptions
+union all 
+--************************ Changes
+select SKU, Redemptions, count([Mobile #]) as usersCounts from
+(SELECT 
+'ALL' as SKU 
+,[Mobile #],count(distinct [Coupon code]) as Redemptions
+  FROM [Unilever_CampaignDashboard].[dbo].[CampaignDashboard_Generic_Wheel_WBTrader_OBD Master]
+where [Type of Call] = 'Coupon Redemption'
+and [Coupon code Valid] = 'Y'
+group by [Campaign ID],[Mobile #]) as table1
+group by SKU, Redemptions

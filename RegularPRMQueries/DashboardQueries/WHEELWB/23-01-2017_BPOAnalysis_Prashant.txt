@@ -1,0 +1,18 @@
+SELECT 
+case 
+when b.[Campaign ID] = 'WHEEL_WB_TRADER_10' then '10 Rs'
+when b.[Campaign ID] = 'WHEEL_WB_TRADER_400' then '400 gms'
+when b.[Campaign ID] = 'WHEEL_WB_TRADER_800' then '800 gms'
+else 'NA'
+end as SKU 
+,c.[Agent Name],d.[Question],convert(date,substring(a.[Date and time of Interaction],1,10),104) as daywise ,count(distinct a.[Mobile #]) as counts
+FROM [Unilever_CampaignDashboard].[dbo].[CampaignDashboard_Generic_Wheel_WBTrader_BPO_Master] a
+join [Unilever_CampaignDashboard].[dbo].[CampaignDashboard_Generic_Wheel_WBTrader_OBD Master] b
+on a.[Mobile #]=b.[Mobile #]
+join [Unilever_CampaignDashboard].[dbo].[CampaignDashboard_Generic_Wheel_WBTrader_BPO Agent Master] c
+on a.[Agent ID]=c.[Agent ID]
+join [Unilever_CampaignDashboard].[dbo].[CampaignDashboard_Generic_Wheel_WBTrader_Question Master] d
+on a.[Question ID] = d.[Question ID]
+where a.[Campaign ID]='WHEEL_WB_TRADER' and b.[Type of Call] like '%Coup%' and b.[Coupon code Valid] = 'Y'
+and a.[Type of Call] like '%BPO%'
+group by b.[Campaign ID],c.[Agent Name],d.[Question],convert(date,substring(a.[Date and time of Interaction],1,10),104)

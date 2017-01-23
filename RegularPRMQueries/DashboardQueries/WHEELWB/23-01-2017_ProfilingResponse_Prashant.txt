@@ -1,0 +1,33 @@
+select 
+  case 
+  when b.[Campaign ID] = 'WHEEL_WB_TRADER_10' then '10 Rs'
+  when b.[Campaign ID] = 'WHEEL_WB_TRADER_400' then '400 gms'
+  when b.[Campaign ID] = 'WHEEL_WB_TRADER_800' then '800 gms'
+  else 'NA'
+  end as SKU 
+  ,case 
+  when a.[Question ID] = 2 then 'Where do you buy Wheel from?'
+  when a.[Question ID] = 3 then 'Which pack size of Wheel powder do you sell the most?'
+  when a.[Question ID] = 4 then 'How often do you buy Wheel powder?'
+  when a.[Question ID] = 5 then 'Which detergent brand do you sell the most in your outlet?'
+  end as Question
+  ,case 
+  when a.[Question ID] = 2 and a.[Answer ID] = 1 then 'Distributor'
+  when a.[Question ID] = 2 and a.[Answer ID] = 2 then 'Wholesaler'
+  when a.[Question ID] = 3 and a.[Answer ID] = 1 then 'Rs. 10 pack'
+  when a.[Question ID] = 3 and a.[Answer ID] = 2 then '500gm pack'
+  when a.[Question ID] = 3 and a.[Answer ID] = 3 then '1kg pack'
+  when a.[Question ID] = 4 and a.[Answer ID] = 1 then 'First time'
+  when a.[Question ID] = 4 and a.[Answer ID] = 2 then 'Every Week'
+  when a.[Question ID] = 4 and a.[Answer ID] = 3 then 'Once a month'
+  when a.[Question ID] = 5 and a.[Answer ID] = 1 then 'Sunlight'
+  when a.[Question ID] = 5 and a.[Answer ID] = 2 then 'Safed'
+  when a.[Question ID] = 5 and a.[Answer ID] = 3 then 'others'
+  end as Answers
+  , count(distinct a.[Mobile #]) as UserCounts
+   FROM [Unilever_CampaignDashboard].[dbo].[CampaignDashboard_Generic_Wheel_WBTrader_OBD Master] a
+   inner join   [Unilever_CampaignDashboard].[dbo].[CampaignDashboard_Generic_Wheel_WBTrader_OBD Master] b
+on a.[Mobile #]=b.[Mobile #]
+where a.[Campaign ID]='WHEEL_WB_TRADER' and b.[Type of Call] like '%Coup%' and b.[Coupon code Valid] = 'Y'
+and a.[Type of Call] like '%OBD%' and  a.[Question ID] in (2,3,4,5)
+  group by b.[Campaign ID],a.[Question ID],a.[Answer ID]

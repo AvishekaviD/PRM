@@ -1,0 +1,56 @@
+select 'ALL' as [Campaign ID],'ALL' as Question, 'ALL' as Answer, 'ALL' as col1,'ALL'as col2,'tree' as col3,'' as col4,'' as [Column 7]	,count(distinct [Coupon code]) as Redemptions 	
+from  [Unilever_CampaignDashboard].[dbo].[CampaignDashboard_Generic_Wheel_WBTrader_OBD Master]	
+where [Type of Call] = 'Coupon Redemption'	
+and [Coupon code Valid] = 'Y'	
+union all	
+select case 	
+when [Campaign ID] = 'WHEEL_WB_TRADER_10' then '10 Rs'	
+when [Campaign ID] = 'WHEEL_WB_TRADER_400' then '400 gms'	
+when [Campaign ID] = 'WHEEL_WB_TRADER_800' then '800 gms'	
+else 'NA'	
+end as SKU ,'ALL' as Question, 'ALL' as Answer, 'ALL' as col1,'ALL'as col2,'tree' as col3,'' as col4, '' as [Column 7]	,count(distinct [Coupon code]) as Redemptions 	
+from  [Unilever_CampaignDashboard].[dbo].[CampaignDashboard_Generic_Wheel_WBTrader_OBD Master]	
+where [Type of Call] = 'Coupon Redemption'	
+and [Coupon code Valid] = 'Y'	
+group by [Campaign ID]	
+	
+union all	
+	
+-----------------------------bar chart------------------------	
+select SKU,  'ALL' as [Question]  ,'ALL' as [Answer],'ALL'as col1,'ALL' as col2,'bar' as col3  , Redemptions, '' as [Column 7]	,count([Mobile #]) as usersCounts from	
+(SELECT 	
+case 	
+when [Campaign ID] = 'WHEEL_WB_TRADER_10' then '10 Rs'	
+when [Campaign ID] = 'WHEEL_WB_TRADER_400' then '400 gms'	
+when [Campaign ID] = 'WHEEL_WB_TRADER_800' then '800 gms'	
+else 'NA'	
+end as SKU 	
+,[Mobile #],count(distinct [Coupon code]) as Redemptions	
+  FROM [Unilever_CampaignDashboard].[dbo].[CampaignDashboard_Generic_Wheel_WBTrader_OBD Master]	
+where [Type of Call] = 'Coupon Redemption'	
+and [Coupon code Valid] = 'Y'	
+group by [Campaign ID],[Mobile #]) as table1	
+group by SKU, Redemptions	
+	
+union all	
+	
+SELECT case 	
+       when [Column0] = '500 gms' then '400 gms'	
+	   when [Column0] = '1kg' then '800 gms'
+	   else  [Column0]
+	   end as [Column0]
+      ,[Column1]	
+      ,[Column2]	
+      ,[Column3]	
+      ,[Column4]	
+      ,[Column5]	
+      ,[Column6]
+      ,'' as [Column 7]	
+      ,[Count]	
+  FROM [Unilever_CampaignDashboard].[dbo].[CampaignDashboard_Generic_Wheel_WBTrader_DashboardQuery_Filters]	
+union all
+select [CallorMessageType] ,'All','All','All','All','Bar Chart',0 as col6,[Datediff],[Mobile # Counts] 
+from [Unilever_CampaignDashboard].[dbo].[CampaignDashboard_Generic_Wheel_WBTrader_ContenttoPurchase]
+union all
+select [Column0] ,[Column1],[Column2],[Column3],[Column4],[Column5],0 as col6,[Column6],[Count] 
+from [Unilever_CampaignDashboard].[dbo].[CampaignDashboard_Generic_Wheel_WBTrader_Content_to_Purchase]

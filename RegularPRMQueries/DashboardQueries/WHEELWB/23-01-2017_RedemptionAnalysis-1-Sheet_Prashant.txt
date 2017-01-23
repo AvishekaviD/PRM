@@ -1,0 +1,13 @@
+SELECT 
+case 
+when [Campaign ID] = 'WHEEL_WB_TRADER_10' then '10 Rs'
+when [Campaign ID] = 'WHEEL_WB_TRADER_400' then '400 gms'
+when [Campaign ID] = 'WHEEL_WB_TRADER_800' then '800 gms'
+else 'NA'
+end as SKU 
+,[Type of Call] 
+,convert(datetime , cast(convert(date,substring(replace([Date and time of Interaction],'-',''),1,10),104) as varchar(15))+' '+substring(replace([Date and time of Interaction],'-',''),11,3)+':00:00',120)  as daywise ,count(distinct [Coupon code]) as counts
+  FROM [Unilever_CampaignDashboard].[dbo].[CampaignDashboard_Generic_Wheel_WBTrader_OBD Master]
+where [Type of Call] = 'Coupon Redemption'
+and [Coupon code Valid] = 'Y'
+  group by [Campaign ID],[Type of Call],cast(convert(date,substring(replace([Date and time of Interaction],'-',''),1,10),104) as varchar(15))+' '+substring(replace([Date and time of Interaction],'-',''),11,3)

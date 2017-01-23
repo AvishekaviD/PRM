@@ -1,0 +1,19 @@
+SELECT [CallorMessageType]
+      ,[SKU]
+      ,[DM]
+      , case when [DM] = 'DM-1' and [Cohort] = 1 then 'Purchased only Rs.10 pack'
+             when [DM] = 'DM-1' and [Cohort] = 2 then 'Purchased only 500g pack'
+             when [DM] = 'DM-1' and [Cohort] = 3 then 'Purchased both Rs.10&500g pack'
+             when [DM] = 'DM-1' and [Cohort] = 4 then 'Purchased only 1kg pack'
+             when [DM] = 'DM-1' and [Cohort] = 5 then 'Purchased both Rs.10&1kg pack'
+             when [DM] = 'DM-1' and [Cohort] = 6 then 'Purchased both 500g&1kg pack'
+             when [DM] = 'DM-1' and [Cohort] = 7 then 'Purchased all 3 different packs'
+             when [DM] = 'DM-2' and [Cohort] = 1 then 'Purchased Rs.10 and 500g packs but not 1kg pack'
+             when [DM] = 'DM-2' and [Cohort] = 2 then 'Purchased Rs.10 and 1kg packs but not 500g pack'
+             when [DM] = 'DM-2' and [Cohort] = 3 then 'Purchased only Rs.10 pack'
+             when [DM] = 'DM-2' and [Cohort] = 4 then 'Purchased only 500g pack'
+             when [DM] = 'DM-3' and [Cohort] = 1 then 'Non entrants between 15 th feb & 19 th Mar'
+      end as [Cohort]
+      ,[Datediff]
+      ,[sum Mobile #]
+  FROM [Unilever_CampaignDashboard].[dbo].[CampaignDashboard_Generic_Wheel_WBTrader_DM_ContenttoPurchase]

@@ -1,0 +1,90 @@
+SELECT 
+case 
+when b.[Campaign ID] = 'WHEEL_WB_TRADER_10' then '10 Rs'
+when b.[Campaign ID] = 'WHEEL_WB_TRADER_400' then '400 gms'
+when b.[Campaign ID] = 'WHEEL_WB_TRADER_800' then '800 gms'
+else 'NA'
+end as SKU 
+,'Missed Call' as [Type of Call],convert(date,substring(a.[Date and time of Interaction],1,10),104) as daywise ,count(distinct a.[Mobile #]) as counts
+   FROM [Unilever_CampaignDashboard].[dbo].[CampaignDashboard_Generic_Wheel_WBTrader_OBD Master] a
+   inner join   [Unilever_CampaignDashboard].[dbo].[CampaignDashboard_Generic_Wheel_WBTrader_OBD Master] b
+on a.[Mobile #]=b.[Mobile #]
+where a.[Campaign ID]='WHEEL_WB_TRADER' and b.[Type of Call] like '%Coup%' and b.[Coupon code Valid] = 'Y'
+and a.[Type of Call] like '%Missed%' 
+group by b.[Campaign ID],convert(date,substring(a.[Date and time of Interaction],1,10),104)
+
+union all
+
+SELECT 
+case 
+when b.[Campaign ID] = 'WHEEL_WB_TRADER_10' then '10 Rs'
+when b.[Campaign ID] = 'WHEEL_WB_TRADER_400' then '400 gms'
+when b.[Campaign ID] = 'WHEEL_WB_TRADER_800' then '800 gms'
+else 'NA'
+end as SKU 
+,'OBD Engagement' as [Type of Call],convert(date,substring(replace(a.[Date and time of Interaction],'-',''),1,10),104) as daywise ,count(distinct a.[Mobile #]) as counts
+   FROM [Unilever_CampaignDashboard].[dbo].[CampaignDashboard_Generic_Wheel_WBTrader_OBD Master] a
+   inner join   [Unilever_CampaignDashboard].[dbo].[CampaignDashboard_Generic_Wheel_WBTrader_OBD Master] b
+on a.[Mobile #]=b.[Mobile #]
+where a.[Campaign ID]='WHEEL_WB_TRADER' and b.[Type of Call] like '%Coup%' and b.[Coupon code Valid] = 'Y'
+and a.[Type of Call] like '%OBD%'
+group by b.[Campaign ID],convert(date,substring(replace(a.[Date and time of Interaction],'-',''),1,10),104)
+
+union all
+
+SELECT 
+case 
+when b.[Campaign ID] = 'WHEEL_WB_TRADER_10' then '10 Rs'
+when b.[Campaign ID] = 'WHEEL_WB_TRADER_400' then '400 gms'
+when b.[Campaign ID] = 'WHEEL_WB_TRADER_800' then '800 gms'
+else 'NA'
+end as SKU 
+,'BPO Call' as [Type of Call],convert(date,substring(a.[Date and time of Interaction],1,10),104) as daywise ,count(distinct a.[Mobile #]) as counts
+   FROM [Unilever_CampaignDashboard].[dbo].[CampaignDashboard_Generic_Wheel_WBTrader_BPO_Master] a
+   inner join   [Unilever_CampaignDashboard].[dbo].[CampaignDashboard_Generic_Wheel_WBTrader_OBD Master] b
+on a.[Mobile #]=b.[Mobile #]
+where a.[Campaign ID]='WHEEL_WB_TRADER' and b.[Type of Call] like '%Coup%' and b.[Coupon code Valid] = 'Y'
+and a.[Type of Call] like '%BPO%'
+group by b.[Campaign ID],convert(date,substring(a.[Date and time of Interaction],1,10),104)
+
+union all
+
+SELECT 
+case 
+when [Campaign ID] = 'WHEEL_WB_TRADER_10' then '10 Rs'
+when [Campaign ID] = 'WHEEL_WB_TRADER_400' then '400 gms'
+when [Campaign ID] = 'WHEEL_WB_TRADER_800' then '800 gms'
+else 'NA'
+end as SKU 
+,[Type of Call] ,convert(date,substring([Date and time of Interaction],1,10),104) as daywise ,count(distinct [Coupon code]) as counts
+  FROM [Unilever_CampaignDashboard].[dbo].[CampaignDashboard_Generic_Wheel_WBTrader_OBD Master]
+where [Type of Call] = 'Coupon Redemption'
+and [Coupon code Valid] = 'Y'
+  group by [Campaign ID],[Type of Call],convert(date,substring([Date and time of Interaction],1,10),104)
+ union all
+
+SELECT 
+case 
+when [Campaign ID] = 'WHEEL_WB_TRADER_10' then '10 Rs'
+when [Campaign ID] = 'WHEEL_WB_TRADER_400' then '400 gms'
+when [Campaign ID] = 'WHEEL_WB_TRADER_800' then '800 gms'
+else 'NA'
+end as SKU 
+,'Total People Who have redeemed' as [Type of Call] ,'' as daywise 
+,count(distinct a.[Mobile #]) as counts
+FROM [Unilever_CampaignDashboard].[dbo].[CampaignDashboard_Generic_Wheel_WBTrader_OBD Master] a
+where [Type of Call] = 'Coupon Redemption'
+and [Coupon code Valid] = 'Y'
+group by [Campaign ID]
+union all
+SELECT 
+case 
+when [Campaign ID] = 'WHEEL_WB_TRADER_10' then '10 Rs'
+when [Campaign ID] = 'WHEEL_WB_TRADER_400' then '400 gms'
+when [Campaign ID] = 'WHEEL_WB_TRADER_800' then '800 gms'
+else 'NA'
+end as SKU 
+,'Total People Who have Participated' as [Type of Call] ,'' as daywise 
+,count(distinct a.[Mobile #]) as counts
+FROM [Unilever_CampaignDashboard].[dbo].[CampaignDashboard_Generic_Wheel_WBTrader_OBD Master] a
+group by [Campaign ID]
