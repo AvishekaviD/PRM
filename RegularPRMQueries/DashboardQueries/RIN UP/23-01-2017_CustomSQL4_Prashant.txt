@@ -1,0 +1,271 @@
+--campaign summary
+select 'Campaign Summary' as PPT_Representation, ColumnHeader, '' as Daywise, '' as Promotor ,Counts
+from (
+-- total entries
+select 'Total Entries' as ColumnHeader, count( [Coupon code]) as Counts
+FROM [Unilever_CampaignDashboard].[dbo].[CampaignDashboard_Generic_Rin_UPTrader_OBD Master]
+where [Type of Call] = 'Coupon Redemption' and [Coupon code valid] in ('Y','N')
+union all
+--total unique entries
+select 'Total Unique Entries' as ColumnHeader,count(distinct [Coupon code]) as Counts
+FROM [Unilever_CampaignDashboard].[dbo].[CampaignDashboard_Generic_Rin_UPTrader_OBD Master]
+where [Type of Call] = 'Coupon Redemption' and [Coupon code valid] in ('Y','N')
+union all
+--total valid entries
+select 'Total Valid Entries' as ColumnHeader,count(distinct [Coupon code]) as Counts
+FROM [Unilever_CampaignDashboard].[dbo].[CampaignDashboard_Generic_Rin_UPTrader_OBD Master]
+where [Type of Call] = 'Coupon Redemption'    and [Coupon code Valid] = 'Y'
+union all
+--total invalid entries
+select 'Total Invalid Entries' as ColumnHeader,count(distinct [Coupon code]) as Counts
+FROM [Unilever_CampaignDashboard].[dbo].[CampaignDashboard_Generic_Rin_UPTrader_OBD Master]
+where [Type of Call] = 'Coupon Redemption'    and [Coupon code Valid] = 'N'
+
+union all
+--total hht entries
+select 'Total HHT Entries' as ColumnHeader,count( [Coupon code]) as Counts
+FROM [Unilever_CampaignDashboard].[dbo].[CampaignDashboard_Generic_Rin_UPTrader_OBD Master]
+where [Type of Call] = 'Coupon Redemption'   and [Coupon code valid] in ('Y','N')
+and [Mobile #] in (select distinct [PhoneNo] from [Unilever_CampaignDashboard].[dbo].[CampaignDashboard_Generic_Rin_UPTrader_HHT Master])
+
+union all
+--total unique hht entries 
+select 'Total Unique HHT Entries' as ColumnHeader,count(distinct [Coupon code]) as Counts
+FROM [Unilever_CampaignDashboard].[dbo].[CampaignDashboard_Generic_Rin_UPTrader_OBD Master]
+where [Type of Call] = 'Coupon Redemption'   and [Coupon code Valid] = 'Y'
+and [Mobile #] in (select distinct [PhoneNo] from [Unilever_CampaignDashboard].[dbo].[CampaignDashboard_Generic_Rin_UPTrader_HHT Master])
+union all
+-- total viral entries
+select 'Total Viral Entries' as ColumnHeader,count([Coupon code]) as Counts
+FROM [Unilever_CampaignDashboard].[dbo].[CampaignDashboard_Generic_Rin_UPTrader_OBD Master]
+where [Type of Call] = 'Coupon Redemption'    and [Coupon code valid] in ('Y','N')
+and [Mobile #] not in (select distinct [PhoneNo]
+from [Unilever_CampaignDashboard].[dbo].[CampaignDashboard_Generic_Rin_UPTrader_HHT Master])
+union all
+-- total unique viral entries
+select 'Total Unique Viral Entries' as ColumnHeader,count(distinct [Coupon code]) as Counts
+FROM [Unilever_CampaignDashboard].[dbo].[CampaignDashboard_Generic_Rin_UPTrader_OBD Master]
+where [Type of Call] = 'Coupon Redemption'    and [Coupon code Valid] = 'Y'
+and [Mobile #] not in (select distinct [PhoneNo] from [Unilever_CampaignDashboard].[dbo].[CampaignDashboard_Generic_Rin_UPTrader_HHT Master])
+union all
+
+select 'Total number of Consumers Redemption' as ColumnHeader,count(distinct [mobile #]) as Counts
+FROM [Unilever_CampaignDashboard].[dbo].[CampaignDashboard_Generic_Rin_UPTrader_OBD Master]
+where [Type of Call] = 'Coupon Redemption' --   and [Coupon code Valid] = 'Y'
+--and [Mobile #]  in (select distinct [PhoneNo] from [Unilever_CampaignDashboard].[dbo].[CampaignDashboard_Generic_Rin_UPTrader_HHT Master])
+
+union all
+
+select 'Total number of HHT Consumers Valid Redemption' as ColumnHeader,count(distinct [mobile #]) as Counts
+FROM [Unilever_CampaignDashboard].[dbo].[CampaignDashboard_Generic_Rin_UPTrader_OBD Master]
+where [Type of Call] = 'Coupon Redemption'   and [Coupon code Valid] = 'Y'
+and [Mobile #]  in (select distinct [PhoneNo] from [Unilever_CampaignDashboard].[dbo].[CampaignDashboard_Generic_Rin_UPTrader_HHT Master])
+
+union all
+
+select 'Total number of Viral Consumers Valid Redemption' as ColumnHeader,count(distinct [mobile #]) as Counts
+FROM [Unilever_CampaignDashboard].[dbo].[CampaignDashboard_Generic_Rin_UPTrader_OBD Master]
+where [Type of Call] = 'Coupon Redemption'   and [Coupon code Valid] = 'Y'
+and [Mobile #]  not in (select distinct [PhoneNo] from [Unilever_CampaignDashboard].[dbo].[CampaignDashboard_Generic_Rin_UPTrader_HHT Master])
+
+
+union all
+
+select 'Total number of HHT Consumers Invalid Redemption' as ColumnHeader,count(distinct [mobile #]) as Counts
+FROM [Unilever_CampaignDashboard].[dbo].[CampaignDashboard_Generic_Rin_UPTrader_OBD Master]
+where [Type of Call] = 'Coupon Redemption'   and [Coupon code Valid] = 'N'
+and [Mobile #]  in (select distinct [PhoneNo] from [Unilever_CampaignDashboard].[dbo].[CampaignDashboard_Generic_Rin_UPTrader_HHT Master])
+
+union all
+
+select 'Total number of Viral Consumers Invalid Redemption' as ColumnHeader,count(distinct [mobile #]) as Counts
+FROM [Unilever_CampaignDashboard].[dbo].[CampaignDashboard_Generic_Rin_UPTrader_OBD Master]
+where [Type of Call] = 'Coupon Redemption'   and [Coupon code Valid] = 'N'
+and [Mobile #]  not in (select distinct [PhoneNo] from [Unilever_CampaignDashboard].[dbo].[CampaignDashboard_Generic_Rin_UPTrader_HHT Master])
+
+
+
+
+) as CampaignSummery
+  
+--
+union all
+--
+  
+select 'Promotor Performance' as PPT_Representation, ColumnHeader, '' as Daywise, cast([Promoter] as varchar(20)),counts
+from (
+-- reached
+SELECT 'Reached' as ColumnHeader, [Promoter]  ,count([PhoneNo]) as counts
+FROM [Unilever_CampaignDashboard].[dbo].[CampaignDashboard_Generic_Rin_UPTrader_HHT Master]
+group by [Promoter]
+
+union all
+-- registered
+
+SELECT 'Registered' as ColumnHeader,[Promoter],count([PhoneNo]) as counts
+FROM [Unilever_CampaignDashboard].[dbo].[CampaignDashboard_Generic_Rin_UPTrader_HHT Master]
+where [PhoneNo] in (select distinct [Mobile #]  FROM [Unilever_CampaignDashboard].[dbo].[TempRinUPTraderRegisteredConsumers]
+where [Reg_NonReg]='Registered')
+group by [Promoter]
+
+union all
+--redeemed
+SELECT 'Redeemed' as ColumnHeader,[Promoter],count([PhoneNo]) as counts
+FROM [Unilever_CampaignDashboard].[dbo].[CampaignDashboard_Generic_Rin_UPTrader_HHT Master]
+where [PhoneNo] in (SELECT  [Mobile #] FROM [Unilever_CampaignDashboard].[dbo].[TempRinUPTrader] where [promoters_viral]='Promoters')
+group by [Promoter]) as PromotorPerformance
+ 
+--
+union all
+--
+
+-- registration tab
+
+select 'Registration Tab' as PPT_Representation, ColumnHeader, Daywise, '' as Promotor , counts
+from(
+--hht
+SELECT 'HHT Registration' as ColumnHeader, convert(date,substring(replace([Date and time of Interaction],'-',''),1,10),104) as Daywise
+,count(distinct [Mobile #]) as counts
+FROM [Unilever_CampaignDashboard].[dbo].[CampaignDashboard_Generic_Rin_UPTrader_Registration Master]
+where [Mobile #] in (SELECT distinct [PhoneNo]FROM [Unilever_CampaignDashboard].[dbo].[CampaignDashboard_Generic_Rin_UPTrader_HHT Master])
+--and [Type of Call] = 'OBD Engagement'
+--and [Question ID] in (1,2)
+group by convert(date,substring(replace([Date and time of Interaction],'-',''),1,10),104)
+
+union all
+--viral
+SELECT 'Viral Registration' as ColumnHeader, convert(date,substring(replace([Date and time of Interaction],'-',''),1,10),104) as Daywise
+,count(distinct [Mobile #]) as counts
+FROM [Unilever_CampaignDashboard].[dbo].[CampaignDashboard_Generic_Rin_UPTrader_Registration Master]
+where [Mobile #] not in (SELECT distinct [PhoneNo] FROM [Unilever_CampaignDashboard].[dbo].[CampaignDashboard_Generic_Rin_UPTrader_HHT Master])
+--and [Type of Call] = 'OBD Engagement'
+--and [Question ID] in (1,2)
+group by convert(date,substring(replace([Date and time of Interaction],'-',''),1,10),104)) as RegistrationTab
+  
+--
+union all
+-- 
+ 
+-- Trade Conversions
+
+select 'Trade Conversions' as PPT_Representation, ColumnHeader, Daywise, '' as Promotor ,counts
+from(
+SELECT 'HHT Registration' as ColumnHeader, convert(date,substring(replace([Date and time of Interaction],'-',''),1,10),104) as Daywise
+,count(distinct [Mobile #]) as counts
+FROM [Unilever_CampaignDashboard].[dbo].[CampaignDashboard_Generic_Rin_UPTrader_Registration Master]
+where [Mobile #] in (SELECT distinct [PhoneNo]FROM [Unilever_CampaignDashboard].[dbo].[CampaignDashboard_Generic_Rin_UPTrader_HHT Master])
+--and [Type of Call] = 'OBD Engagement'
+--and [Question ID] in (1,2)
+group by convert(date,substring(replace([Date and time of Interaction],'-',''),1,10),104)
+
+
+union all
+
+
+SELECT 'HHT Redemptions' as ColumnHeader,convert(date,substring(replace([Date and time of Interaction],'-',''),1,10),104) as Daywise
+,count(distinct [Coupon code]) as counts
+FROM [Unilever_CampaignDashboard].[dbo].[CampaignDashboard_Generic_Rin_UPTrader_OBD Master]
+where [Mobile #] in (SELECT distinct [PhoneNo]FROM [Unilever_CampaignDashboard].[dbo].[CampaignDashboard_Generic_Rin_UPTrader_HHT Master])
+and [Type of Call] = 'Coupon Redemption'
+and [Coupon code Valid] = 'Y'
+group by convert(date,substring(replace([Date and time of Interaction],'-',''),1,10),104)
+  
+union all 
+
+SELECT 'Viral Registration' as ColumnHeader, convert(date,substring(replace([Date and time of Interaction],'-',''),1,10),104) as Daywise
+,count(distinct [Mobile #]) as counts
+FROM [Unilever_CampaignDashboard].[dbo].[CampaignDashboard_Generic_Rin_UPTrader_Registration Master]
+where [Mobile #] not in (SELECT distinct [PhoneNo] FROM [Unilever_CampaignDashboard].[dbo].[CampaignDashboard_Generic_Rin_UPTrader_HHT Master])
+--and [Type of Call] = 'OBD Engagement'
+--and [Question ID] in (1,2)
+group by convert(date,substring(replace([Date and time of Interaction],'-',''),1,10),104)
+
+union all
+
+SELECT 'Viral Redemptions' as ColumnHeader,convert(date,substring(replace([Date and time of Interaction],'-',''),1,10),104) as Daywise
+,count(distinct [Coupon code]) as counts
+FROM [Unilever_CampaignDashboard].[dbo].[CampaignDashboard_Generic_Rin_UPTrader_OBD Master]
+where [Mobile #] not in (SELECT distinct [PhoneNo] FROM [Unilever_CampaignDashboard].[dbo].[CampaignDashboard_Generic_Rin_UPTrader_HHT Master])
+and [Type of Call] = 'Coupon Redemption'
+and [Coupon code Valid] = 'Y'
+group by convert(date,substring(replace([Date and time of Interaction],'-',''),1,10),104)
+ 
+) as TradeConversions
+  
+--
+union all
+--  
+-- outlets reached
+
+select 'Outlets' as PPT_Representation, ColumnHeader, [Date] as Daywise, '' as Promotor ,counts
+from(
+SELECT 'Outlets Reached' as ColumnHeader, [Date],count([PhoneNo]) as Counts
+FROM [Unilever_CampaignDashboard].[dbo].[CampaignDashboard_Generic_Rin_UPTrader_HHT Master]
+group by [Date]
+
+union all
+
+SELECT 'Outlets with Mobile' as ColumnHeader, [Date],count([PhoneNo]) as Counts
+FROM [Unilever_CampaignDashboard].[dbo].[CampaignDashboard_Generic_Rin_UPTrader_HHT Master]
+where [PhoneNo]!='eDViUNLjoVE='
+group by [Date]
+
+union all
+
+SELECT 'Outlets Registration' as ColumnHeader,[Date],count([PhoneNo]) as Counts
+FROM [Unilever_CampaignDashboard].[dbo].[CampaignDashboard_Generic_Rin_UPTrader_HHT Master]
+where [PhoneNo] in (SELECT distinct [Mobile #] FROM [Unilever_CampaignDashboard].[dbo].[CampaignDashboard_Generic_Rin_UPTrader_Registration Master]
+--where [Type of Call] = 'OBD Engagement'
+--and [Question ID] in (1,2)
+)
+group by [Date] 
+) as Outlets
+ 
+ -----------time gap
+ union all
+ 
+ select 'Time gap',[Column header],'',datediff,[Mobile #] from [Unilever_CampaignDashboard].[dbo].[CampaignDashboard_Generic_Rin_UPTrader_BPO_Promoter_toRedemption]
+
+ union all
+ ------------Promoter Ratio
+
+
+ select 'Promoter Ratio' as PPT_Representation,'No Of Registrations' ColumnHeader, [Final Date] as Daywise,
+  'ALL' as Promotor ,count(distinct [Mobile #]) counts
+  FROM [Unilever_CampaignDashboard].[dbo].[CampaignDashboard_Generic_Rin_UPTrader_Registration Master] a
+  inner join [Unilever_CampaignDashboard].[dbo].[CampaignDashboard_Generic_Rin_UPTrader_DateMapping_Master] b
+  on substring(a.[Date and time of Interaction],1,10)=b.[Date and time of Interaction]
+ -- where [Registration Status]='Y' and [Type of Call] like '%OBD%'
+  group by [Final Date]
+
+  
+  union all
+
+select 'Promoter Ratio' as PPT_Representation,'No Of Promoters on ground' ColumnHeader, [Date] as Daywise,
+'ALL' as Promotor ,count(distinct [Promoter])
+FROM [Unilever_CampaignDashboard].[dbo].[CampaignDashboard_Generic_Rin_UPTrader_HHT Master]
+group by [Date]
+
+
+  union all
+
+ select 'Promoter Ratio' as PPT_Representation,'HHT Registrations' ColumnHeader, [Final Date] as Daywise,
+  '' as Promotor ,count(distinct [Mobile #]) counts
+  FROM [Unilever_CampaignDashboard].[dbo].[CampaignDashboard_Generic_Rin_UPTrader_Registration Master] a
+  inner join [Unilever_CampaignDashboard].[dbo].[CampaignDashboard_Generic_Rin_UPTrader_DateMapping_Master] b
+  on substring(a.[Date and time of Interaction],1,10)=b.[Date and time of Interaction]
+  where [Mobile #] in (SELECT distinct [PhoneNo]FROM [Unilever_CampaignDashboard].[dbo].[CampaignDashboard_Generic_Rin_UPTrader_HHT Master])
+ -- where [Registration Status]='Y' and [Type of Call] like '%OBD%'
+  group by [Final Date]
+
+  
+  union all
+
+   select 'Promoter Ratio' as PPT_Representation,'Viral Registrations' ColumnHeader, [Final Date] as Daywise,
+  '' as Promotor ,count(distinct [Mobile #]) counts
+  FROM [Unilever_CampaignDashboard].[dbo].[CampaignDashboard_Generic_Rin_UPTrader_Registration Master] a
+  inner join [Unilever_CampaignDashboard].[dbo].[CampaignDashboard_Generic_Rin_UPTrader_DateMapping_Master] b
+  on substring(a.[Date and time of Interaction],1,10)=b.[Date and time of Interaction]
+  where [Mobile #] not in (SELECT distinct [PhoneNo]FROM [Unilever_CampaignDashboard].[dbo].[CampaignDashboard_Generic_Rin_UPTrader_HHT Master])
+ -- where [Registration Status]='Y' and [Type of Call] like '%OBD%'
+  group by [Final Date]

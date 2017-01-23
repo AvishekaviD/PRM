@@ -1,0 +1,23 @@
+select c.[Question],d.[Answer],'DM 1' as DM, b.[Cohort] ,count( distinct a.[Mobile #]) as [Mobile count]
+from  [Unilever_CampaignDashboard].[dbo].[CampaignDashboard_Generic_Rin_UPTrader_OBD Master] a
+inner join (select distinct [Mobile #],[Cohort] from [Unilever_CampaignDashboard].[dbo].[CampaignDashboard_Generic_Rin_UPTrader_OBD Master]
+where [Cohort] in (1,2)) as b
+on a.[Mobile #] = b.[Mobile #]
+inner join [Unilever_CampaignDashboard].[dbo].[CampaignDashboard_Generic_Rin_UPTrader_Question Master] c
+on a.[Question ID] = c.[Question ID]
+inner join [Unilever_CampaignDashboard].[dbo].[CampaignDashboard_Generic_Rin_UPTrader_Answer Master] d
+on c.[Question ID] = d.[Question ID] and a.[Answer ID] = d.[Answer ID] 
+where a.[Question ID] in (2,3)
+group by c.[Question],d.[Answer],b.[Cohort]
+
+union all
+
+select c.[Question],'' as [Answer],'DM 1' as DM, b.[Cohort] ,count( distinct a.[Mobile #]) as [Mobile count]
+from  [Unilever_CampaignDashboard].[dbo].[CampaignDashboard_Generic_Rin_UPTrader_OBD Master] a
+inner join (select distinct [Mobile #],[Cohort] from [Unilever_CampaignDashboard].[dbo].[CampaignDashboard_Generic_Rin_UPTrader_OBD Master]
+where [Cohort] in (1,2)) as b
+on a.[Mobile #] = b.[Mobile #]
+inner join [Unilever_CampaignDashboard].[dbo].[CampaignDashboard_Generic_Rin_UPTrader_Question Master] c
+on a.[Question ID] = c.[Question ID]
+where a.[Question ID] in (2,3)
+group by c.[Question],b.[Cohort]

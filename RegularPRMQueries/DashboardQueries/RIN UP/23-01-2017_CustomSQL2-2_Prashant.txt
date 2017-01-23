@@ -1,0 +1,53 @@
+SELECT concat(substring([Date and time of Interaction],1,13),':00',':00') DateOfInteraction
+,'BPO Call' as CallorMessageType,'' [Questions],''as Options
+,'' as NoOfRedemptions,[Agent Name] as [Agent_id],count(distinct [Mobile #])as MobileCounts     
+FROM [Unilever_CampaignDashboard].[dbo].[CampaignDashboard_Generic_Rin_UPTrader_BPOMaster] a
+inner join [Unilever_CampaignDashboard].[dbo].[CampaignDashboard_Generic_Rin_UPTrader_BPO Agent Master] b
+on a.[Agent_id]=b.[Agent ID]
+group by concat(substring([Date and time of Interaction],1,13),':00',':00'),[Agent Name]
+
+
+union all
+
+SELECT concat(substring(replace(a.[Date and time of Interaction],'-',''),1,13),':00',':00') as Daywise
+,'Registered' as ColumnHeader,'' as [Questions],''as Options
+,'' as NoOfRedemptions, [Agent Name] as [Agent_id],count(distinct a.[Mobile #])as MobileCounts
+FROM [Unilever_CampaignDashboard].[dbo].[CampaignDashboard_Generic_Rin_UPTrader_Registration Master] a
+inner join [Unilever_CampaignDashboard].[dbo].[CampaignDashboard_Generic_Rin_UPTrader_DateMapping_Master] b on substring(a.[Date and time of Interaction],1,10)=b.[Date and time of Interaction]
+inner join [Unilever_CampaignDashboard].[dbo].[CampaignDashboard_Generic_Rin_UPTrader_BPOMaster] c on a.[Mobile #]=c.[Mobile #]
+inner join [Unilever_CampaignDashboard].[dbo].[CampaignDashboard_Generic_Rin_UPTrader_BPO Agent Master] d
+on c.[Agent_id]=d.[Agent ID]
+where  [Final Date]>='2016-02-10 00:00:00.000' 
+and concat(substring(replace(a.[Date and time of Interaction],'-',''),1,13),':00',':00')>=concat(substring(replace(c.[Date and time of Interaction],'-',''),1,13),':00',':00')
+group by concat(substring(replace(a.[Date and time of Interaction],'-',''),1,13),':00',':00'),[Agent Name]
+
+
+union all
+
+SELECT concat(substring(replace(a.[Date and time of Interaction],'-',''),1,13),':00',':00') as Daywise
+,'Redeemed' as ColumnHeader,'' as [Questions],''as Options
+,'' as NoOfRedemptions, [Agent Name] as [Agent_id],count(distinct a.[Mobile #])as MobileCounts
+FROM [Unilever_CampaignDashboard].[dbo].[CampaignDashboard_Generic_Rin_UPTrader_OBD Master] a
+inner join [Unilever_CampaignDashboard].[dbo].[CampaignDashboard_Generic_Rin_UPTrader_DateMapping_Master] b on substring(a.[Date and time of Interaction],1,10)=b.[Date and time of Interaction]
+inner join [Unilever_CampaignDashboard].[dbo].[CampaignDashboard_Generic_Rin_UPTrader_BPOMaster] c on a.[Mobile #]=c.[Mobile #]
+inner join [Unilever_CampaignDashboard].[dbo].[CampaignDashboard_Generic_Rin_UPTrader_BPO Agent Master] d
+on c.[Agent_id]=d.[Agent ID]
+where [Coupon Code Valid] = 'Y' and [Final Date]>='2016-02-10 00:00:00.000'
+and a.[Mobile #] in (select distinct [Mobile #] 
+from [Unilever_CampaignDashboard].[dbo].[CampaignDashboard_Generic_Rin_UPTrader_BPOMaster] a where a.[Duration of Interaction] > 0)
+and concat(substring(replace(a.[Date and time of Interaction],'-',''),1,13),':00',':00')>=concat(substring(replace(c.[Date and time of Interaction],'-',''),1,13),':00',':00')
+group by concat(substring(replace(a.[Date and time of Interaction],'-',''),1,13),':00',':00'),[Agent Name]
+
+
+
+union all
+
+
+SELECT concat(substring([Date and time of Interaction],1,13),':00',':00') DateOfInteraction
+,'Calls Completed' as CallorMessageType,'' [Questions],''as Options
+,'' as NoOfRedemptions,[Agent Name] as [Agent_id],count(distinct [Mobile #])as MobileCounts     
+FROM [Unilever_CampaignDashboard].[dbo].[CampaignDashboard_Generic_Rin_UPTrader_BPOMaster] a
+inner join [Unilever_CampaignDashboard].[dbo].[CampaignDashboard_Generic_Rin_UPTrader_BPO Agent Master] b
+on a.[Agent_id]=b.[Agent ID]
+where a.[Duration of Interaction] > 0
+group by concat(substring([Date and time of Interaction],1,13),':00',':00'),[Agent Name]

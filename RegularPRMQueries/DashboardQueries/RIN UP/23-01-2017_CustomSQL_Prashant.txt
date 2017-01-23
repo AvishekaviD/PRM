@@ -1,0 +1,1192 @@
+--query 1-------------------------------------------------------------------------------
+
+--------registered user
+SELECT  concat(substring([Date and time of Interaction],1,13),':00:00') as DateOfInteraction 
+,'No of Registered Users' as CallorMessageType
+,'All Questions' as Questions,'All Options' as Options
+,'' as NoOfRedemptions
+,count(distinct [Mobile #]) as MobileCounts
+  FROM [Unilever_CampaignDashboard].[dbo].[CampaignDashboard_Generic_Rin_UPTrader_OBD Master]
+  group by substring([Date and time of Interaction],1,13)
+
+  
+union all
+
+
+SELECT  concat(substring([Date and time of Interaction],1,13),':00:00') as DateOfInteraction 
+, 'No of Registered Users' as CallorMessageType
+,'Aap ki dukan pe aap sabse zyada kaun sa detergent tikiya bechte hain?' as Questions,'Ghadi ki tikiya' as Options
+,'' as NoOfRedemptions
+,count(distinct [Mobile #]) as MobileCounts
+  FROM [Unilever_CampaignDashboard].[dbo].[CampaignDashboard_Generic_Rin_UPTrader_OBD Master]
+  where [Type of Call] in ( 'OBD Engagement','Coupon Redemption') 
+   and [Question ID] = 2 and [Answer ID] = 1
+  group by substring([Date and time of Interaction],1,13),[Type of Call]
+  
+union all
+
+SELECT  concat(substring([Date and time of Interaction],1,13),':00:00') as DateOfInteraction 
+,'No of Registered Users' as CallorMessageType
+,'Aap ki dukan pe aap sabse zyada kaun sa detergent tikiya bechte hain?' as Questions,'Rin ki tikiya' as Options
+,'' as NoOfRedemptions
+,count(distinct [Mobile #]) as MobileCounts
+  FROM [Unilever_CampaignDashboard].[dbo].[CampaignDashboard_Generic_Rin_UPTrader_OBD Master]
+  where [Type of Call] in ( 'OBD Engagement','Coupon Redemption') 
+   and [Question ID] = 2 and [Answer ID] = 2
+  group by substring([Date and time of Interaction],1,13),[Type of Call]
+  
+union all
+
+SELECT  concat(substring([Date and time of Interaction],1,13),':00:00') as DateOfInteraction 
+,'No of Registered Users' as CallorMessageType
+,'Aap ki dukan pe aap sabse zyada kaun sa detergent tikiya bechte hain?' as Questions,'Others' as Options
+,'' as NoOfRedemptions
+,count(distinct [Mobile #]) as MobileCounts
+  FROM [Unilever_CampaignDashboard].[dbo].[CampaignDashboard_Generic_Rin_UPTrader_OBD Master]
+  where [Type of Call] in ( 'OBD Engagement','Coupon Redemption') 
+  and [Question ID] = 2 and [Answer ID] = 3
+  group by substring([Date and time of Interaction],1,13),[Type of Call]
+  
+union all
+
+SELECT  concat(substring([Date and time of Interaction],1,13),':00:00') as DateOfInteraction 
+,'No of Registered Users' as CallorMessageType
+,'Aap Rin ki tikiya kaha se khareedte hain?' as Questions,'Distributor' as Options
+,'' as NoOfRedemptions
+,count(distinct [Mobile #]) as MobileCounts
+  FROM [Unilever_CampaignDashboard].[dbo].[CampaignDashboard_Generic_Rin_UPTrader_OBD Master]
+  where [Type of Call] in ( 'OBD Engagement','Coupon Redemption') 
+  and [Question ID] = 3 and [Answer ID] = 1
+  group by substring([Date and time of Interaction],1,13),[Type of Call]
+  
+union all
+
+SELECT  concat(substring([Date and time of Interaction],1,13),':00:00') as DateOfInteraction 
+,'No of Registered Users' as CallorMessageType
+,'Aap Rin ki tikiya kaha se khareedte hain?' as Questions,'Wholesale' as Options
+,'' as NoOfRedemptions
+,count(distinct [Mobile #]) as MobileCounts
+  FROM [Unilever_CampaignDashboard].[dbo].[CampaignDashboard_Generic_Rin_UPTrader_OBD Master]
+  where [Type of Call] in ( 'OBD Engagement','Coupon Redemption') 
+  and [Question ID] = 3 and [Answer ID] = 2
+  group by substring([Date and time of Interaction],1,13),[Type of Call]
+  
+union all
+
+SELECT  concat(substring([Date and time of Interaction],1,13),':00:00') as DateOfInteraction 
+,'No of Registered Users' as CallorMessageType
+,'Aap Rin ki tikiya kaha se khareedte hain?' as Questions,'Don''t keep RIN in my shop' as Options
+,'' as NoOfRedemptions
+,count(distinct [Mobile #]) as MobileCounts
+  FROM [Unilever_CampaignDashboard].[dbo].[CampaignDashboard_Generic_Rin_UPTrader_OBD Master]
+  where [Type of Call] in ( 'OBD Engagement','Coupon Redemption')
+and [Question ID] = 3 and [Answer ID] = 3
+  group by substring([Date and time of Interaction],1,13),[Type of Call]
+
+union all
+
+
+--OBD engagement-------------------------------------------------------------------------
+SELECT  concat(substring([Date and time of Interaction],1,13),':00:00') as DateOfInteraction 
+,'No of OBD Calls Made' as CallorMessageType,'All Questions' as Questions,'All Options' as Options,'' as NoOfRedemptions
+,count(distinct [Mobile #]+[Date and Time of Interaction]+[Type of Call]) as MobileCounts
+  FROM [Unilever_CampaignDashboard].[dbo].[CampaignDashboard_Generic_Rin_UPTrader_OBD Master]
+  where [Type of Call] in ( 'OBD Engagement','Coupon Redemption') 
+  group by substring([Date and time of Interaction],1,13),[Type of Call]
+
+union all
+
+SELECT  concat(substring([Date and time of Interaction],1,13),':00:00') as DateOfInteraction 
+,'No of OBD Calls Made' as CallorMessageType
+,'Question1' as Questions,'Option1' as Options
+,'' as NoOfRedemptions
+,count(distinct [Mobile #]+[Date and Time of Interaction]+[Type of Call]) as MobileCounts
+  FROM [Unilever_CampaignDashboard].[dbo].[CampaignDashboard_Generic_Rin_UPTrader_OBD Master]
+  where [Type of Call] in ( 'OBD Engagement','Coupon Redemption')
+  and [Mobile #] in (
+  select [Mobile #] FROM [Unilever_CampaignDashboard].[dbo].[CampaignDashboard_Generic_Rin_UPTrader_OBD Master]
+  where [Question ID] = 1 and [Answer ID] = 1)
+  group by substring([Date and time of Interaction],1,13),[Type of Call]
+  
+union all
+
+SELECT  concat(substring([Date and time of Interaction],1,13),':00:00') as DateOfInteraction 
+,'No of OBD Calls Made' as CallorMessageType
+,'Question1' as Questions,'Option2' as Options
+,'' as NoOfRedemptions
+,count(distinct [Mobile #]+[Date and Time of Interaction]+[Type of Call]) as MobileCounts
+  FROM [Unilever_CampaignDashboard].[dbo].[CampaignDashboard_Generic_Rin_UPTrader_OBD Master]
+  where [Type of Call] in ( 'OBD Engagement','Coupon Redemption')
+  and [Mobile #] in (
+  select [Mobile #] FROM [Unilever_CampaignDashboard].[dbo].[CampaignDashboard_Generic_Rin_UPTrader_OBD Master]
+  where [Question ID] = 1 and [Answer ID] = 2)
+  group by substring([Date and time of Interaction],1,13),[Type of Call]
+  
+union all
+
+SELECT  concat(substring([Date and time of Interaction],1,13),':00:00') as DateOfInteraction 
+, 'No of OBD Calls Made' as CallorMessageType
+,'Aap ki dukan pe aap sabse zyada kaun sa detergent tikiya bechte hain?' as Questions,'Ghadi ki tikiya' as Options
+,'' as NoOfRedemptions
+,count(distinct [Mobile #]+[Date and Time of Interaction]+[Type of Call]) as MobileCounts
+  FROM [Unilever_CampaignDashboard].[dbo].[CampaignDashboard_Generic_Rin_UPTrader_OBD Master]
+  where [Type of Call] in ( 'OBD Engagement','Coupon Redemption')
+  and [Mobile #] in (
+  select [Mobile #] FROM [Unilever_CampaignDashboard].[dbo].[CampaignDashboard_Generic_Rin_UPTrader_OBD Master]
+  where [Question ID] = 2 and [Answer ID] = 1)
+  group by substring([Date and time of Interaction],1,13),[Type of Call]
+  
+union all
+
+SELECT  concat(substring([Date and time of Interaction],1,13),':00:00') as DateOfInteraction 
+,'No of OBD Calls Made' as CallorMessageType
+,'Aap ki dukan pe aap sabse zyada kaun sa detergent tikiya bechte hain?' as Questions,'Rin ki tikiya' as Options
+,'' as NoOfRedemptions
+,count(distinct [Mobile #]+[Date and Time of Interaction]+[Type of Call]) as MobileCounts
+  FROM [Unilever_CampaignDashboard].[dbo].[CampaignDashboard_Generic_Rin_UPTrader_OBD Master]
+  where [Type of Call] in ( 'OBD Engagement','Coupon Redemption')
+  and [Mobile #] in (
+  select [Mobile #] FROM [Unilever_CampaignDashboard].[dbo].[CampaignDashboard_Generic_Rin_UPTrader_OBD Master]
+  where [Question ID] = 2 and [Answer ID] = 2)
+  group by substring([Date and time of Interaction],1,13),[Type of Call]
+  
+union all
+
+SELECT  concat(substring([Date and time of Interaction],1,13),':00:00') as DateOfInteraction 
+,'No of OBD Calls Made' as CallorMessageType
+,'Aap ki dukan pe aap sabse zyada kaun sa detergent tikiya bechte hain?' as Questions,'Others' as Options
+,'' as NoOfRedemptions
+,count(distinct [Mobile #]+[Date and Time of Interaction]+[Type of Call]) as MobileCounts
+  FROM [Unilever_CampaignDashboard].[dbo].[CampaignDashboard_Generic_Rin_UPTrader_OBD Master]
+  where [Type of Call] in ( 'OBD Engagement','Coupon Redemption')
+  and [Mobile #] in (
+  select [Mobile #] FROM [Unilever_CampaignDashboard].[dbo].[CampaignDashboard_Generic_Rin_UPTrader_OBD Master]
+  where [Question ID] = 2 and [Answer ID] = 3)
+  group by substring([Date and time of Interaction],1,13),[Type of Call]
+  
+union all
+
+SELECT  concat(substring([Date and time of Interaction],1,13),':00:00') as DateOfInteraction 
+,'No of OBD Calls Made' as CallorMessageType
+,'Aap Rin ki tikiya kaha se khareedte hain?' as Questions,'Distributor' as Options
+,'' as NoOfRedemptions
+,count(distinct [Mobile #]+[Date and Time of Interaction]+[Type of Call]) as MobileCounts
+  FROM [Unilever_CampaignDashboard].[dbo].[CampaignDashboard_Generic_Rin_UPTrader_OBD Master]
+  where [Type of Call] in ( 'OBD Engagement','Coupon Redemption')
+  and [Mobile #] in (
+  select [Mobile #] FROM [Unilever_CampaignDashboard].[dbo].[CampaignDashboard_Generic_Rin_UPTrader_OBD Master]
+  where [Question ID] = 3 and [Answer ID] = 1)
+  group by substring([Date and time of Interaction],1,13),[Type of Call]
+  
+union all
+
+SELECT  concat(substring([Date and time of Interaction],1,13),':00:00') as DateOfInteraction 
+,'No of OBD Calls Made' as CallorMessageType
+,'Aap Rin ki tikiya kaha se khareedte hain?' as Questions,'Wholesale' as Options
+,'' as NoOfRedemptions
+,count(distinct [Mobile #]+[Date and Time of Interaction]+[Type of Call]) as MobileCounts
+  FROM [Unilever_CampaignDashboard].[dbo].[CampaignDashboard_Generic_Rin_UPTrader_OBD Master]
+  where [Type of Call] in ( 'OBD Engagement','Coupon Redemption')
+  and [Mobile #] in (
+  select [Mobile #] FROM [Unilever_CampaignDashboard].[dbo].[CampaignDashboard_Generic_Rin_UPTrader_OBD Master]
+  where [Question ID] = 3 and [Answer ID] = 2)
+  group by substring([Date and time of Interaction],1,13),[Type of Call]
+  
+union all
+
+SELECT  concat(substring([Date and time of Interaction],1,13),':00:00') as DateOfInteraction 
+,'No of OBD Calls Made' as CallorMessageType
+,'Aap Rin ki tikiya kaha se khareedte hain?' as Questions,'Don''t keep RIN in my shop' as Options
+,'' as NoOfRedemptions
+,count(distinct [Mobile #]+[Date and Time of Interaction]+[Type of Call]) as MobileCounts
+  FROM [Unilever_CampaignDashboard].[dbo].[CampaignDashboard_Generic_Rin_UPTrader_OBD Master]
+  where [Type of Call] in ( 'OBD Engagement','Coupon Redemption')
+  and [Mobile #] in (
+  select [Mobile #] FROM [Unilever_CampaignDashboard].[dbo].[CampaignDashboard_Generic_Rin_UPTrader_OBD Master]
+  where [Question ID] = 3 and [Answer ID] = 3)
+  group by substring([Date and time of Interaction],1,13),[Type of Call]
+
+union all
+
+--Missed Call-------------------------------------------------------------------------------------
+
+SELECT  concat(substring([Date and time of Interaction],1,13),':00:00') as DateOfInteraction 
+,'No Of Missed Calls' as CallorMessageType
+,'All Questions' as Questions,'All Options' as Options
+,'' as NoOfRedemptions
+,count([Mobile #]) as MobileCounts
+  FROM [Unilever_CampaignDashboard].[dbo].[CampaignDashboard_Generic_Rin_UPTrader_OBD Master]
+  where [Type of Call] = 'Missed Call'
+  group by substring([Date and time of Interaction],1,13),[Type of Call]
+
+union all
+
+SELECT  concat(substring([Date and time of Interaction],1,13),':00:00') as DateOfInteraction 
+,'No Of Missed Calls' as CallorMessageType
+,'Question1' as Questions,'Option1' as Options
+,'' as NoOfRedemptions
+,count([Mobile #]) as MobileCounts
+  FROM [Unilever_CampaignDashboard].[dbo].[CampaignDashboard_Generic_Rin_UPTrader_OBD Master]
+  where [Type of Call] = 'Missed Call'
+  and [Mobile #] in (
+  select [Mobile #] FROM [Unilever_CampaignDashboard].[dbo].[CampaignDashboard_Generic_Rin_UPTrader_OBD Master]
+  where [Question ID] = 1 and [Answer ID] = 1)
+  group by substring([Date and time of Interaction],1,13),[Type of Call]
+  
+union all
+
+SELECT  concat(substring([Date and time of Interaction],1,13),':00:00') as DateOfInteraction 
+,'No Of Missed Calls' as CallorMessageType
+,'Question1' as Questions,'Option2' as Options
+,'' as NoOfRedemptions
+,count([Mobile #]) as MobileCounts
+  FROM [Unilever_CampaignDashboard].[dbo].[CampaignDashboard_Generic_Rin_UPTrader_OBD Master]
+  where [Type of Call] = 'Missed Call'
+  and [Mobile #] in (
+  select [Mobile #] FROM [Unilever_CampaignDashboard].[dbo].[CampaignDashboard_Generic_Rin_UPTrader_OBD Master]
+  where [Question ID] = 1 and [Answer ID] = 2)
+  group by substring([Date and time of Interaction],1,13),[Type of Call]
+  
+union all
+
+SELECT  concat(substring([Date and time of Interaction],1,13),':00:00') as DateOfInteraction 
+,'No Of Missed Calls' as CallorMessageType
+,'Aap ki dukan pe aap sabse zyada kaun sa detergent tikiya bechte hain?' as Questions,'Ghadi ki tikiya' as Options
+,'' as NoOfRedemptions
+,count([Mobile #]) as MobileCounts
+  FROM [Unilever_CampaignDashboard].[dbo].[CampaignDashboard_Generic_Rin_UPTrader_OBD Master]
+  where [Type of Call] = 'Missed Call'
+  and [Mobile #] in (
+  select [Mobile #] FROM [Unilever_CampaignDashboard].[dbo].[CampaignDashboard_Generic_Rin_UPTrader_OBD Master]
+  where [Question ID] = 2 and [Answer ID] = 1)
+  group by substring([Date and time of Interaction],1,13),[Type of Call]
+  
+union all
+
+SELECT  concat(substring([Date and time of Interaction],1,13),':00:00') as DateOfInteraction 
+,'No Of Missed Calls' as CallorMessageType
+,'Aap ki dukan pe aap sabse zyada kaun sa detergent tikiya bechte hain?' as Questions,'Rin ki tikiya' as Options
+,'' as NoOfRedemptions
+,count([Mobile #]) as MobileCounts
+  FROM [Unilever_CampaignDashboard].[dbo].[CampaignDashboard_Generic_Rin_UPTrader_OBD Master]
+  where [Type of Call] = 'Missed Call'
+  and [Mobile #] in (
+  select [Mobile #] FROM [Unilever_CampaignDashboard].[dbo].[CampaignDashboard_Generic_Rin_UPTrader_OBD Master]
+  where [Question ID] = 2 and [Answer ID] = 2)
+  group by substring([Date and time of Interaction],1,13),[Type of Call]
+  
+union all
+
+SELECT  concat(substring([Date and time of Interaction],1,13),':00:00') as DateOfInteraction 
+,'No Of Missed Calls' as CallorMessageType
+,'Aap ki dukan pe aap sabse zyada kaun sa detergent tikiya bechte hain?' as Questions,'Others' as Options
+,'' as NoOfRedemptions
+,count([Mobile #]) as MobileCounts
+  FROM [Unilever_CampaignDashboard].[dbo].[CampaignDashboard_Generic_Rin_UPTrader_OBD Master]
+  where [Type of Call] = 'Missed Call'
+  and [Mobile #] in (
+  select [Mobile #] FROM [Unilever_CampaignDashboard].[dbo].[CampaignDashboard_Generic_Rin_UPTrader_OBD Master]
+  where [Question ID] = 2 and [Answer ID] = 3)
+  group by substring([Date and time of Interaction],1,13),[Type of Call]
+  
+union all
+
+SELECT  concat(substring([Date and time of Interaction],1,13),':00:00') as DateOfInteraction 
+,'No Of Missed Calls' as CallorMessageType
+,'Aap Rin ki tikiya kaha se khareedte hain?' as Questions,'Distributor' as Options
+,'' as NoOfRedemptions
+,count([Mobile #]) as MobileCounts
+  FROM [Unilever_CampaignDashboard].[dbo].[CampaignDashboard_Generic_Rin_UPTrader_OBD Master]
+  where [Type of Call] = 'Missed Call'
+  and [Mobile #] in (
+  select [Mobile #] FROM [Unilever_CampaignDashboard].[dbo].[CampaignDashboard_Generic_Rin_UPTrader_OBD Master]
+  where [Question ID] = 3 and [Answer ID] = 1)
+  group by substring([Date and time of Interaction],1,13),[Type of Call]
+  
+union all
+
+SELECT  concat(substring([Date and time of Interaction],1,13),':00:00') as DateOfInteraction 
+,'No Of Missed Calls' as CallorMessageType
+,'Aap Rin ki tikiya kaha se khareedte hain?' as Questions,'Wholesale' as Options
+,'' as NoOfRedemptions
+,count([Mobile #]) as MobileCounts
+  FROM [Unilever_CampaignDashboard].[dbo].[CampaignDashboard_Generic_Rin_UPTrader_OBD Master]
+  where [Type of Call] = 'Missed Call'
+  and [Mobile #] in (
+  select [Mobile #] FROM [Unilever_CampaignDashboard].[dbo].[CampaignDashboard_Generic_Rin_UPTrader_OBD Master]
+  where [Question ID] = 3 and [Answer ID] = 2)
+  group by substring([Date and time of Interaction],1,13),[Type of Call]
+  
+union all
+
+SELECT  concat(substring([Date and time of Interaction],1,13),':00:00') as DateOfInteraction 
+,'No Of Missed Calls' as CallorMessageType
+,'Aap Rin ki tikiya kaha se khareedte hain?' as Questions,'Don''t keep RIN in my shop' as Options
+,'' as NoOfRedemptions
+,count([Mobile #]) as MobileCounts
+  FROM [Unilever_CampaignDashboard].[dbo].[CampaignDashboard_Generic_Rin_UPTrader_OBD Master]
+  where [Type of Call] = 'Missed Call'
+  and [Mobile #] in (
+  select [Mobile #] FROM [Unilever_CampaignDashboard].[dbo].[CampaignDashboard_Generic_Rin_UPTrader_OBD Master]
+  where [Question ID] = 3 and [Answer ID] = 3)
+  group by substring([Date and time of Interaction],1,13),[Type of Call]
+  
+union all
+--------------------------------------valid coupon entries (user)
+
+
+
+SELECT  concat(substring([Date and time of Interaction],1,13),':00:00') as DateOfInteraction 
+,'No Of Valid Entries(people)'
+,'All Questions' as Questions,'All Options' as Options
+,'' as NoOfRedemptions
+,count(distinct [Mobile #]) as MobileCounts
+  FROM [Unilever_CampaignDashboard].[dbo].[CampaignDashboard_Generic_Rin_UPTrader_OBD Master]
+  where [Type of Call] = 'Coupon Redemption'
+  and [Coupon code Valid] = 'Y'
+  group by substring([Date and time of Interaction],1,13),[Type of Call]
+
+union all
+
+SELECT  concat(substring([Date and time of Interaction],1,13),':00:00') as DateOfInteraction 
+,'No Of Valid Entries(people)'
+,'All Questions' as Questions,'All Options' as Options
+,'HHT Not Called BPO' as NoOfRedemptions
+,count(distinct [Mobile #]) as MobileCounts
+  FROM [Unilever_CampaignDashboard].[dbo].[CampaignDashboard_Generic_Rin_UPTrader_OBD Master]
+  where [Type of Call] = 'Coupon Redemption'
+  and [Coupon code Valid] = 'Y'
+  and [Mobile #] in (SELECT distinct [Mobile #]  FROM [Unilever_CampaignDashboard].[dbo].[TempRinUPTrader]
+  where [promoters_viral] = 'Promoters'   and [BPO_NoBPO] = 'Not Called BPO')
+  group by substring([Date and time of Interaction],1,13),[Type of Call]
+
+union all
+
+SELECT  concat(substring([Date and time of Interaction],1,13),':00:00') as DateOfInteraction 
+,'No Of Valid Entries(people)','All Questions' as Questions,'All Options' as Options,'Viral Not Called BPO' as NoOfRedemptions
+,count(distinct [Mobile #]) as MobileCounts
+  FROM [Unilever_CampaignDashboard].[dbo].[CampaignDashboard_Generic_Rin_UPTrader_OBD Master]
+  where [Type of Call] = 'Coupon Redemption'
+  and [Coupon code Valid] = 'Y'
+  and [Mobile #] in (SELECT distinct [Mobile #]
+  FROM [Unilever_CampaignDashboard].[dbo].[TempRinUPTrader]
+  where [promoters_viral] = 'Viral'   and [BPO_NoBPO] = 'Not Called BPO')
+  group by substring([Date and time of Interaction],1,13),[Type of Call]
+
+union all
+
+SELECT  concat(substring([Date and time of Interaction],1,13),':00:00') as DateOfInteraction 
+,'No Of Valid Entries(people)'
+,'All Questions' as Questions,'All Options' as Options
+,'HHT Called BPO' as NoOfRedemptions
+,count(distinct [Mobile #]) as MobileCounts
+  FROM [Unilever_CampaignDashboard].[dbo].[CampaignDashboard_Generic_Rin_UPTrader_OBD Master]
+  where [Type of Call] = 'Coupon Redemption'
+  and [Coupon code Valid] = 'Y'
+  and [Mobile #] in (SELECT distinct [Mobile #]  FROM [Unilever_CampaignDashboard].[dbo].[TempRinUPTrader]
+  where [promoters_viral] = 'Promoters'  and [BPO_NoBPO] = 'Called BPO')
+  group by substring([Date and time of Interaction],1,13),[Type of Call]
+
+union all
+
+SELECT  concat(substring([Date and time of Interaction],1,13),':00:00') as DateOfInteraction 
+,'No Of Valid Entries(people)'
+,'All Questions' as Questions,'All Options' as Options
+,'Viral Called BPO' as NoOfRedemptions,count(distinct [Mobile #]) as MobileCounts
+  FROM [Unilever_CampaignDashboard].[dbo].[CampaignDashboard_Generic_Rin_UPTrader_OBD Master]
+  where [Type of Call] = 'Coupon Redemption'
+  and [Coupon code Valid] = 'Y'
+  and [Mobile #] in (SELECT distinct [Mobile #]
+  FROM [Unilever_CampaignDashboard].[dbo].[TempRinUPTrader]
+  where [promoters_viral] = 'Viral'   and [BPO_NoBPO] = 'Called BPO')
+  group by substring([Date and time of Interaction],1,13),[Type of Call]
+  
+union all
+
+SELECT  concat(substring([Date and time of Interaction],1,13),':00:00') as DateOfInteraction 
+,'No Of Valid Entries(people)'
+,'Question1' as Questions, 'Option1' as Options
+,'' as NoOfRedemptions
+,count(distinct [Mobile #]) as MobileCounts
+  FROM [Unilever_CampaignDashboard].[dbo].[CampaignDashboard_Generic_Rin_UPTrader_OBD Master]
+  where [Type of Call] = 'Coupon Redemption'
+  and [Coupon code Valid] = 'Y'
+  and [Mobile #] in (
+  select [Mobile #] FROM [Unilever_CampaignDashboard].[dbo].[CampaignDashboard_Generic_Rin_UPTrader_OBD Master]
+  where [Question ID] = 1 and [Answer ID] = 1)
+  group by substring([Date and time of Interaction],1,13),[Type of Call]
+union all
+
+SELECT  concat(substring([Date and time of Interaction],1,13),':00:00') as DateOfInteraction 
+,'No Of Valid Entries(people)'
+,'Question1' as Questions, 'Option2' as Options
+,'' as NoOfRedemptions
+,count(distinct [Mobile #]) as MobileCounts
+  FROM [Unilever_CampaignDashboard].[dbo].[CampaignDashboard_Generic_Rin_UPTrader_OBD Master]
+  where [Type of Call] = 'Coupon Redemption'
+  and [Coupon code Valid] = 'Y'
+  and [Mobile #] in (
+  select [Mobile #] FROM [Unilever_CampaignDashboard].[dbo].[CampaignDashboard_Generic_Rin_UPTrader_OBD Master]
+  where [Question ID] = 1 and [Answer ID] = 2)
+  group by substring([Date and time of Interaction],1,13),[Type of Call]
+union all
+
+SELECT  concat(substring([Date and time of Interaction],1,13),':00:00') as DateOfInteraction 
+,'No Of Valid Entries(people)'
+,'Aap ki dukan pe aap sabse zyada kaun sa detergent tikiya bechte hain?' as Questions, 'Ghadi ki tikiya' as Options
+,'' as NoOfRedemptions
+,count(distinct [Mobile #]) as MobileCounts
+  FROM [Unilever_CampaignDashboard].[dbo].[CampaignDashboard_Generic_Rin_UPTrader_OBD Master]
+  where [Type of Call] = 'Coupon Redemption'
+  and [Coupon code Valid] = 'Y'
+  and [Mobile #] in (
+  select [Mobile #] FROM [Unilever_CampaignDashboard].[dbo].[CampaignDashboard_Generic_Rin_UPTrader_OBD Master]
+  where [Question ID] = 2 and [Answer ID] = 1)
+  group by substring([Date and time of Interaction],1,13),[Type of Call]
+union all
+
+SELECT  concat(substring([Date and time of Interaction],1,13),':00:00') as DateOfInteraction 
+,'No Of Valid Entries(people)'
+,'Aap ki dukan pe aap sabse zyada kaun sa detergent tikiya bechte hain?' as Questions, 'Rin ki tikiya' as Options
+,'' as NoOfRedemptions
+,count(distinct [Mobile #]) as MobileCounts
+  FROM [Unilever_CampaignDashboard].[dbo].[CampaignDashboard_Generic_Rin_UPTrader_OBD Master]
+  where [Type of Call] = 'Coupon Redemption'
+  and [Coupon code Valid] = 'Y'
+  and [Mobile #] in (
+  select [Mobile #] FROM [Unilever_CampaignDashboard].[dbo].[CampaignDashboard_Generic_Rin_UPTrader_OBD Master]
+  where [Question ID] = 2 and [Answer ID] = 2)
+  group by substring([Date and time of Interaction],1,13),[Type of Call]
+union all
+
+SELECT  concat(substring([Date and time of Interaction],1,13),':00:00') as DateOfInteraction 
+,'No Of Valid Entries(people)'
+,'Aap ki dukan pe aap sabse zyada kaun sa detergent tikiya bechte hain?' as Questions, 'Others' as Options
+,'' as NoOfRedemptions
+,count(distinct [Mobile #]) as MobileCounts
+  FROM [Unilever_CampaignDashboard].[dbo].[CampaignDashboard_Generic_Rin_UPTrader_OBD Master]
+  where [Type of Call] = 'Coupon Redemption'
+  and [Coupon code Valid] = 'Y'
+  and [Mobile #] in (
+  select [Mobile #] FROM [Unilever_CampaignDashboard].[dbo].[CampaignDashboard_Generic_Rin_UPTrader_OBD Master]
+  where [Question ID] = 2 and [Answer ID] = 3)
+  group by substring([Date and time of Interaction],1,13),[Type of Call]
+union all
+
+SELECT  concat(substring([Date and time of Interaction],1,13),':00:00') as DateOfInteraction 
+,'No Of Valid Entries(people)'
+,'Aap Rin ki tikiya kaha se khareedte hain?' as Questions, 'Distributor' as Options
+,'' as NoOfRedemptions
+,count(distinct [Mobile #]) as MobileCounts
+  FROM [Unilever_CampaignDashboard].[dbo].[CampaignDashboard_Generic_Rin_UPTrader_OBD Master]
+  where [Type of Call] = 'Coupon Redemption'
+  and [Coupon code Valid] = 'Y'
+  and [Mobile #] in (
+  select [Mobile #] FROM [Unilever_CampaignDashboard].[dbo].[CampaignDashboard_Generic_Rin_UPTrader_OBD Master]
+  where [Question ID] = 3 and [Answer ID] = 1)
+  group by substring([Date and time of Interaction],1,13),[Type of Call]
+union all
+
+SELECT  concat(substring([Date and time of Interaction],1,13),':00:00') as DateOfInteraction 
+,'No Of Valid Entries(people)'
+,'Aap Rin ki tikiya kaha se khareedte hain?' as Questions, 'Wholesale' as Options
+,'' as NoOfRedemptions
+,count(distinct [Mobile #]) as MobileCounts
+  FROM [Unilever_CampaignDashboard].[dbo].[CampaignDashboard_Generic_Rin_UPTrader_OBD Master]
+  where [Type of Call] = 'Coupon Redemption'
+  and [Coupon code Valid] = 'Y'
+  and [Mobile #] in (
+  select [Mobile #] FROM [Unilever_CampaignDashboard].[dbo].[CampaignDashboard_Generic_Rin_UPTrader_OBD Master]
+  where [Question ID] = 3 and [Answer ID] = 2)
+  group by substring([Date and time of Interaction],1,13),[Type of Call]
+union all
+
+SELECT  concat(substring([Date and time of Interaction],1,13),':00:00') as DateOfInteraction 
+,'No Of Valid Entries(people)'
+,'Aap Rin ki tikiya kaha se khareedte hain?' as Questions, 'Don''t keep RIN in my shop' as Options
+,'' as NoOfRedemptions
+,count(distinct [Mobile #]) as MobileCounts
+  FROM [Unilever_CampaignDashboard].[dbo].[CampaignDashboard_Generic_Rin_UPTrader_OBD Master]
+  where [Type of Call] = 'Coupon Redemption'
+  and [Coupon code Valid] = 'Y'
+  and [Mobile #] in (
+  select [Mobile #] FROM [Unilever_CampaignDashboard].[dbo].[CampaignDashboard_Generic_Rin_UPTrader_OBD Master]
+  where [Question ID] = 3 and [Answer ID] = 3)
+  group by substring([Date and time of Interaction],1,13),[Type of Call]
+
+  union all
+
+--valid coupon entered ------------------------------------------------------------------------
+
+SELECT  concat(substring([Date and time of Interaction],1,13),':00:00') as DateOfInteraction 
+,'No Of Valid Entries'
+,'All Questions' as Questions,'All Options' as Options
+,'' as NoOfRedemptions
+,count(distinct [Coupon code]) as MobileCounts
+  FROM [Unilever_CampaignDashboard].[dbo].[CampaignDashboard_Generic_Rin_UPTrader_OBD Master]
+  where [Type of Call] = 'Coupon Redemption'
+  and [Coupon code Valid] = 'Y'
+  group by substring([Date and time of Interaction],1,13),[Type of Call]
+
+union all
+
+SELECT  concat(substring([Date and time of Interaction],1,13),':00:00') as DateOfInteraction 
+,'No Of Valid Entries'
+,'All Questions' as Questions,'All Options' as Options
+,'HHT Not Called BPO' as NoOfRedemptions
+,count(distinct [Coupon code]) as MobileCounts
+  FROM [Unilever_CampaignDashboard].[dbo].[CampaignDashboard_Generic_Rin_UPTrader_OBD Master]
+  where [Type of Call] = 'Coupon Redemption'
+  and [Coupon code Valid] = 'Y'
+  and [Mobile #] in (SELECT distinct [Mobile #]
+  FROM [Unilever_CampaignDashboard].[dbo].[TempRinUPTrader]
+  where [promoters_viral] = 'Promoters'
+  and [BPO_NoBPO] = 'Not Called BPO')
+  group by substring([Date and time of Interaction],1,13),[Type of Call]
+
+union all
+
+SELECT  concat(substring([Date and time of Interaction],1,13),':00:00') as DateOfInteraction 
+,'No Of Valid Entries'
+,'All Questions' as Questions,'All Options' as Options
+,'Viral Not Called BPO' as NoOfRedemptions
+,count(distinct [Coupon code]) as MobileCounts
+  FROM [Unilever_CampaignDashboard].[dbo].[CampaignDashboard_Generic_Rin_UPTrader_OBD Master]
+  where [Type of Call] = 'Coupon Redemption'
+  and [Coupon code Valid] = 'Y'
+  and [Mobile #] in (SELECT distinct [Mobile #]
+  FROM [Unilever_CampaignDashboard].[dbo].[TempRinUPTrader]
+  where [promoters_viral] = 'Viral'
+  and [BPO_NoBPO] = 'Not Called BPO')
+  group by substring([Date and time of Interaction],1,13),[Type of Call]
+
+union all
+
+SELECT  concat(substring([Date and time of Interaction],1,13),':00:00') as DateOfInteraction 
+,'No Of Valid Entries'
+,'All Questions' as Questions,'All Options' as Options
+,'HHT Called BPO' as NoOfRedemptions
+,count(distinct [Coupon code]) as MobileCounts
+  FROM [Unilever_CampaignDashboard].[dbo].[CampaignDashboard_Generic_Rin_UPTrader_OBD Master]
+  where [Type of Call] = 'Coupon Redemption'
+  and [Coupon code Valid] = 'Y'
+  and [Mobile #] in (SELECT distinct [Mobile #]
+  FROM [Unilever_CampaignDashboard].[dbo].[TempRinUPTrader]
+  where [promoters_viral] = 'Promoters'
+  and [BPO_NoBPO] = 'Called BPO')
+  group by substring([Date and time of Interaction],1,13),[Type of Call]
+
+union all
+
+SELECT  concat(substring([Date and time of Interaction],1,13),':00:00') as DateOfInteraction 
+,'No Of Valid Entries'
+,'All Questions' as Questions,'All Options' as Options
+,'Viral Called BPO' as NoOfRedemptions
+,count(distinct [Coupon code]) as MobileCounts
+  FROM [Unilever_CampaignDashboard].[dbo].[CampaignDashboard_Generic_Rin_UPTrader_OBD Master]
+  where [Type of Call] = 'Coupon Redemption'
+  and [Coupon code Valid] = 'Y'
+  and [Mobile #] in (SELECT distinct [Mobile #]
+  FROM [Unilever_CampaignDashboard].[dbo].[TempRinUPTrader]
+  where [promoters_viral] = 'Viral'
+  and [BPO_NoBPO] = 'Called BPO')
+  group by substring([Date and time of Interaction],1,13),[Type of Call]
+  
+union all
+
+SELECT  concat(substring([Date and time of Interaction],1,13),':00:00') as DateOfInteraction 
+,'No Of Valid Entries'
+,'Question1' as Questions, 'Option1' as Options
+,'' as NoOfRedemptions
+,count(distinct [Coupon code]) as MobileCounts
+  FROM [Unilever_CampaignDashboard].[dbo].[CampaignDashboard_Generic_Rin_UPTrader_OBD Master]
+  where [Type of Call] = 'Coupon Redemption'
+  and [Coupon code Valid] = 'Y'
+  and [Mobile #] in (
+  select [Mobile #] FROM [Unilever_CampaignDashboard].[dbo].[CampaignDashboard_Generic_Rin_UPTrader_OBD Master]
+  where [Question ID] = 1 and [Answer ID] = 1)
+  group by substring([Date and time of Interaction],1,13),[Type of Call]
+union all
+
+SELECT  concat(substring([Date and time of Interaction],1,13),':00:00') as DateOfInteraction 
+,'No Of Valid Entries'
+,'Question1' as Questions, 'Option2' as Options
+,'' as NoOfRedemptions
+,count(distinct [Coupon code]) as MobileCounts
+  FROM [Unilever_CampaignDashboard].[dbo].[CampaignDashboard_Generic_Rin_UPTrader_OBD Master]
+  where [Type of Call] = 'Coupon Redemption'
+  and [Coupon code Valid] = 'Y'
+  and [Mobile #] in (
+  select [Mobile #] FROM [Unilever_CampaignDashboard].[dbo].[CampaignDashboard_Generic_Rin_UPTrader_OBD Master]
+  where [Question ID] = 1 and [Answer ID] = 2)
+  group by substring([Date and time of Interaction],1,13),[Type of Call]
+union all
+
+SELECT  concat(substring([Date and time of Interaction],1,13),':00:00') as DateOfInteraction 
+,'No Of Valid Entries'
+,'Aap ki dukan pe aap sabse zyada kaun sa detergent tikiya bechte hain?' as Questions, 'Ghadi ki tikiya' as Options
+,'' as NoOfRedemptions
+,count(distinct [Coupon code]) as MobileCounts
+  FROM [Unilever_CampaignDashboard].[dbo].[CampaignDashboard_Generic_Rin_UPTrader_OBD Master]
+  where [Type of Call] = 'Coupon Redemption'
+  and [Coupon code Valid] = 'Y'
+  and [Mobile #] in (
+  select [Mobile #] FROM [Unilever_CampaignDashboard].[dbo].[CampaignDashboard_Generic_Rin_UPTrader_OBD Master]
+  where [Question ID] = 2 and [Answer ID] = 1)
+  group by substring([Date and time of Interaction],1,13),[Type of Call]
+union all
+
+SELECT  concat(substring([Date and time of Interaction],1,13),':00:00') as DateOfInteraction 
+,'No Of Valid Entries'
+,'Aap ki dukan pe aap sabse zyada kaun sa detergent tikiya bechte hain?' as Questions, 'Rin ki tikiya' as Options
+,'' as NoOfRedemptions
+,count(distinct [Coupon code]) as MobileCounts
+  FROM [Unilever_CampaignDashboard].[dbo].[CampaignDashboard_Generic_Rin_UPTrader_OBD Master]
+  where [Type of Call] = 'Coupon Redemption'
+  and [Coupon code Valid] = 'Y'
+  and [Mobile #] in (
+  select [Mobile #] FROM [Unilever_CampaignDashboard].[dbo].[CampaignDashboard_Generic_Rin_UPTrader_OBD Master]
+  where [Question ID] = 2 and [Answer ID] = 2)
+  group by substring([Date and time of Interaction],1,13),[Type of Call]
+union all
+
+SELECT  concat(substring([Date and time of Interaction],1,13),':00:00') as DateOfInteraction 
+,'No Of Valid Entries'
+,'Aap ki dukan pe aap sabse zyada kaun sa detergent tikiya bechte hain?' as Questions, 'Others' as Options
+,'' as NoOfRedemptions
+,count(distinct [Coupon code]) as MobileCounts
+  FROM [Unilever_CampaignDashboard].[dbo].[CampaignDashboard_Generic_Rin_UPTrader_OBD Master]
+  where [Type of Call] = 'Coupon Redemption'
+  and [Coupon code Valid] = 'Y'
+  and [Mobile #] in (
+  select [Mobile #] FROM [Unilever_CampaignDashboard].[dbo].[CampaignDashboard_Generic_Rin_UPTrader_OBD Master]
+  where [Question ID] = 2 and [Answer ID] = 3)
+  group by substring([Date and time of Interaction],1,13),[Type of Call]
+union all
+
+SELECT  concat(substring([Date and time of Interaction],1,13),':00:00') as DateOfInteraction 
+,'No Of Valid Entries'
+,'Aap Rin ki tikiya kaha se khareedte hain?' as Questions, 'Distributor' as Options
+,'' as NoOfRedemptions
+,count(distinct [Coupon code]) as MobileCounts
+  FROM [Unilever_CampaignDashboard].[dbo].[CampaignDashboard_Generic_Rin_UPTrader_OBD Master]
+  where [Type of Call] = 'Coupon Redemption'
+  and [Coupon code Valid] = 'Y'
+  and [Mobile #] in (
+  select [Mobile #] FROM [Unilever_CampaignDashboard].[dbo].[CampaignDashboard_Generic_Rin_UPTrader_OBD Master]
+  where [Question ID] = 3 and [Answer ID] = 1)
+  group by substring([Date and time of Interaction],1,13),[Type of Call]
+union all
+
+SELECT  concat(substring([Date and time of Interaction],1,13),':00:00') as DateOfInteraction 
+,'No Of Valid Entries'
+,'Aap Rin ki tikiya kaha se khareedte hain?' as Questions, 'Wholesale' as Options
+,'' as NoOfRedemptions
+,count(distinct [Coupon code]) as MobileCounts
+  FROM [Unilever_CampaignDashboard].[dbo].[CampaignDashboard_Generic_Rin_UPTrader_OBD Master]
+  where [Type of Call] = 'Coupon Redemption'
+  and [Coupon code Valid] = 'Y'
+  and [Mobile #] in (
+  select [Mobile #] FROM [Unilever_CampaignDashboard].[dbo].[CampaignDashboard_Generic_Rin_UPTrader_OBD Master]
+  where [Question ID] = 3 and [Answer ID] = 2)
+  group by substring([Date and time of Interaction],1,13),[Type of Call]
+union all
+
+SELECT  concat(substring([Date and time of Interaction],1,13),':00:00') as DateOfInteraction 
+,'No Of Valid Entries'
+,'Aap Rin ki tikiya kaha se khareedte hain?' as Questions, 'Don''t keep RIN in my shop' as Options
+,'' as NoOfRedemptions
+,count(distinct [Coupon code]) as MobileCounts
+  FROM [Unilever_CampaignDashboard].[dbo].[CampaignDashboard_Generic_Rin_UPTrader_OBD Master]
+  where [Type of Call] = 'Coupon Redemption'
+  and [Coupon code Valid] = 'Y'
+  and [Mobile #] in (
+  select [Mobile #] FROM [Unilever_CampaignDashboard].[dbo].[CampaignDashboard_Generic_Rin_UPTrader_OBD Master]
+  where [Question ID] = 3 and [Answer ID] = 3)
+  group by substring([Date and time of Interaction],1,13),[Type of Call]
+union all
+--number of SMS delivered---------------------------------------------------------------------
+SELECT  concat(substring([Date and time of Interaction],1,13),':00:00') as DateOfInteraction 
+,'No Of Messages Delivered'
+,'All Questions' as Questions,'All Options' as Options
+,'' as NoOfRedemptions
+,count([Mobile #]) as MobileCounts
+  FROM [Unilever_CampaignDashboard].[dbo].[CampaignDashboard_Generic_Rin_UPTrader_SMS Master]
+  where [SMS Delivery Status] = 'Y'
+  group by substring([Date and time of Interaction],1,13),[Type of SMS]
+  
+union all
+
+SELECT  concat(substring([Date and time of Interaction],1,13),':00:00') as DateOfInteraction 
+,'No Of Messages Delivered'
+,'Question1' as Questions,'Option1' as Options
+,'' as NoOfRedemptions
+,count([Mobile #]) as MobileCounts
+  FROM [Unilever_CampaignDashboard].[dbo].[CampaignDashboard_Generic_Rin_UPTrader_SMS Master]
+  where [SMS Delivery Status] = 'Y'
+  and [Mobile #] in (
+  select [Mobile #] FROM [Unilever_CampaignDashboard].[dbo].[CampaignDashboard_Generic_Rin_UPTrader_OBD Master]
+  where [Question ID] = 1 and [Answer ID] = 1)
+  group by substring([Date and time of Interaction],1,13),[Type of SMS]
+  
+union all
+
+SELECT  concat(substring([Date and time of Interaction],1,13),':00:00') as DateOfInteraction 
+,'No Of Messages Delivered'
+,'Question1' as Questions,'Option2' as Options
+,'' as NoOfRedemptions
+,count([Mobile #]) as MobileCounts
+  FROM [Unilever_CampaignDashboard].[dbo].[CampaignDashboard_Generic_Rin_UPTrader_SMS Master]
+  where [SMS Delivery Status] = 'Y'
+  and [Mobile #] in (
+  select [Mobile #] FROM [Unilever_CampaignDashboard].[dbo].[CampaignDashboard_Generic_Rin_UPTrader_OBD Master]
+  where [Question ID] = 1 and [Answer ID] = 2)
+  group by substring([Date and time of Interaction],1,13),[Type of SMS]
+  
+union all
+
+SELECT  concat(substring([Date and time of Interaction],1,13),':00:00') as DateOfInteraction 
+,'No Of Messages Delivered'
+,'Aap ki dukan pe aap sabse zyada kaun sa detergent tikiya bechte hain?' as Questions,'Ghadi ki tikiya' as Options
+,'' as NoOfRedemptions
+,count([Mobile #]) as MobileCounts
+  FROM [Unilever_CampaignDashboard].[dbo].[CampaignDashboard_Generic_Rin_UPTrader_SMS Master]
+  where [SMS Delivery Status] = 'Y'
+  and [Mobile #] in (
+  select [Mobile #] FROM [Unilever_CampaignDashboard].[dbo].[CampaignDashboard_Generic_Rin_UPTrader_OBD Master]
+  where [Question ID] = 2 and [Answer ID] = 1)
+  group by substring([Date and time of Interaction],1,13),[Type of SMS]
+  
+union all
+
+SELECT  concat(substring([Date and time of Interaction],1,13),':00:00') as DateOfInteraction 
+,'No Of Messages Delivered'
+,'Aap ki dukan pe aap sabse zyada kaun sa detergent tikiya bechte hain?' as Questions,'Rin ki tikiya' as Options
+,'' as NoOfRedemptions
+,count([Mobile #]) as MobileCounts
+  FROM [Unilever_CampaignDashboard].[dbo].[CampaignDashboard_Generic_Rin_UPTrader_SMS Master]
+  where [SMS Delivery Status] = 'Y'
+  and [Mobile #] in (
+  select [Mobile #] FROM [Unilever_CampaignDashboard].[dbo].[CampaignDashboard_Generic_Rin_UPTrader_OBD Master]
+  where [Question ID] = 2 and [Answer ID] = 2)
+  group by substring([Date and time of Interaction],1,13),[Type of SMS]
+  
+union all
+
+SELECT  concat(substring([Date and time of Interaction],1,13),':00:00') as DateOfInteraction 
+,'No Of Messages Delivered'
+,'Aap ki dukan pe aap sabse zyada kaun sa detergent tikiya bechte hain?' as Questions,'Others' as Options
+,'' as NoOfRedemptions
+,count([Mobile #]) as MobileCounts
+  FROM [Unilever_CampaignDashboard].[dbo].[CampaignDashboard_Generic_Rin_UPTrader_SMS Master]
+  where [SMS Delivery Status] = 'Y'
+  and [Mobile #] in (
+  select [Mobile #] FROM [Unilever_CampaignDashboard].[dbo].[CampaignDashboard_Generic_Rin_UPTrader_OBD Master]
+  where [Question ID] = 2 and [Answer ID] = 3)
+  group by substring([Date and time of Interaction],1,13),[Type of SMS]
+  
+union all
+
+SELECT  concat(substring([Date and time of Interaction],1,13),':00:00') as DateOfInteraction 
+,'No Of Messages Delivered'
+,'Aap Rin ki tikiya kaha se khareedte hain?' as Questions,'Distributor' as Options
+,'' as NoOfRedemptions
+,count([Mobile #]) as MobileCounts
+  FROM [Unilever_CampaignDashboard].[dbo].[CampaignDashboard_Generic_Rin_UPTrader_SMS Master]
+  where [SMS Delivery Status] = 'Y'
+  and [Mobile #] in (
+  select [Mobile #] FROM [Unilever_CampaignDashboard].[dbo].[CampaignDashboard_Generic_Rin_UPTrader_OBD Master]
+  where [Question ID] = 3 and [Answer ID] = 1)
+  group by substring([Date and time of Interaction],1,13),[Type of SMS]
+  
+union all
+
+SELECT  concat(substring([Date and time of Interaction],1,13),':00:00') as DateOfInteraction 
+,'No Of Messages Delivered'
+,'Aap Rin ki tikiya kaha se khareedte hain?' as Questions,'Wholesale' as Options
+,'' as NoOfRedemptions
+,count([Mobile #]) as MobileCounts
+  FROM [Unilever_CampaignDashboard].[dbo].[CampaignDashboard_Generic_Rin_UPTrader_SMS Master]
+  where [SMS Delivery Status] = 'Y'
+  and [Mobile #] in (
+  select [Mobile #] FROM [Unilever_CampaignDashboard].[dbo].[CampaignDashboard_Generic_Rin_UPTrader_OBD Master]
+  where [Question ID] = 3 and [Answer ID] = 2)
+  group by substring([Date and time of Interaction],1,13),[Type of SMS]
+  
+union all
+
+SELECT  concat(substring([Date and time of Interaction],1,13),':00:00') as DateOfInteraction 
+,'No Of Messages Delivered'
+,'Aap Rin ki tikiya kaha se khareedte hain?' as Questions,'Don''t keep RIN in my shop' as Options
+,'' as NoOfRedemptions
+,count([Mobile #]) as MobileCounts
+  FROM [Unilever_CampaignDashboard].[dbo].[CampaignDashboard_Generic_Rin_UPTrader_SMS Master]
+  where [SMS Delivery Status] = 'Y'
+  and [Mobile #] in (
+  select [Mobile #] FROM [Unilever_CampaignDashboard].[dbo].[CampaignDashboard_Generic_Rin_UPTrader_OBD Master]
+  where [Question ID] = 3 and [Answer ID] = 3)
+  group by substring([Date and time of Interaction],1,13),[Type of SMS]
+  
+union all
+
+--total number of users------------------------------------------------------------------------
+
+SELECT  concat(substring([Date and time of Interaction],1,13),':00:00') as DateOfInteraction 
+,'Total no of Users' as CallorMessageType
+,'All Questions' as Questions,'All Options' as Options
+,'' as NoOfRedemptions
+,count(distinct [Mobile #]) as MobileCounts
+  FROM [Unilever_CampaignDashboard].[dbo].[CampaignDashboard_Generic_Rin_UPTrader_Registration Master]
+  group by substring([Date and time of Interaction],1,13)
+
+  
+union all
+
+
+SELECT  concat(substring([Date and time of Interaction],1,13),':00:00') as DateOfInteraction 
+, 'Total no of Users' as CallorMessageType
+,'Aap ki dukan pe aap sabse zyada kaun sa detergent tikiya bechte hain?' as Questions,'Ghadi ki tikiya' as Options
+,'' as NoOfRedemptions
+,count(distinct [Mobile #]) as MobileCounts
+  FROM [Unilever_CampaignDashboard].[dbo].[CampaignDashboard_Generic_Rin_UPTrader_OBD Master]
+  where [Type of Call] in ( 'OBD Engagement','Coupon Redemption') 
+  and [Mobile #] in (
+  select [Mobile #] FROM [Unilever_CampaignDashboard].[dbo].[CampaignDashboard_Generic_Rin_UPTrader_Registration Master]
+  where [Question ID] = 2 and [Answer ID] = 1)
+  group by substring([Date and time of Interaction],1,13),[Type of Call]
+  
+union all
+
+SELECT  concat(substring([Date and time of Interaction],1,13),':00:00') as DateOfInteraction 
+,'Total no of Users' as CallorMessageType
+,'Aap ki dukan pe aap sabse zyada kaun sa detergent tikiya bechte hain?' as Questions,'Rin ki tikiya' as Options
+,'' as NoOfRedemptions
+,count(distinct [Mobile #]) as MobileCounts
+  FROM [Unilever_CampaignDashboard].[dbo].[CampaignDashboard_Generic_Rin_UPTrader_OBD Master]
+  where [Type of Call] in ( 'OBD Engagement','Coupon Redemption') 
+  and [Mobile #] in (
+  select [Mobile #] FROM [Unilever_CampaignDashboard].[dbo].[CampaignDashboard_Generic_Rin_UPTrader_Registration Master]
+  where [Question ID] = 2 and [Answer ID] = 2)
+  group by substring([Date and time of Interaction],1,13),[Type of Call]
+  
+union all
+
+SELECT  concat(substring([Date and time of Interaction],1,13),':00:00') as DateOfInteraction 
+,'Total no of Users' as CallorMessageType
+,'Aap ki dukan pe aap sabse zyada kaun sa detergent tikiya bechte hain?' as Questions,'Others' as Options
+,'' as NoOfRedemptions
+,count(distinct [Mobile #]) as MobileCounts
+  FROM [Unilever_CampaignDashboard].[dbo].[CampaignDashboard_Generic_Rin_UPTrader_OBD Master]
+  where [Type of Call] in ( 'OBD Engagement','Coupon Redemption') 
+  and [Mobile #] in (
+  select [Mobile #] FROM [Unilever_CampaignDashboard].[dbo].[CampaignDashboard_Generic_Rin_UPTrader_Registration Master]
+  where [Question ID] = 2 and [Answer ID] = 3)
+  group by substring([Date and time of Interaction],1,13),[Type of Call]
+  
+union all
+
+SELECT  concat(substring([Date and time of Interaction],1,13),':00:00') as DateOfInteraction 
+,'Total no of Users' as CallorMessageType
+,'Aap Rin ki tikiya kaha se khareedte hain?' as Questions,'Distributor' as Options
+,'' as NoOfRedemptions
+,count(distinct [Mobile #]) as MobileCounts
+  FROM [Unilever_CampaignDashboard].[dbo].[CampaignDashboard_Generic_Rin_UPTrader_OBD Master]
+  where [Type of Call] in ( 'OBD Engagement','Coupon Redemption') 
+  and [Mobile #] in (
+  select [Mobile #] FROM [Unilever_CampaignDashboard].[dbo].[CampaignDashboard_Generic_Rin_UPTrader_Registration Master]
+  where [Question ID] = 3 and [Answer ID] = 1)
+  group by substring([Date and time of Interaction],1,13),[Type of Call]
+  
+union all
+
+SELECT  concat(substring([Date and time of Interaction],1,13),':00:00') as DateOfInteraction 
+,'Total no of Users' as CallorMessageType
+,'Aap Rin ki tikiya kaha se khareedte hain?' as Questions,'Wholesale' as Options
+,'' as NoOfRedemptions
+,count(distinct [Mobile #]) as MobileCounts
+  FROM [Unilever_CampaignDashboard].[dbo].[CampaignDashboard_Generic_Rin_UPTrader_OBD Master]
+  where [Type of Call] in ( 'OBD Engagement','Coupon Redemption') 
+  and [Mobile #] in (
+  select [Mobile #] FROM [Unilever_CampaignDashboard].[dbo].[CampaignDashboard_Generic_Rin_UPTrader_Registration Master]
+  where [Question ID] = 3 and [Answer ID] = 2)
+  group by substring([Date and time of Interaction],1,13),[Type of Call]
+  
+union all
+
+SELECT  concat(substring([Date and time of Interaction],1,13),':00:00') as DateOfInteraction 
+,'Total no of Users' as CallorMessageType
+,'Aap Rin ki tikiya kaha se khareedte hain?' as Questions,'Don''t keep RIN in my shop' as Options
+,'' as NoOfRedemptions
+,count(distinct [Mobile #]) as MobileCounts
+  FROM [Unilever_CampaignDashboard].[dbo].[CampaignDashboard_Generic_Rin_UPTrader_OBD Master]
+  where [Type of Call] in ( 'OBD Engagement','Coupon Redemption')
+  and [Mobile #] in (
+  select [Mobile #] FROM [Unilever_CampaignDashboard].[dbo].[CampaignDashboard_Generic_Rin_UPTrader_Registration Master]
+  where [Question ID] = 3 and [Answer ID] = 3)
+  group by substring([Date and time of Interaction],1,13),[Type of Call]
+  
+union all
+
+--obd calls answered---------------------------------------------------------------------------
+SELECT  concat(substring([Date and time of Interaction],1,13),':00:00') as DateOfInteraction 
+,'OBD Calls Answered' as CallorMessageType
+,'All Questions' as Questions,'All Options' as Options
+,'' as NoOfRedemptions
+,count(distinct [Mobile #]+[Date and Time of Interaction]+[Type of Call]) as MobileCounts
+  FROM [Unilever_CampaignDashboard].[dbo].[CampaignDashboard_Generic_Rin_UPTrader_OBD Master]
+  where  [Type of Call] in ( 'OBD Engagement','Coupon Redemption')
+    and [Duration of Interaction] > 0
+  group by substring([Date and time of Interaction],1,13),[Type of Call]
+
+union all
+
+SELECT  concat(substring([Date and time of Interaction],1,13),':00:00') as DateOfInteraction 
+,'OBD Calls Answered' as CallorMessageType
+,'Question1' as Questions,'Option1' as Options
+,'' as NoOfRedemptions
+,count(distinct [Mobile #]+[Date and Time of Interaction]+[Type of Call]) as MobileCounts
+  FROM [Unilever_CampaignDashboard].[dbo].[CampaignDashboard_Generic_Rin_UPTrader_OBD Master]
+  where [Type of Call] in ( 'OBD Engagement','Coupon Redemption')
+  and [Mobile #] in (
+  select [Mobile #] FROM [Unilever_CampaignDashboard].[dbo].[CampaignDashboard_Generic_Rin_UPTrader_OBD Master]
+  where [Question ID] = 1 and [Answer ID] = 1)
+    and [Duration of Interaction] > 0
+  group by substring([Date and time of Interaction],1,13),[Type of Call]
+  
+union all
+
+SELECT  concat(substring([Date and time of Interaction],1,13),':00:00') as DateOfInteraction 
+,'OBD Calls Answered' as CallorMessageType
+,'Question1' as Questions,'Option2' as Options
+,'' as NoOfRedemptions
+,count(distinct [Mobile #]+[Date and Time of Interaction]+[Type of Call]) as MobileCounts
+  FROM [Unilever_CampaignDashboard].[dbo].[CampaignDashboard_Generic_Rin_UPTrader_OBD Master]
+  where [Type of Call] in ( 'OBD Engagement','Coupon Redemption')
+  and [Mobile #] in (
+  select [Mobile #] FROM [Unilever_CampaignDashboard].[dbo].[CampaignDashboard_Generic_Rin_UPTrader_OBD Master]
+  where [Question ID] = 1 and [Answer ID] = 2)
+    and [Duration of Interaction] > 0
+  group by substring([Date and time of Interaction],1,13),[Type of Call]
+  
+union all
+
+SELECT  concat(substring([Date and time of Interaction],1,13),':00:00') as DateOfInteraction 
+,'OBD Calls Answered' as CallorMessageType
+,'Aap ki dukan pe aap sabse zyada kaun sa detergent tikiya bechte hain?' as Questions,'Ghadi ki tikiya' as Options
+,'' as NoOfRedemptions
+,count(distinct [Mobile #]+[Date and Time of Interaction]+[Type of Call]) as MobileCounts
+  FROM [Unilever_CampaignDashboard].[dbo].[CampaignDashboard_Generic_Rin_UPTrader_OBD Master]
+  where [Type of Call] in ( 'OBD Engagement','Coupon Redemption')
+  and [Mobile #] in (
+  select [Mobile #] FROM [Unilever_CampaignDashboard].[dbo].[CampaignDashboard_Generic_Rin_UPTrader_OBD Master]
+  where [Question ID] = 2 and [Answer ID] = 1)
+    and [Duration of Interaction] > 0
+  group by substring([Date and time of Interaction],1,13),[Type of Call]
+  
+union all
+
+SELECT  concat(substring([Date and time of Interaction],1,13),':00:00') as DateOfInteraction 
+,'OBD Calls Answered' as CallorMessageType
+,'Aap ki dukan pe aap sabse zyada kaun sa detergent tikiya bechte hain?' as Questions,'Rin ki tikiya' as Options
+,'' as NoOfRedemptions
+,count(distinct [Mobile #]+[Date and Time of Interaction]+[Type of Call]) as MobileCounts
+  FROM [Unilever_CampaignDashboard].[dbo].[CampaignDashboard_Generic_Rin_UPTrader_OBD Master]
+  where [Type of Call] in ( 'OBD Engagement','Coupon Redemption')
+  and [Mobile #] in (
+  select [Mobile #] FROM [Unilever_CampaignDashboard].[dbo].[CampaignDashboard_Generic_Rin_UPTrader_OBD Master]
+  where [Question ID] = 2 and [Answer ID] = 2)
+    and [Duration of Interaction] > 0
+  group by substring([Date and time of Interaction],1,13),[Type of Call]
+  
+union all
+
+SELECT  concat(substring([Date and time of Interaction],1,13),':00:00') as DateOfInteraction 
+,'OBD Calls Answered' as CallorMessageType
+,'Aap ki dukan pe aap sabse zyada kaun sa detergent tikiya bechte hain?' as Questions,'Others' as Options
+,'' as NoOfRedemptions
+,count(distinct [Mobile #]+[Date and Time of Interaction]+[Type of Call]) as MobileCounts
+  FROM [Unilever_CampaignDashboard].[dbo].[CampaignDashboard_Generic_Rin_UPTrader_OBD Master]
+  where [Type of Call] in ( 'OBD Engagement','Coupon Redemption')
+  and [Mobile #] in (
+  select [Mobile #] FROM [Unilever_CampaignDashboard].[dbo].[CampaignDashboard_Generic_Rin_UPTrader_OBD Master]
+  where [Question ID] = 2 and [Answer ID] = 3)
+    and [Duration of Interaction] > 0
+  group by substring([Date and time of Interaction],1,13),[Type of Call]
+  
+union all
+
+SELECT  concat(substring([Date and time of Interaction],1,13),':00:00') as DateOfInteraction 
+,'OBD Calls Answered' as CallorMessageType
+,'Aap Rin ki tikiya kaha se khareedte hain?' as Questions,'Distributor' as Options
+,'' as NoOfRedemptions
+,count(distinct [Mobile #]+[Date and Time of Interaction]+[Type of Call]) as MobileCounts
+  FROM [Unilever_CampaignDashboard].[dbo].[CampaignDashboard_Generic_Rin_UPTrader_OBD Master]
+  where [Type of Call] in ( 'OBD Engagement','Coupon Redemption')
+  and [Mobile #] in (
+  select [Mobile #] FROM [Unilever_CampaignDashboard].[dbo].[CampaignDashboard_Generic_Rin_UPTrader_OBD Master]
+  where [Question ID] = 3 and [Answer ID] = 1)
+    and [Duration of Interaction] > 0
+  group by substring([Date and time of Interaction],1,13),[Type of Call]
+  
+union all
+
+SELECT  concat(substring([Date and time of Interaction],1,13),':00:00') as DateOfInteraction 
+,'OBD Calls Answered' as CallorMessageType
+,'Aap Rin ki tikiya kaha se khareedte hain?' as Questions,'Wholesale' as Options
+,'' as NoOfRedemptions
+,count(distinct [Mobile #]+[Date and Time of Interaction]+[Type of Call]) as MobileCounts
+  FROM [Unilever_CampaignDashboard].[dbo].[CampaignDashboard_Generic_Rin_UPTrader_OBD Master]
+  where [Type of Call] in ( 'OBD Engagement','Coupon Redemption')
+  and [Mobile #] in (
+  select [Mobile #] FROM [Unilever_CampaignDashboard].[dbo].[CampaignDashboard_Generic_Rin_UPTrader_OBD Master]
+  where [Question ID] = 3 and [Answer ID] = 2)
+    and [Duration of Interaction] > 0
+  group by substring([Date and time of Interaction],1,13),[Type of Call]
+  
+union all
+
+SELECT  concat(substring([Date and time of Interaction],1,13),':00:00') as DateOfInteraction 
+,'OBD Calls Answered' as CallorMessageType
+,'Aap Rin ki tikiya kaha se khareedte hain?' as Questions,'Don''t keep RIN in my shop' as Options
+,'' as NoOfRedemptions
+,count(distinct [Mobile #]+[Date and Time of Interaction]+[Type of Call]) as MobileCounts
+  FROM [Unilever_CampaignDashboard].[dbo].[CampaignDashboard_Generic_Rin_UPTrader_OBD Master]
+  where [Type of Call] in ( 'OBD Engagement','Coupon Redemption')
+  and [Mobile #] in (
+  select [Mobile #] FROM [Unilever_CampaignDashboard].[dbo].[CampaignDashboard_Generic_Rin_UPTrader_OBD Master]
+  where [Question ID] = 3 and [Answer ID] = 3)
+    and [Duration of Interaction] > 0
+  group by substring([Date and time of Interaction],1,13),[Type of Call]
+
+union all
+---End of query 1------------------------------------------------------------------------------
+---query 2-------------------------------------------------------------------------------------
+SELECT '' as Column1, 'Number User Per Question,Options' as Column2,
+case cast([Question ID] as varchar)
+when '2' then 'Aap ki dukan pe aap sabse zyada kaun sa detergent tikiya bechte hain?'
+when '3' then 'Aap Rin ki tikiya kaha se khareedte hain?'
+end as QuestionNo
+,case [Answer ID]
+when '1' then 'Ghadi ki tikiya' when '2' then 'Rin ki tikiya' when '3' then 'Others' end OptionsProvided 
+,'' as NoOfRedemptions,count(  [Mobile #]) as counts
+FROM [Unilever_CampaignDashboard].[dbo].[CampaignDashboard_Generic_Rin_UPTrader_OBD Master]
+where [Question ID] =2 and [mobile #] in (
+select distinct [Mobile #] from [Unilever_CampaignDashboard].[dbo].[CampaignDashboard_Generic_Rin_UPTrader_Registration Master])
+group by [Question ID] , [Answer ID]
+
+
+
+union all 
+SELECT '' as Column1, 'Number User Per Question,Options' as Column2,
+case cast([Question ID] as varchar)
+when '3' then 'Aap Rin ki tikiya kaha se khareedte hain?'
+end as QuestionNo
+,case [Answer ID]
+when '1' then 'Distributor' when '2' then 'Wholesale' when '3' then 'Others' end OptionsProvided 
+,'' as NoOfRedemptions,count(  [Mobile #]) as counts
+FROM [Unilever_CampaignDashboard].[dbo].[CampaignDashboard_Generic_Rin_UPTrader_OBD Master]
+where [Question ID] =3 and [mobile #] in (
+select distinct [Mobile #] from [Unilever_CampaignDashboard].[dbo].[CampaignDashboard_Generic_Rin_UPTrader_Registration Master]
+)
+group by [Question ID] , [Answer ID]
+
+--End of query 2---------------------------------------------------------------------------------
+union all
+-- query 3---------------------------------------------------------------------------------------
+ select '' as Column1, 'Coupon Entries Valid or Not' as Column2,
+       case [Coupon code Valid]
+       when 'Y' then 'Valid Coupon Entry'
+       when 'N' then 'Invalid Coupon Entry'
+       else 'Unidntified'
+       end as CouponEntry
+	   ,'' as DummyColumn1
+       ,'' as NoOfRedemptions
+       ,count(distinct [Coupon code]) as MobileCounts
+FROM [Unilever_CampaignDashboard].[dbo].[CampaignDashboard_Generic_Rin_UPTrader_OBD Master]
+where [Coupon code Valid] <> ''
+group by [Coupon code Valid]
+
+--end of query 3--------------------------------------------------------------------------------
+union all
+--quey 4-----------------------------------------------------------------------------------------
+
+select '' as Column1, 'Number Of Redemptions Done' as Column2
+       ,'All Questions' as dummycolumn2
+	   ,'ALL' as DummyColumn1
+       ,cast(NoOfRedemptions as varchar) as NoOfRedemptions
+       ,count(*) as Users 
+from (
+ SELECT  [Mobile #]
+, count(distinct [Coupon code]) as NoOfRedemptions
+  FROM [Unilever_CampaignDashboard].[dbo].[CampaignDashboard_Generic_Rin_UPTrader_OBD Master]
+  where [Type of Call] = 'Coupon Redemption'
+  and [Coupon code Valid] = 'Y'
+  group by [Mobile #] ) as A
+  group by NoOfRedemptions
+
+
+union all
+
+select '' as Column1, 'Number Of Redemptions Done' as Column2
+,case 
+when b.[Question ID] = 2 and b.[Answer ID] = 1 then 'Ghadi ki tikiya'
+when b.[Question ID] = 2 and b.[Answer ID] = 2 then 'Rin ki tikiya'
+when b.[Question ID] = 2 and b.[Answer ID] = 3 then 'Others'
+when b.[Question ID] = 3 and b.[Answer ID] = 1 then 'Distributor'
+when b.[Question ID] = 3 and b.[Answer ID] = 2 then 'Wholesale'
+when b.[Question ID] = 3 and b.[Answer ID] = 3 then 'Don''t keep RIN in my shop'
+end as Options
+,'' as aa
+,cast(NoOfRedemptions as varchar) as NoOfRedemptions
+,count(*) as Users 
+from
+(SELECT  [Mobile #], count(distinct [Coupon code]) as NoOfRedemptions
+  FROM [Unilever_CampaignDashboard].[dbo].[CampaignDashboard_Generic_Rin_UPTrader_OBD Master]
+  where [Type of Call] = 'Coupon Redemption'
+  and [Coupon code Valid] = 'Y'
+  group by [Mobile #] 
+ ) as a 
+  join [Unilever_CampaignDashboard].[dbo].[CampaignDashboard_Generic_Rin_UPTrader_OBD Master] b
+  on a.[Mobile #] = b.[Mobile #]
+where b.[Question ID] in (2,3)
+group by a.NoOfRedemptions,b.[Question ID],b.[Answer ID]
+
+  
+--end of query 4--------------------------------------------------------------------------------
+union all
+-- query 5--------------------------------------------------------------------------------------
+
+SELECT '' as Column1, 'Total Number Of Users Per Question' as Column2,
+case cast([Question ID] as varchar)
+  when '1' then 'Question1'
+  when '2' then 'Aap ki dukan pe aap sabse zyada kaun sa detergent tikiya bechte hain?'
+  when '3' then 'Aap Rin ki tikiya kaha se khareedte hain?'
+  when '4' then 'Question4'
+  when '5' then 'Question5'
+  when '6' then 'Question6'
+  when '7' then 'Question7'
+  when '8' then 'Question8'
+  when '9' then 'Question9'
+  when '10' then 'Question10'
+  end as QuestionNo
+,'' as DummyColumn1
+,'' as NoOfRedemptions
+,count( [Mobile #]) as Users
+  FROM [Unilever_CampaignDashboard].[dbo].[CampaignDashboard_Generic_Rin_UPTrader_OBD Master]
+  where [Question ID] <> ''
+  group by [Question ID]
+  
+union all
+
+SELECT [DateOfInteraction]
+      ,[CallorMessageType]
+      ,[Questions]
+      ,[Options]
+      ,case [NoOfRedemptions]
+	  when '*' then '10'
+	  else [NoOfRedemptions]
+	  end as 
+	  [NoOfRedemptions]
+      ,[Count]
+  FROM [Unilever_CampaignDashboard].[dbo].[CampaignDashboard_Generic_Rin_UPTrader_ContenttoPurchase]
+-- end of query 5-------------------------------------------------------------------------------

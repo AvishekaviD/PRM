@@ -1,0 +1,422 @@
+--******************
+-- DM Analysis
+--******************
+--
+-- calls made
+--
+select convert(date,substring([Date and time of Interaction],1,10),104)[DM_Date],'Calls made' as Column1, 
+'Before DM' as Column2,'DM 1' as DM, 1 [Cohort] , count(distinct [Mobile #]+[Date and Time of Interaction]+[Type of Call])[Count]
+from  [Unilever_CampaignDashboard].[dbo].[CampaignDashboard_Generic_Rin_UPTrader_OBD Master] a
+where [Mobile #] in  (select distinct [Mobile #] from [Unilever_CampaignDashboard].[dbo].[CampaignDashboard_Generic_Rin_UPTrader_OBD Master]where [Cohort] in (1))
+and [Type of Call] in ('Coupon Redemption','OBD Engagement')
+and convert(date,substring([Date and time of Interaction],1,10),104) > '2016-03-02' 
+and convert(date,substring([Date and time of Interaction],1,10),104) < '2016-03-21' 
+group by  convert(date,substring([Date and time of Interaction],1,10),104)
+
+union all
+
+select convert(date,substring([Date and time of Interaction],1,10),104),'Calls made' as Column1, 
+'Before DM' as Column2,'DM 1' as DM, 2 [Cohort] , count(distinct [Mobile #]+[Date and Time of Interaction]+[Type of Call])
+from  [Unilever_CampaignDashboard].[dbo].[CampaignDashboard_Generic_Rin_UPTrader_OBD Master] a
+where [Mobile #] in  (select distinct [Mobile #] from [Unilever_CampaignDashboard].[dbo].[CampaignDashboard_Generic_Rin_UPTrader_OBD Master]where [Cohort] in (2))
+and [Type of Call] in ('Coupon Redemption','OBD Engagement')
+and convert(date,substring([Date and time of Interaction],1,10),104) > '2016-03-02' 
+and convert(date,substring([Date and time of Interaction],1,10),104) < '2016-03-21' 
+group by  convert(date,substring([Date and time of Interaction],1,10),104)
+
+union all
+---
+select convert(date,substring([Date and time of Interaction],1,10),104),'Calls made' as Column1, 
+'During DM' as Column2,'DM 1' as DM, 1 [Cohort] , count(distinct [Mobile #]+[Date and Time of Interaction]+[Type of Call])
+from  [Unilever_CampaignDashboard].[dbo].[CampaignDashboard_Generic_Rin_UPTrader_OBD Master] a
+where [Mobile #] in  (select distinct [Mobile #] from [Unilever_CampaignDashboard].[dbo].[CampaignDashboard_Generic_Rin_UPTrader_OBD Master]where [Cohort] in (1))
+and [Type of Call] in ('Coupon Redemption','OBD Engagement')
+and convert(date,substring([Date and time of Interaction],1,10),104) >= '2016-03-21' 
+and convert(date,substring([Date and time of Interaction],1,10),104) <= '2016-04-02'
+group by  convert(date,substring([Date and time of Interaction],1,10),104)
+
+union all
+
+select convert(date,substring([Date and time of Interaction],1,10),104),'Calls made' as Column1, 
+'During DM' as Column2,'DM 1' as DM, 2 [Cohort] , count(distinct [Mobile #]+[Date and Time of Interaction]+[Type of Call])
+from  [Unilever_CampaignDashboard].[dbo].[CampaignDashboard_Generic_Rin_UPTrader_OBD Master] a
+where [Mobile #] in  (select distinct [Mobile #] from [Unilever_CampaignDashboard].[dbo].[CampaignDashboard_Generic_Rin_UPTrader_OBD Master]where [Cohort] in (2))
+and [Type of Call] in ('Coupon Redemption','OBD Engagement')
+and convert(date,substring([Date and time of Interaction],1,10),104) >= '2016-03-21' 
+and convert(date,substring([Date and time of Interaction],1,10),104) <= '2016-04-02'
+group by  convert(date,substring([Date and time of Interaction],1,10),104)
+
+
+union all
+
+select convert(date,substring([Date and time of Interaction],1,10),104),'Calls made' as Column1, 
+'After DM' as Column2,'DM 1' as DM, 1 [Cohort] , count(distinct [Mobile #]+[Date and Time of Interaction]+[Type of Call])
+from  [Unilever_CampaignDashboard].[dbo].[CampaignDashboard_Generic_Rin_UPTrader_OBD Master] a
+where [Mobile #] in  (select distinct [Mobile #] from [Unilever_CampaignDashboard].[dbo].[CampaignDashboard_Generic_Rin_UPTrader_OBD Master]where [Cohort] in (1))
+and [Type of Call] in ('Coupon Redemption','OBD Engagement')
+and convert(date,substring([Date and time of Interaction],1,10),104) > '2016-04-02'
+and convert(date,substring([Date and time of Interaction],1,10),104) < '2016-04-21'
+group by  convert(date,substring([Date and time of Interaction],1,10),104)
+
+union all
+
+select convert(date,substring([Date and time of Interaction],1,10),104),'Calls made' as Column1, 
+'After DM' as Column2,'DM 1' as DM, 2 [Cohort] , count(distinct [Mobile #]+[Date and Time of Interaction]+[Type of Call])
+from  [Unilever_CampaignDashboard].[dbo].[CampaignDashboard_Generic_Rin_UPTrader_OBD Master] a
+where [Mobile #] in  (select distinct [Mobile #] from [Unilever_CampaignDashboard].[dbo].[CampaignDashboard_Generic_Rin_UPTrader_OBD Master]where [Cohort] in (2))
+and [Type of Call] in ('Coupon Redemption','OBD Engagement')
+and convert(date,substring([Date and time of Interaction],1,10),104) > '2016-04-02'
+and convert(date,substring([Date and time of Interaction],1,10),104) < '2016-04-21'
+group by  convert(date,substring([Date and time of Interaction],1,10),104)
+
+
+union all
+
+-----------------calls answered
+
+select convert(date,substring([Date and time of Interaction],1,10),104),'Calls Answered' as Column1, 
+'Before DM' as Column2,'DM 1' as DM, 1 [Cohort] , count(distinct [Mobile #]+[Date and Time of Interaction]+[Type of Call])
+from  [Unilever_CampaignDashboard].[dbo].[CampaignDashboard_Generic_Rin_UPTrader_OBD Master] a
+where [Mobile #] in  (select distinct [Mobile #] from [Unilever_CampaignDashboard].[dbo].[CampaignDashboard_Generic_Rin_UPTrader_OBD Master]where [Cohort] in (1))
+and [Type of Call] in ('Coupon Redemption','OBD Engagement')
+and convert(date,substring([Date and time of Interaction],1,10),104) > '2016-03-02' 
+and convert(date,substring([Date and time of Interaction],1,10),104) < '2016-03-21'  and [Duration of Interaction]>0
+group by  convert(date,substring([Date and time of Interaction],1,10),104)
+
+union all
+
+select convert(date,substring([Date and time of Interaction],1,10),104),'Calls Answered' as Column1, 
+'Before DM' as Column2,'DM 1' as DM, 2 [Cohort] , count(distinct [Mobile #]+[Date and Time of Interaction]+[Type of Call])
+from  [Unilever_CampaignDashboard].[dbo].[CampaignDashboard_Generic_Rin_UPTrader_OBD Master] a
+where [Mobile #] in  (select distinct [Mobile #] from [Unilever_CampaignDashboard].[dbo].[CampaignDashboard_Generic_Rin_UPTrader_OBD Master]where [Cohort] in (2))
+and [Type of Call] in ('Coupon Redemption','OBD Engagement')
+and convert(date,substring([Date and time of Interaction],1,10),104) > '2016-03-02' 
+and convert(date,substring([Date and time of Interaction],1,10),104) < '2016-03-21'   and [Duration of Interaction]>0
+group by  convert(date,substring([Date and time of Interaction],1,10),104)
+
+union all
+---
+select convert(date,substring([Date and time of Interaction],1,10),104),'Calls Answered' as Column1, 
+'During DM' as Column2,'DM 1' as DM, 1 [Cohort] , count(distinct [Mobile #]+[Date and Time of Interaction]+[Type of Call])
+from  [Unilever_CampaignDashboard].[dbo].[CampaignDashboard_Generic_Rin_UPTrader_OBD Master] a
+where [Mobile #] in  (select distinct [Mobile #] from [Unilever_CampaignDashboard].[dbo].[CampaignDashboard_Generic_Rin_UPTrader_OBD Master]where [Cohort] in (1))
+and [Type of Call] in ('Coupon Redemption','OBD Engagement')  and [Duration of Interaction]>0
+and convert(date,substring([Date and time of Interaction],1,10),104) >= '2016-03-21' 
+and convert(date,substring([Date and time of Interaction],1,10),104) <= '2016-04-02'
+group by  convert(date,substring([Date and time of Interaction],1,10),104)
+
+union all
+
+select convert(date,substring([Date and time of Interaction],1,10),104),'Calls Answered' as Column1, 
+'During DM' as Column2,'DM 1' as DM, 2 [Cohort] , count(distinct [Mobile #]+[Date and Time of Interaction]+[Type of Call])
+from  [Unilever_CampaignDashboard].[dbo].[CampaignDashboard_Generic_Rin_UPTrader_OBD Master] a
+where [Mobile #] in  (select distinct [Mobile #] from [Unilever_CampaignDashboard].[dbo].[CampaignDashboard_Generic_Rin_UPTrader_OBD Master]where [Cohort] in (2))
+and [Type of Call] in ('Coupon Redemption','OBD Engagement')  and [Duration of Interaction]>0
+and convert(date,substring([Date and time of Interaction],1,10),104) >= '2016-03-21' 
+and convert(date,substring([Date and time of Interaction],1,10),104) <= '2016-04-02'
+group by  convert(date,substring([Date and time of Interaction],1,10),104)
+
+
+union all
+
+select convert(date,substring([Date and time of Interaction],1,10),104),'Calls Answered' as Column1, 
+'After DM' as Column2,'DM 1' as DM, 1 [Cohort] , count(distinct [Mobile #]+[Date and Time of Interaction]+[Type of Call])
+from  [Unilever_CampaignDashboard].[dbo].[CampaignDashboard_Generic_Rin_UPTrader_OBD Master] a
+where [Mobile #] in  (select distinct [Mobile #] from [Unilever_CampaignDashboard].[dbo].[CampaignDashboard_Generic_Rin_UPTrader_OBD Master]where [Cohort] in (1))
+and [Type of Call] in ('Coupon Redemption','OBD Engagement')  and [Duration of Interaction]>0
+and convert(date,substring([Date and time of Interaction],1,10),104) > '2016-04-02'
+and convert(date,substring([Date and time of Interaction],1,10),104) < '2016-04-21'
+group by  convert(date,substring([Date and time of Interaction],1,10),104)
+
+union all
+
+select convert(date,substring([Date and time of Interaction],1,10),104),'Calls Answered' as Column1, 
+'After DM' as Column2,'DM 1' as DM, 2 [Cohort] , count(distinct [Mobile #]+[Date and Time of Interaction]+[Type of Call])
+from  [Unilever_CampaignDashboard].[dbo].[CampaignDashboard_Generic_Rin_UPTrader_OBD Master] a
+where [Mobile #] in  (select distinct [Mobile #] from [Unilever_CampaignDashboard].[dbo].[CampaignDashboard_Generic_Rin_UPTrader_OBD Master]where [Cohort] in (2))
+and [Type of Call] in ('Coupon Redemption','OBD Engagement')  and [Duration of Interaction]>0
+and convert(date,substring([Date and time of Interaction],1,10),104) > '2016-04-02'
+and convert(date,substring([Date and time of Interaction],1,10),104) < '2016-04-21'
+group by  convert(date,substring([Date and time of Interaction],1,10),104)
+
+
+union all
+
+-----------------------------------------SMS delivered
+
+
+select convert(date,substring([Date and time of Interaction],1,10),104),'SMS' as Column1, 
+'Before DM' as Column2,'DM 1' as DM, 1 [Cohort] , count(distinct [Mobile #])
+from  [Unilever_CampaignDashboard].[dbo].[CampaignDashboard_Generic_Rin_UPTrader_SMS Master] a
+where [Mobile #] in  (select distinct [Mobile #] from [Unilever_CampaignDashboard].[dbo].[CampaignDashboard_Generic_Rin_UPTrader_OBD Master]where [Cohort] in (1))
+and convert(date,substring([Date and time of Interaction],1,10),104) > '2016-03-02' 
+and convert(date,substring([Date and time of Interaction],1,10),104) < '2016-03-21'  
+group by  convert(date,substring([Date and time of Interaction],1,10),104)
+
+union all
+
+select convert(date,substring([Date and time of Interaction],1,10),104),'SMS' as Column1, 
+'Before DM' as Column2,'DM 1' as DM, 2 [Cohort] ,count(distinct [Mobile #])
+from  [Unilever_CampaignDashboard].[dbo].[CampaignDashboard_Generic_Rin_UPTrader_SMS Master] a
+where [Mobile #] in  (select distinct [Mobile #] from [Unilever_CampaignDashboard].[dbo].[CampaignDashboard_Generic_Rin_UPTrader_OBD Master]where [Cohort] in (2))
+and convert(date,substring([Date and time of Interaction],1,10),104) > '2016-03-02' 
+and convert(date,substring([Date and time of Interaction],1,10),104) < '2016-03-21'  
+group by  convert(date,substring([Date and time of Interaction],1,10),104)
+
+union all
+---
+select convert(date,substring([Date and time of Interaction],1,10),104),'SMS' as Column1, 
+'During DM' as Column2,'DM 1' as DM, 1 [Cohort] , count(distinct [Mobile #])
+from  [Unilever_CampaignDashboard].[dbo].[CampaignDashboard_Generic_Rin_UPTrader_SMS Master] a
+where [Mobile #] in  (select distinct [Mobile #] from [Unilever_CampaignDashboard].[dbo].[CampaignDashboard_Generic_Rin_UPTrader_OBD Master]where [Cohort] in (1))
+and convert(date,substring([Date and time of Interaction],1,10),104) >= '2016-03-21' 
+and convert(date,substring([Date and time of Interaction],1,10),104) <= '2016-04-02'
+group by  convert(date,substring([Date and time of Interaction],1,10),104)
+
+union all
+
+select convert(date,substring([Date and time of Interaction],1,10),104),'SMS' as Column1, 
+'During DM' as Column2,'DM 1' as DM, 2 [Cohort] , count(distinct [Mobile #])
+from  [Unilever_CampaignDashboard].[dbo].[CampaignDashboard_Generic_Rin_UPTrader_SMS Master] a
+where [Mobile #] in  (select distinct [Mobile #] from [Unilever_CampaignDashboard].[dbo].[CampaignDashboard_Generic_Rin_UPTrader_OBD Master]where [Cohort] in (2))
+and convert(date,substring([Date and time of Interaction],1,10),104) >= '2016-03-21' 
+and convert(date,substring([Date and time of Interaction],1,10),104) <= '2016-04-02'
+group by  convert(date,substring([Date and time of Interaction],1,10),104)
+
+
+union all
+
+select convert(date,substring([Date and time of Interaction],1,10),104),'SMS' as Column1, 
+'After DM' as Column2,'DM 1' as DM, 1 [Cohort] , count(distinct [Mobile #])
+from  [Unilever_CampaignDashboard].[dbo].[CampaignDashboard_Generic_Rin_UPTrader_SMS Master] a
+where [Mobile #] in  (select distinct [Mobile #] from [Unilever_CampaignDashboard].[dbo].[CampaignDashboard_Generic_Rin_UPTrader_OBD Master]where [Cohort] in (1))
+and convert(date,substring([Date and time of Interaction],1,10),104) > '2016-04-02'
+and convert(date,substring([Date and time of Interaction],1,10),104) < '2016-04-21'
+group by  convert(date,substring([Date and time of Interaction],1,10),104)
+
+union all
+
+select convert(date,substring([Date and time of Interaction],1,10),104),'SMS' as Column1, 
+'After DM' as Column2,'DM 1' as DM, 2 [Cohort] , count(distinct [Mobile #])
+from  [Unilever_CampaignDashboard].[dbo].[CampaignDashboard_Generic_Rin_UPTrader_SMS Master] a
+where [Mobile #] in  (select distinct [Mobile #] from [Unilever_CampaignDashboard].[dbo].[CampaignDashboard_Generic_Rin_UPTrader_OBD Master]where [Cohort] in (2))
+and convert(date,substring([Date and time of Interaction],1,10),104) > '2016-04-02'
+and convert(date,substring([Date and time of Interaction],1,10),104) < '2016-04-21'
+group by  convert(date,substring([Date and time of Interaction],1,10),104)
+
+
+
+
+union all
+
+
+---------coupon redemption
+
+select convert(date,substring([Date and time of Interaction],1,10),104),'Coupon Redeemed' as Column1, 
+'Before DM' as Column2,'DM 1' as DM, 1 [Cohort] ,  count(distinct [Coupon code])
+from  [Unilever_CampaignDashboard].[dbo].[CampaignDashboard_Generic_Rin_UPTrader_OBD Master] a
+where [Mobile #] in  (select distinct [Mobile #] from [Unilever_CampaignDashboard].[dbo].[CampaignDashboard_Generic_Rin_UPTrader_OBD Master]where [Cohort] in (1))
+and [Type of Call] = 'Coupon Redemption'
+and [Coupon code Valid] = 'Y'
+and convert(date,substring([Date and time of Interaction],1,10),104) > '2016-03-02' 
+and convert(date,substring([Date and time of Interaction],1,10),104) < '2016-03-21' 
+group by  convert(date,substring([Date and time of Interaction],1,10),104)
+
+union all
+
+select convert(date,substring([Date and time of Interaction],1,10),104),'Coupon Redeemed' as Column1, 
+'Before DM' as Column2,'DM 1' as DM, 2 [Cohort] , count(distinct [Coupon code])
+from  [Unilever_CampaignDashboard].[dbo].[CampaignDashboard_Generic_Rin_UPTrader_OBD Master] a
+where [Mobile #] in  (select distinct [Mobile #] from [Unilever_CampaignDashboard].[dbo].[CampaignDashboard_Generic_Rin_UPTrader_OBD Master]where [Cohort] in (2))
+and [Type of Call] = 'Coupon Redemption'
+and [Coupon code Valid] = 'Y'
+and convert(date,substring([Date and time of Interaction],1,10),104) > '2016-03-02' 
+and convert(date,substring([Date and time of Interaction],1,10),104) < '2016-03-21' 
+group by  convert(date,substring([Date and time of Interaction],1,10),104)
+
+union all
+---
+select convert(date,substring([Date and time of Interaction],1,10),104),'Coupon Redeemed' as Column1, 
+'During DM' as Column2,'DM 1' as DM, 1 [Cohort] ,  count(distinct [Coupon code])
+from  [Unilever_CampaignDashboard].[dbo].[CampaignDashboard_Generic_Rin_UPTrader_OBD Master] a
+where [Mobile #] in  (select distinct [Mobile #] from [Unilever_CampaignDashboard].[dbo].[CampaignDashboard_Generic_Rin_UPTrader_OBD Master]where [Cohort] in (1))
+and [Type of Call] = 'Coupon Redemption'
+and [Coupon code Valid] = 'Y'
+and convert(date,substring([Date and time of Interaction],1,10),104) >= '2016-03-21' 
+and convert(date,substring([Date and time of Interaction],1,10),104) <= '2016-04-02'
+group by  convert(date,substring([Date and time of Interaction],1,10),104)
+
+union all
+
+select convert(date,substring([Date and time of Interaction],1,10),104),'Coupon Redeemed' as Column1, 
+'During DM' as Column2,'DM 1' as DM, 2 [Cohort] ,  count(distinct [Coupon code])
+from  [Unilever_CampaignDashboard].[dbo].[CampaignDashboard_Generic_Rin_UPTrader_OBD Master] a
+where [Mobile #] in  (select distinct [Mobile #] from [Unilever_CampaignDashboard].[dbo].[CampaignDashboard_Generic_Rin_UPTrader_OBD Master]where [Cohort] in (2))
+and [Type of Call] = 'Coupon Redemption'
+and [Coupon code Valid] = 'Y'
+and convert(date,substring([Date and time of Interaction],1,10),104) >= '2016-03-21' 
+and convert(date,substring([Date and time of Interaction],1,10),104) <= '2016-04-02'
+group by  convert(date,substring([Date and time of Interaction],1,10),104)
+
+
+union all
+
+select convert(date,substring([Date and time of Interaction],1,10),104),'Coupon Redeemed' as Column1, 
+'After DM' as Column2,'DM 1' as DM, 1 [Cohort] , count(distinct [Coupon code])
+from  [Unilever_CampaignDashboard].[dbo].[CampaignDashboard_Generic_Rin_UPTrader_OBD Master] a
+where [Mobile #] in  (select distinct [Mobile #] from [Unilever_CampaignDashboard].[dbo].[CampaignDashboard_Generic_Rin_UPTrader_OBD Master]where [Cohort] in (1))
+and [Type of Call] = 'Coupon Redemption'
+and [Coupon code Valid] = 'Y'
+and convert(date,substring([Date and time of Interaction],1,10),104) > '2016-04-02'
+and convert(date,substring([Date and time of Interaction],1,10),104) < '2016-04-21'
+group by  convert(date,substring([Date and time of Interaction],1,10),104)
+
+union all
+
+select convert(date,substring([Date and time of Interaction],1,10),104),'Coupon Redeemed' as Column1, 
+'After DM' as Column2,'DM 1' as DM, 2 [Cohort] ,  count(distinct [Coupon code])
+from  [Unilever_CampaignDashboard].[dbo].[CampaignDashboard_Generic_Rin_UPTrader_OBD Master] a
+where [Mobile #] in  (select distinct [Mobile #] from [Unilever_CampaignDashboard].[dbo].[CampaignDashboard_Generic_Rin_UPTrader_OBD Master]where [Cohort] in (2))
+and [Type of Call] = 'Coupon Redemption'
+and [Coupon code Valid] = 'Y'
+and convert(date,substring([Date and time of Interaction],1,10),104) > '2016-04-02'
+and convert(date,substring([Date and time of Interaction],1,10),104) < '2016-04-21'
+group by  convert(date,substring([Date and time of Interaction],1,10),104)
+
+
+-----------------no of people contacted
+
+union all
+
+
+select ''[DM_Date],'People Contacted' as Column1, 
+'' as Column2,'DM 1' as DM,  [Cohort] , count(distinct [Mobile #])[Count]
+from  [Unilever_CampaignDashboard].[dbo].[CampaignDashboard_Generic_Rin_UPTrader_OBD Master] a
+where [Cohort] in (1,2) group by [Cohort]
+
+union all
+
+
+select '','People Redeemed' as Column1, 'During DM' as Column2,'DM 1' as DM, 1 [Cohort] ,  count(distinct [Mobile #])
+from  [Unilever_CampaignDashboard].[dbo].[CampaignDashboard_Generic_Rin_UPTrader_OBD Master] a
+where [Mobile #] in  (select distinct [Mobile #] from [Unilever_CampaignDashboard].[dbo].[CampaignDashboard_Generic_Rin_UPTrader_OBD Master]where [Cohort] in (1))
+and [Type of Call] = 'Coupon Redemption'
+and [Coupon code Valid] = 'Y'
+and convert(date,substring([Date and time of Interaction],1,10),104) >= '2016-03-21' 
+and convert(date,substring([Date and time of Interaction],1,10),104) <= '2016-04-02'
+
+union all
+
+select '','People Redeemed' as Column1, 
+'During DM' as Column2,'DM 1' as DM, 2 [Cohort] ,  count(distinct [Mobile #])
+from  [Unilever_CampaignDashboard].[dbo].[CampaignDashboard_Generic_Rin_UPTrader_OBD Master] a
+where [Mobile #] in  (select distinct [Mobile #] from [Unilever_CampaignDashboard].[dbo].[CampaignDashboard_Generic_Rin_UPTrader_OBD Master]where [Cohort] in (2))
+and [Type of Call] = 'Coupon Redemption'
+and [Coupon code Valid] = 'Y'
+and convert(date,substring([Date and time of Interaction],1,10),104) >= '2016-03-21' 
+and convert(date,substring([Date and time of Interaction],1,10),104) <= '2016-04-02'
+
+
+union all
+
+select '','People Redeemed' as Column1, 
+'After DM' as Column2,'DM 1' as DM, 1 [Cohort] , count(distinct [Mobile #])
+from  [Unilever_CampaignDashboard].[dbo].[CampaignDashboard_Generic_Rin_UPTrader_OBD Master] a
+where [Mobile #] in  (select distinct [Mobile #] from [Unilever_CampaignDashboard].[dbo].[CampaignDashboard_Generic_Rin_UPTrader_OBD Master]where [Cohort] in (1))
+and [Type of Call] = 'Coupon Redemption'
+and [Coupon code Valid] = 'Y'
+and convert(date,substring([Date and time of Interaction],1,10),104) > '2016-04-02'
+and convert(date,substring([Date and time of Interaction],1,10),104) < '2016-04-21'
+
+
+union all
+
+select '','People Redeemed' as Column1, 
+'After DM' as Column2,'DM 1' as DM, 2 [Cohort] ,  count(distinct [Mobile #])
+from  [Unilever_CampaignDashboard].[dbo].[CampaignDashboard_Generic_Rin_UPTrader_OBD Master] a
+where [Mobile #] in  (select distinct [Mobile #] from [Unilever_CampaignDashboard].[dbo].[CampaignDashboard_Generic_Rin_UPTrader_OBD Master]where [Cohort] in (2))
+and [Type of Call] = 'Coupon Redemption'
+and [Coupon code Valid] = 'Y'
+and convert(date,substring([Date and time of Interaction],1,10),104) > '2016-04-02'
+and convert(date,substring([Date and time of Interaction],1,10),104) < '2016-04-21'
+                 
+
+
+
+
+-------------
+
+union all
+
+
+select convert(date,substring([Date and time of Interaction],1,10),104),'Avg Redemption' as Column1, 'During DM' as Column2,'DM 1' as DM, 1 [Cohort] , round(cast(count(distinct [Coupon code]) as float)/ cast(count(distinct [Mobile #]) as float),2)
+from  [Unilever_CampaignDashboard].[dbo].[CampaignDashboard_Generic_Rin_UPTrader_OBD Master] a
+where [Mobile #] in  (select distinct [Mobile #] from [Unilever_CampaignDashboard].[dbo].[CampaignDashboard_Generic_Rin_UPTrader_OBD Master]where [Cohort] in (1))
+and [Type of Call] = 'Coupon Redemption'
+and [Coupon code Valid] = 'Y'
+and convert(date,substring([Date and time of Interaction],1,10),104) >= '2016-03-21' 
+and convert(date,substring([Date and time of Interaction],1,10),104) <= '2016-04-02'
+group by  convert(date,substring([Date and time of Interaction],1,10),104)
+union all
+
+select convert(date,substring([Date and time of Interaction],1,10),104),'Avg Redemption' as Column1, 
+'During DM' as Column2,'DM 1' as DM, 2 [Cohort] ,   round(cast(count(distinct [Coupon code]) as float)/ cast(count(distinct [Mobile #]) as float),2)
+from  [Unilever_CampaignDashboard].[dbo].[CampaignDashboard_Generic_Rin_UPTrader_OBD Master] a
+where [Mobile #] in  (select distinct [Mobile #] from [Unilever_CampaignDashboard].[dbo].[CampaignDashboard_Generic_Rin_UPTrader_OBD Master]where [Cohort] in (2))
+and [Type of Call] = 'Coupon Redemption'
+and [Coupon code Valid] = 'Y'
+and convert(date,substring([Date and time of Interaction],1,10),104) >= '2016-03-21' 
+and convert(date,substring([Date and time of Interaction],1,10),104) <= '2016-04-02'
+group by  convert(date,substring([Date and time of Interaction],1,10),104)
+
+
+
+
+union all
+
+
+select convert(date,substring([Date and time of Interaction],1,10),104),'Avg Redemption' as Column1, 'Before DM' as Column2,'DM 1' as DM, 1 [Cohort] , round(cast(count(distinct [Coupon code]) as float)/ cast(count(distinct [Mobile #]) as float),2)
+from  [Unilever_CampaignDashboard].[dbo].[CampaignDashboard_Generic_Rin_UPTrader_OBD Master] a
+where [Mobile #] in  (select distinct [Mobile #] from [Unilever_CampaignDashboard].[dbo].[CampaignDashboard_Generic_Rin_UPTrader_OBD Master]where [Cohort] in (1))
+and [Type of Call] = 'Coupon Redemption'
+and [Coupon code Valid] = 'Y'
+and convert(date,substring([Date and time of Interaction],1,10),104) > '2016-03-02' 
+and convert(date,substring([Date and time of Interaction],1,10),104) < '2016-03-21' 
+group by  convert(date,substring([Date and time of Interaction],1,10),104)
+
+union all
+
+select convert(date,substring([Date and time of Interaction],1,10),104),'Avg Redemption' as Column1, 
+'Before DM' as Column2,'DM 1' as DM, 2 [Cohort] ,  round( cast(count(distinct [Coupon code]) as float)/ cast(count(distinct [Mobile #]) as float),2)
+from  [Unilever_CampaignDashboard].[dbo].[CampaignDashboard_Generic_Rin_UPTrader_OBD Master] a
+where [Mobile #] in  (select distinct [Mobile #] from [Unilever_CampaignDashboard].[dbo].[CampaignDashboard_Generic_Rin_UPTrader_OBD Master]where [Cohort] in (2))
+and [Type of Call] = 'Coupon Redemption'
+and [Coupon code Valid] = 'Y'
+and convert(date,substring([Date and time of Interaction],1,10),104) > '2016-03-02' 
+and convert(date,substring([Date and time of Interaction],1,10),104) < '2016-03-21' 
+group by  convert(date,substring([Date and time of Interaction],1,10),104)
+
+
+
+union all
+
+
+select convert(date,substring([Date and time of Interaction],1,10),104),'Avg Redemption' as Column1, 'After DM' as Column2,'DM 1' as DM, 1 [Cohort] , round(cast(count(distinct [Coupon code]) as float)/ cast(count(distinct [Mobile #]) as float),2)
+from  [Unilever_CampaignDashboard].[dbo].[CampaignDashboard_Generic_Rin_UPTrader_OBD Master] a
+where [Mobile #] in  (select distinct [Mobile #] from [Unilever_CampaignDashboard].[dbo].[CampaignDashboard_Generic_Rin_UPTrader_OBD Master]where [Cohort] in (1))
+and [Type of Call] = 'Coupon Redemption'
+and [Coupon code Valid] = 'Y'
+and convert(date,substring([Date and time of Interaction],1,10),104) > '2016-04-02'
+and convert(date,substring([Date and time of Interaction],1,10),104) < '2016-04-21'
+group by  convert(date,substring([Date and time of Interaction],1,10),104)
+union all
+
+select convert(date,substring([Date and time of Interaction],1,10),104),'Avg Redemption' as Column1, 
+'After DM' as Column2,'DM 1' as DM, 2 [Cohort] ,   round(cast(count(distinct [Coupon code]) as float)/ cast(count(distinct [Mobile #]) as float),2)
+from  [Unilever_CampaignDashboard].[dbo].[CampaignDashboard_Generic_Rin_UPTrader_OBD Master] a
+where [Mobile #] in  (select distinct [Mobile #] from [Unilever_CampaignDashboard].[dbo].[CampaignDashboard_Generic_Rin_UPTrader_OBD Master]where [Cohort] in (2))
+and [Type of Call] = 'Coupon Redemption'
+and [Coupon code Valid] = 'Y'
+and convert(date,substring([Date and time of Interaction],1,10),104) > '2016-04-02'
+and convert(date,substring([Date and time of Interaction],1,10),104) < '2016-04-21'
+group by  convert(date,substring([Date and time of Interaction],1,10),104)

@@ -1,0 +1,3 @@
+SELECT [Date],Team, count(distinct [VillageName]) [villages Coverd]
+FROM [Unilever_CampaignDashboard].[dbo].[CampaignDashboard_Generic_Rin_UPTrader_HHT Master] a
+group by [Date],Team

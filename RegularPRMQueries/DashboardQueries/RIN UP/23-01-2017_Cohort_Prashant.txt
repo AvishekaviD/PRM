@@ -1,0 +1,654 @@
+select Question,Options,promoters_viral,BPO_NoBPO
+,Reg_NonReg,newcol,"Total Redemptions",counts
+from (
+
+select 'Redemptions' as "Total Redemptions", promoters_viral, BPO_NoBPO, Reg_NonReg  
+, 'All' as Question, 'All' as Options, 'All' as newcol,count([Coupon code] ) as counts from [Unilever_CampaignDashboard].[dbo].TempRinUPTrader
+group by promoters_viral,BPO_NoBPO, Reg_NonReg
+
+union all
+
+select 
+'Redemptions' as "Total Redemptions", promoters_viral, BPO_NoBPO, Reg_NonReg  
+, 'Aap ki dukan pe aap sabse zyada kaun sa detergent tikiya bechte hain?' as Question
+, 'Ghadi ki tikiya' as Options, 'No Click' as newcol,count([Coupon code] ) as counts from [Unilever_CampaignDashboard].[dbo].TempRinUPTrader
+where [Mobile #] in (
+select distinct [Mobile #] from [Unilever_CampaignDashboard].[dbo].[CampaignDashboard_Generic_Rin_UPTrader_OBD Master]
+where [Question ID] = 2 and [Answer ID] = 1 and [Mobile #]  in (select distinct [Mobile #] from
+[Unilever_CampaignDashboard].[dbo].[CampaignDashboard_Generic_Rin_UPTrader_OBD Master] where [Question ID] = 3 and [Answer id] in (1,2,3) ))
+group by promoters_viral,BPO_NoBPO, Reg_NonReg
+
+union all 
+
+select 
+'Redemptions' as "Total Redemptions"
+, promoters_viral, BPO_NoBPO, Reg_NonReg  
+, 'Aap ki dukan pe aap sabse zyada kaun sa detergent tikiya bechte hain?' as Question
+, 'Ghadi ki tikiya' as Options, 'Distributor' as newcol,count([Coupon code] ) as counts from [Unilever_CampaignDashboard].[dbo].TempRinUPTrader
+where [Mobile #] in (select distinct [Mobile #] from
+[Unilever_CampaignDashboard].[dbo].[CampaignDashboard_Generic_Rin_UPTrader_OBD Master]
+where [Question ID] = 2 and [Answer ID] = 1 and [Mobile #] in (select distinct [Mobile #] from
+[Unilever_CampaignDashboard].[dbo].[CampaignDashboard_Generic_Rin_UPTrader_OBD Master]
+where [Question ID] = 3 and [Answer ID] = 1 ))
+group by promoters_viral,BPO_NoBPO, Reg_NonReg
+
+union all
+
+select 
+'Redemptions' as "Total Redemptions", promoters_viral, BPO_NoBPO, Reg_NonReg  
+, 'Aap ki dukan pe aap sabse zyada kaun sa detergent tikiya bechte hain?' as Question
+, 'Ghadi ki tikiya' as Options, 'Wholesale' as newcol,count([Coupon code] ) as counts from [Unilever_CampaignDashboard].[dbo].TempRinUPTrader
+where [Mobile #] in (select distinct [Mobile #] from [Unilever_CampaignDashboard].[dbo].[CampaignDashboard_Generic_Rin_UPTrader_OBD Master]
+where [Question ID] = 2 and [Answer ID] = 1 and [Mobile #] in (select distinct [Mobile #] from
+[Unilever_CampaignDashboard].[dbo].[CampaignDashboard_Generic_Rin_UPTrader_OBD Master] where [Question ID] = 3 and [Answer ID] = 2 ))
+group by promoters_viral,BPO_NoBPO, Reg_NonReg
+
+union all
+
+select 
+'Redemptions' as "Total Redemptions", promoters_viral, BPO_NoBPO, Reg_NonReg  
+, 'Aap ki dukan pe aap sabse zyada kaun sa detergent tikiya bechte hain?' as Question
+, 'Ghadi ki tikiya' as Options, 'Don''t keep RIN in my shop' as newcol,count([Coupon code] ) as counts from [Unilever_CampaignDashboard].[dbo].TempRinUPTrader
+where [Mobile #] in (select distinct [Mobile #] from
+[Unilever_CampaignDashboard].[dbo].[CampaignDashboard_Generic_Rin_UPTrader_OBD Master]
+where [Question ID] = 2 and [Answer ID] = 1 and [Mobile #] in (select distinct [Mobile #] from
+[Unilever_CampaignDashboard].[dbo].[CampaignDashboard_Generic_Rin_UPTrader_OBD Master] where [Question ID] = 3 and [Answer ID] = 3))
+group by promoters_viral,BPO_NoBPO, Reg_NonReg
+
+union all
+
+-- *****
+
+select 
+'Redemptions' as "Total Redemptions", promoters_viral, BPO_NoBPO, Reg_NonReg  
+, 'Aap ki dukan pe aap sabse zyada kaun sa detergent tikiya bechte hain?' as Question
+, 'Rin ki tikiya' as Options, 'No Click' as newcol,count([Coupon code] ) as counts from [Unilever_CampaignDashboard].[dbo].TempRinUPTrader
+where [Mobile #] in (
+select distinct [Mobile #] from [Unilever_CampaignDashboard].[dbo].[CampaignDashboard_Generic_Rin_UPTrader_OBD Master]
+where [Question ID] = 2 and [Answer ID] = 2  and [Mobile #]  in (select distinct [Mobile #] from
+[Unilever_CampaignDashboard].[dbo].[CampaignDashboard_Generic_Rin_UPTrader_OBD Master]
+where [Question ID] = 3 and [Answer id] in (1,2,3) ) )
+group by promoters_viral,BPO_NoBPO, Reg_NonReg
+
+union all 
+
+select 
+'Redemptions' as "Total Redemptions", promoters_viral, BPO_NoBPO, Reg_NonReg  
+, 'Aap ki dukan pe aap sabse zyada kaun sa detergent tikiya bechte hain?' as Question
+, 'Rin ki tikiya' as Options, 'Distributor' as newcol,count([Coupon code] ) as counts from [Unilever_CampaignDashboard].[dbo].TempRinUPTrader
+where [Mobile #] in (select distinct [Mobile #] from
+[Unilever_CampaignDashboard].[dbo].[CampaignDashboard_Generic_Rin_UPTrader_OBD Master]
+where [Question ID] = 2 and [Answer ID] = 2 and [Mobile #] in (select distinct [Mobile #] from
+[Unilever_CampaignDashboard].[dbo].[CampaignDashboard_Generic_Rin_UPTrader_OBD Master] where [Question ID] = 3 and [Answer ID] = 1))
+group by promoters_viral,BPO_NoBPO, Reg_NonReg
+
+union all 
+
+select 
+'Redemptions' as "Total Redemptions", promoters_viral, BPO_NoBPO, Reg_NonReg  
+, 'Aap ki dukan pe aap sabse zyada kaun sa detergent tikiya bechte hain?' as Question, 'Rin ki tikiya' as Options, 'Wholesale' as newcol,count([Coupon code] ) as counts
+from [Unilever_CampaignDashboard].[dbo].TempRinUPTrader 
+where [Mobile #] in (select distinct [Mobile #] from [Unilever_CampaignDashboard].[dbo].[CampaignDashboard_Generic_Rin_UPTrader_OBD Master]
+where [Question ID] = 2 and [Answer ID] = 2 and [Mobile #] in (select distinct [Mobile #] from
+[Unilever_CampaignDashboard].[dbo].[CampaignDashboard_Generic_Rin_UPTrader_OBD Master]
+where [Question ID] = 3 and [Answer ID] = 2))
+group by promoters_viral,BPO_NoBPO, Reg_NonReg
+
+union all 
+
+select 
+'Redemptions' as "Total Redemptions", promoters_viral, BPO_NoBPO, Reg_NonReg  
+, 'Aap ki dukan pe aap sabse zyada kaun sa detergent tikiya bechte hain?' as Question
+, 'Rin ki tikiya' as Options, 'Don''t keep RIN in my shop' as newcol,count([Coupon code] ) as counts
+from [Unilever_CampaignDashboard].[dbo].TempRinUPTrader
+where [Mobile #] in (select distinct [Mobile #] from [Unilever_CampaignDashboard].[dbo].[CampaignDashboard_Generic_Rin_UPTrader_OBD Master]
+where [Question ID] = 2 and [Answer ID] = 2 and [Mobile #] in (select distinct [Mobile #] from
+[Unilever_CampaignDashboard].[dbo].[CampaignDashboard_Generic_Rin_UPTrader_OBD Master]
+where [Question ID] = 3 and [Answer ID] = 3))
+group by promoters_viral,BPO_NoBPO, Reg_NonReg
+
+union all 
+
+--******
+
+select 
+'Redemptions' as "Total Redemptions", promoters_viral, BPO_NoBPO, Reg_NonReg  
+, 'Aap ki dukan pe aap sabse zyada kaun sa detergent tikiya bechte hain?' as Question
+, 'Others' as Options,'No Click' as newcol,count([Coupon code] ) as counts
+from [Unilever_CampaignDashboard].[dbo].TempRinUPTrader
+where [Mobile #] in (select distinct [Mobile #] from
+[Unilever_CampaignDashboard].[dbo].[CampaignDashboard_Generic_Rin_UPTrader_OBD Master]
+where [Question ID] = 2 and [Answer ID] = 3 and [Mobile #]  in (select distinct [Mobile #] from
+[Unilever_CampaignDashboard].[dbo].[CampaignDashboard_Generic_Rin_UPTrader_OBD Master]
+where [Question ID] = 3 and [Answer id] in (1,2,3) ))
+group by promoters_viral,BPO_NoBPO, Reg_NonReg
+
+union all
+
+select 
+'Redemptions' as "Total Redemptions", promoters_viral, BPO_NoBPO, Reg_NonReg  
+, 'Aap ki dukan pe aap sabse zyada kaun sa detergent tikiya bechte hain?' as Question
+, 'Others' as Options,'Distributor' as newcol,count([Coupon code] ) as counts
+from [Unilever_CampaignDashboard].[dbo].TempRinUPTrader
+where [Mobile #] in (select distinct [Mobile #] from
+[Unilever_CampaignDashboard].[dbo].[CampaignDashboard_Generic_Rin_UPTrader_OBD Master]
+where [Question ID] = 2 and [Answer ID] = 3 and [Mobile #] in (select distinct [Mobile #] from
+[Unilever_CampaignDashboard].[dbo].[CampaignDashboard_Generic_Rin_UPTrader_OBD Master]
+where [Question ID] = 3 and [Answer ID] = 1))
+group by promoters_viral,BPO_NoBPO, Reg_NonReg
+
+
+union all
+
+select 'Redemptions' as "Total Redemptions", promoters_viral, BPO_NoBPO, Reg_NonReg  
+, 'Aap ki dukan pe aap sabse zyada kaun sa detergent tikiya bechte hain?' as Question
+, 'Others' as Options,'Wholesale' as newcol,count([Coupon code] ) as counts
+from [Unilever_CampaignDashboard].[dbo].TempRinUPTrader
+where [Mobile #] in (select distinct [Mobile #] from
+[Unilever_CampaignDashboard].[dbo].[CampaignDashboard_Generic_Rin_UPTrader_OBD Master]
+where [Question ID] = 2 and [Answer ID] = 3 and [Mobile #] in (select distinct [Mobile #] from
+[Unilever_CampaignDashboard].[dbo].[CampaignDashboard_Generic_Rin_UPTrader_OBD Master]
+where [Question ID] = 3 and [Answer ID] = 2))
+group by promoters_viral,BPO_NoBPO, Reg_NonReg
+
+
+union all
+
+select 'Redemptions' as "Total Redemptions", promoters_viral, BPO_NoBPO, Reg_NonReg  
+, 'Aap ki dukan pe aap sabse zyada kaun sa detergent tikiya bechte hain?' as Question
+, 'Others' as Options,'Don''t keep RIN in my shop' as newcol,count([Coupon code] ) as counts
+from [Unilever_CampaignDashboard].[dbo].TempRinUPTrader
+where [Mobile #] in (select distinct [Mobile #] from
+[Unilever_CampaignDashboard].[dbo].[CampaignDashboard_Generic_Rin_UPTrader_OBD Master]
+where [Question ID] = 2 and [Answer ID] = 3 and [Mobile #] in (select distinct [Mobile #] from
+[Unilever_CampaignDashboard].[dbo].[CampaignDashboard_Generic_Rin_UPTrader_OBD Master]
+where [Question ID] = 3 and [Answer ID] = 3))
+group by promoters_viral,BPO_NoBPO, Reg_NonReg
+
+
+
+union all 
+
+
+--******
+
+select 'Redemptions' as "Total Redemptions", promoters_viral, BPO_NoBPO, Reg_NonReg  
+, 'Aap Rin ki tikiya kaha se khareedte hain?' as Question, 'Distributor' as Options,'No Click' as newcol,count([Coupon code] ) as counts
+from [Unilever_CampaignDashboard].[dbo].TempRinUPTrader
+where [Mobile #] in (select distinct [Mobile #] from
+[Unilever_CampaignDashboard].[dbo].[CampaignDashboard_Generic_Rin_UPTrader_OBD Master]
+where [Question ID] = 3 and [Answer ID] = 1 and [Mobile #]  in (select distinct [Mobile #] from
+[Unilever_CampaignDashboard].[dbo].[CampaignDashboard_Generic_Rin_UPTrader_OBD Master]
+where [Question ID] = 2 and [Answer id] in (1,2,3)))
+group by promoters_viral,BPO_NoBPO, Reg_NonReg
+
+union all 
+
+select 'Redemptions' as "Total Redemptions", promoters_viral, BPO_NoBPO, Reg_NonReg  
+, 'Aap Rin ki tikiya kaha se khareedte hain?' as Question
+, 'Distributor' as Options,'Ghadi ki tikiya' as newcol,count([Coupon code] ) as counts
+from [Unilever_CampaignDashboard].[dbo].TempRinUPTrader
+where [Mobile #] in (select distinct [Mobile #] from
+[Unilever_CampaignDashboard].[dbo].[CampaignDashboard_Generic_Rin_UPTrader_OBD Master]
+where [Question ID] = 3 and [Answer ID] = 1 and [Mobile #] in (select distinct [Mobile #] from
+[Unilever_CampaignDashboard].[dbo].[CampaignDashboard_Generic_Rin_UPTrader_OBD Master]
+where [Question ID] = 2 and [Answer ID] = 1))
+group by promoters_viral,BPO_NoBPO, Reg_NonReg
+
+union all 
+
+select 'Redemptions' as "Total Redemptions", promoters_viral, BPO_NoBPO, Reg_NonReg  
+, 'Aap Rin ki tikiya kaha se khareedte hain?' as Question
+, 'Distributor' as Options,'Rin ki tikiya' as newcol,count([Coupon code] ) as counts
+from [Unilever_CampaignDashboard].[dbo].TempRinUPTrader
+where [Mobile #] in (select distinct [Mobile #] from
+[Unilever_CampaignDashboard].[dbo].[CampaignDashboard_Generic_Rin_UPTrader_OBD Master]
+where [Question ID] = 3 and [Answer ID] = 1 and [Mobile #] in (select distinct [Mobile #] from
+[Unilever_CampaignDashboard].[dbo].[CampaignDashboard_Generic_Rin_UPTrader_OBD Master]
+where [Question ID] = 2 and [Answer ID] = 2))
+group by promoters_viral,BPO_NoBPO, Reg_NonReg
+
+union all 
+
+select 'Redemptions' as "Total Redemptions", promoters_viral, BPO_NoBPO, Reg_NonReg  
+, 'Aap Rin ki tikiya kaha se khareedte hain?' as Question
+, 'Distributor' as Options,'Others' as newcol,count([Coupon code] ) as counts
+from [Unilever_CampaignDashboard].[dbo].TempRinUPTrader
+where [Mobile #] in (select distinct [Mobile #] from
+[Unilever_CampaignDashboard].[dbo].[CampaignDashboard_Generic_Rin_UPTrader_OBD Master]
+where [Question ID] = 3 and [Answer ID] = 1 and [Mobile #] in (select distinct [Mobile #] from
+[Unilever_CampaignDashboard].[dbo].[CampaignDashboard_Generic_Rin_UPTrader_OBD Master]
+where [Question ID] = 2 and [Answer ID] = 3))
+group by promoters_viral,BPO_NoBPO, Reg_NonReg
+
+union all 
+
+--**********
+
+select 'Redemptions' as "Total Redemptions", promoters_viral, BPO_NoBPO, Reg_NonReg  
+, 'Aap Rin ki tikiya kaha se khareedte hain?' as Question, 'Wholesale' as Options, 'No Click' as newcol
+,count([Coupon code] ) as counts from [Unilever_CampaignDashboard].[dbo].TempRinUPTrader
+where [Mobile #] in (
+select distinct [Mobile #] from [Unilever_CampaignDashboard].[dbo].[CampaignDashboard_Generic_Rin_UPTrader_OBD Master]
+where [Question ID] = 3 and [Answer ID] = 2 and [Mobile #]  in (select distinct [Mobile #] from
+[Unilever_CampaignDashboard].[dbo].[CampaignDashboard_Generic_Rin_UPTrader_OBD Master]
+where [Question ID] = 2 and [Answer id] in (1,2,3) ))
+group by promoters_viral,BPO_NoBPO, Reg_NonReg
+
+union all 
+
+select 'Redemptions' as "Total Redemptions", promoters_viral, BPO_NoBPO, Reg_NonReg  
+, 'Aap Rin ki tikiya kaha se khareedte hain?' as Question, 'Wholesale' as Options, 'Ghadi ki tikiya' as newcol ,count([Coupon code] ) as counts
+from [Unilever_CampaignDashboard].[dbo].TempRinUPTrader
+where [Mobile #] in (select distinct [Mobile #] from [Unilever_CampaignDashboard].[dbo].[CampaignDashboard_Generic_Rin_UPTrader_OBD Master]
+where [Question ID] = 3 and [Answer ID] = 2 and [Mobile #] in (select distinct [Mobile #] from
+[Unilever_CampaignDashboard].[dbo].[CampaignDashboard_Generic_Rin_UPTrader_OBD Master]
+where [Question ID] = 2 and [Answer ID] = 1))
+group by promoters_viral,BPO_NoBPO, Reg_NonReg
+
+union all 
+
+select 'Redemptions' as "Total Redemptions", promoters_viral, BPO_NoBPO, Reg_NonReg  
+, 'Aap Rin ki tikiya kaha se khareedte hain?' as Question, 'Wholesale' as Options
+, 'Rin ki tikiya' as newcol,count([Coupon code] ) as counts
+from [Unilever_CampaignDashboard].[dbo].TempRinUPTrader
+where [Mobile #] in (select distinct [Mobile #] from [Unilever_CampaignDashboard].[dbo].[CampaignDashboard_Generic_Rin_UPTrader_OBD Master]
+where [Question ID] = 3 and [Answer ID] = 2 and [Mobile #] in (select distinct [Mobile #] from
+[Unilever_CampaignDashboard].[dbo].[CampaignDashboard_Generic_Rin_UPTrader_OBD Master]
+where [Question ID] = 2 and [Answer ID] = 2))
+group by promoters_viral,BPO_NoBPO, Reg_NonReg
+
+union all 
+
+select 'Redemptions' as "Total Redemptions", promoters_viral, BPO_NoBPO, Reg_NonReg  
+, 'Aap Rin ki tikiya kaha se khareedte hain?' as Question, 'Wholesale' as Options, 'Others' as newcol,count([Coupon code] ) as counts
+from [Unilever_CampaignDashboard].[dbo].TempRinUPTrader
+where [Mobile #] in (select distinct [Mobile #] from
+[Unilever_CampaignDashboard].[dbo].[CampaignDashboard_Generic_Rin_UPTrader_OBD Master]
+where [Question ID] = 3 and [Answer ID] = 2 and [Mobile #] in (select distinct [Mobile #] from
+[Unilever_CampaignDashboard].[dbo].[CampaignDashboard_Generic_Rin_UPTrader_OBD Master]
+where [Question ID] = 2 and [Answer ID] = 3))
+group by promoters_viral,BPO_NoBPO, Reg_NonReg
+
+union all 
+
+--*****
+
+select 'Redemptions' as "Total Redemptions", promoters_viral, BPO_NoBPO, Reg_NonReg  
+, 'Aap Rin ki tikiya kaha se khareedte hain?' as Question, 'Don''t keep RIN in my shop' as Options,'No Click' as newcol,count([Coupon code] ) as counts
+from [Unilever_CampaignDashboard].[dbo].TempRinUPTrader
+where [Mobile #] in (
+select distinct [Mobile #] from
+[Unilever_CampaignDashboard].[dbo].[CampaignDashboard_Generic_Rin_UPTrader_OBD Master]
+where [Question ID] = 3 and [Answer ID] = 3 and [Mobile #]  in (select distinct [Mobile #] from
+[Unilever_CampaignDashboard].[dbo].[CampaignDashboard_Generic_Rin_UPTrader_OBD Master]
+where [Question ID] = 2 and [Answer id] in (1,2,3)))
+group by promoters_viral,BPO_NoBPO, Reg_NonReg
+
+union all
+
+select 'Redemptions' as "Total Redemptions", promoters_viral, BPO_NoBPO, Reg_NonReg  
+, 'Aap Rin ki tikiya kaha se khareedte hain?' as Question, 'Don''t keep RIN in my shop' as Options,'Ghadi ki tikiya' as newcol,count([Coupon code] ) as counts
+from [Unilever_CampaignDashboard].[dbo].TempRinUPTrader
+where [Mobile #] in (select distinct [Mobile #] from
+[Unilever_CampaignDashboard].[dbo].[CampaignDashboard_Generic_Rin_UPTrader_OBD Master]
+where [Question ID] = 3 and [Answer ID] = 3 and [Mobile #] in (select distinct [Mobile #] from
+[Unilever_CampaignDashboard].[dbo].[CampaignDashboard_Generic_Rin_UPTrader_OBD Master]
+where [Question ID] = 2 and [Answer ID] = 1))
+group by promoters_viral,BPO_NoBPO, Reg_NonReg
+
+union all
+
+select 'Redemptions' as "Total Redemptions", promoters_viral, BPO_NoBPO, Reg_NonReg  
+, 'Aap Rin ki tikiya kaha se khareedte hain?' as Question, 'Don''t keep RIN in my shop' as Options,'Rin ki tikiya' as newcol,count([Coupon code] ) as counts
+from [Unilever_CampaignDashboard].[dbo].TempRinUPTrader
+where [Mobile #] in (select distinct [Mobile #] from [Unilever_CampaignDashboard].[dbo].[CampaignDashboard_Generic_Rin_UPTrader_OBD Master]
+where [Question ID] = 3 and [Answer ID] = 3 and [Mobile #] in (select distinct [Mobile #] from
+[Unilever_CampaignDashboard].[dbo].[CampaignDashboard_Generic_Rin_UPTrader_OBD Master]
+where [Question ID] = 2 and [Answer ID] = 2))
+group by promoters_viral,BPO_NoBPO, Reg_NonReg
+
+union all
+
+select 'Redemptions' as "Total Redemptions", promoters_viral, BPO_NoBPO, Reg_NonReg  , 'Aap Rin ki tikiya kaha se khareedte hain?' as Question
+, 'Don''t keep RIN in my shop' as Options,'Others' as newcol,count([Coupon code] ) as counts
+from [Unilever_CampaignDashboard].[dbo].TempRinUPTrader
+where [Mobile #] in (select distinct [Mobile #] from
+[Unilever_CampaignDashboard].[dbo].[CampaignDashboard_Generic_Rin_UPTrader_OBD Master]
+where [Question ID] = 3 and [Answer ID] = 3 and [Mobile #] in (select distinct [Mobile #] from
+[Unilever_CampaignDashboard].[dbo].[CampaignDashboard_Generic_Rin_UPTrader_OBD Master]
+where [Question ID] = 2 and [Answer ID] = 3))
+group by promoters_viral,BPO_NoBPO, Reg_NonReg
+
+union all
+
+select 'Redemptions' as "Total Redemptions", promoters_viral, BPO_NoBPO, Reg_NonReg  
+, '' as Question, '' as Options,'' as newcol,count([Coupon code] ) as counts
+from [Unilever_CampaignDashboard].[dbo].TempRinUPTrader
+where Reg_NonReg = 'Not Registered'
+group by promoters_viral,BPO_NoBPO, Reg_NonReg
+
+union all
+
+-------------------------------------------
+
+select 'OBD Engagement' as "Total Redemptions", promoters_viral, BPO_NoBPO, Reg_NonReg  
+, 'Aap ki dukan pe aap sabse zyada kaun sa detergent tikiya bechte hain?' as Question
+, 'Ghadi ki tikiya' as Options, 'No Click' as newcol,count([Mobile #] ) as counts
+from [Unilever_CampaignDashboard].[dbo].TempRinUPTraderRegisteredConsumers
+where [Mobile #] in (
+select distinct [Mobile #] from [Unilever_CampaignDashboard].[dbo].[CampaignDashboard_Generic_Rin_UPTrader_OBD Master]
+where [Question ID] = 2 and [Answer ID] = 1)
+group by promoters_viral,BPO_NoBPO, Reg_NonReg
+
+union all 
+
+select 'OBD Engagement' as "Total Redemptions", promoters_viral, BPO_NoBPO, Reg_NonReg  
+, 'Aap ki dukan pe aap sabse zyada kaun sa detergent tikiya bechte hain?' as Question
+, 'Ghadi ki tikiya' as Options, 'Distributor' as newcol,count([Mobile #] ) as counts
+from [Unilever_CampaignDashboard].[dbo].TempRinUPTraderRegisteredConsumers
+where [Mobile #] in (select distinct [Mobile #] from
+[Unilever_CampaignDashboard].[dbo].[CampaignDashboard_Generic_Rin_UPTrader_OBD Master]
+where [Question ID] = 2 and [Answer ID] = 1 and [Mobile #] in (select distinct [Mobile #] from
+[Unilever_CampaignDashboard].[dbo].[CampaignDashboard_Generic_Rin_UPTrader_OBD Master]
+where [Question ID] = 3 and [Answer ID] = 1))
+group by promoters_viral,BPO_NoBPO, Reg_NonReg
+
+union all
+
+select 'OBD Engagement' as "Total Redemptions", promoters_viral, BPO_NoBPO, Reg_NonReg  
+, 'Aap ki dukan pe aap sabse zyada kaun sa detergent tikiya bechte hain?' as Question
+, 'Ghadi ki tikiya' as Options, 'Wholesale' as newcol,count([Mobile #] ) as counts
+from [Unilever_CampaignDashboard].[dbo].TempRinUPTraderRegisteredConsumers
+where [Mobile #] in (select distinct [Mobile #] from
+[Unilever_CampaignDashboard].[dbo].[CampaignDashboard_Generic_Rin_UPTrader_OBD Master]
+where [Question ID] = 2 and [Answer ID] = 1 and [Mobile #] in (select distinct [Mobile #] from
+[Unilever_CampaignDashboard].[dbo].[CampaignDashboard_Generic_Rin_UPTrader_OBD Master]
+where [Question ID] = 3 and [Answer ID] = 2))
+group by promoters_viral,BPO_NoBPO, Reg_NonReg
+
+union all
+
+select 'OBD Engagement' as "Total Redemptions", promoters_viral, BPO_NoBPO, Reg_NonReg  
+, 'Aap ki dukan pe aap sabse zyada kaun sa detergent tikiya bechte hain?' as Question
+, 'Ghadi ki tikiya' as Options, 'Don''t keep RIN in my shop' as newcol,count([Mobile #] ) as counts
+from [Unilever_CampaignDashboard].[dbo].TempRinUPTraderRegisteredConsumers
+where [Mobile #] in (select distinct [Mobile #] from
+[Unilever_CampaignDashboard].[dbo].[CampaignDashboard_Generic_Rin_UPTrader_OBD Master]
+where [Question ID] = 2 and [Answer ID] = 1 and [Mobile #] in (select distinct [Mobile #] from
+[Unilever_CampaignDashboard].[dbo].[CampaignDashboard_Generic_Rin_UPTrader_OBD Master]
+where [Question ID] = 3 and [Answer ID] = 3))
+group by promoters_viral,BPO_NoBPO, Reg_NonReg
+
+union all
+
+-- *****
+
+select 'OBD Engagement' as "Total Redemptions", promoters_viral, BPO_NoBPO, Reg_NonReg  
+, 'Aap ki dukan pe aap sabse zyada kaun sa detergent tikiya bechte hain?' as Question
+, 'Rin ki tikiya' as Options, 'No Click' as newcol ,count([Mobile #] ) as counts
+from [Unilever_CampaignDashboard].[dbo].TempRinUPTraderRegisteredConsumers
+where [Mobile #] in (
+select distinct [Mobile #] from [Unilever_CampaignDashboard].[dbo].[CampaignDashboard_Generic_Rin_UPTrader_OBD Master]
+where [Question ID] = 2 and [Answer ID] = 2)
+group by promoters_viral,BPO_NoBPO, Reg_NonReg
+
+union all 
+
+select 'OBD Engagement' as "Total Redemptions", promoters_viral, BPO_NoBPO, Reg_NonReg  
+, 'Aap ki dukan pe aap sabse zyada kaun sa detergent tikiya bechte hain?' as Question
+, 'Rin ki tikiya' as Options, 'Distributor' as newcol,count([Mobile #] ) as counts
+from [Unilever_CampaignDashboard].[dbo].TempRinUPTraderRegisteredConsumers
+where [Mobile #] in (select distinct [Mobile #] from
+[Unilever_CampaignDashboard].[dbo].[CampaignDashboard_Generic_Rin_UPTrader_OBD Master]
+where [Question ID] = 2 and [Answer ID] = 2 and [Mobile #] in (select distinct [Mobile #] from
+[Unilever_CampaignDashboard].[dbo].[CampaignDashboard_Generic_Rin_UPTrader_OBD Master]
+where [Question ID] = 3 and [Answer ID] = 1))
+group by promoters_viral,BPO_NoBPO, Reg_NonReg
+
+union all 
+
+select 'OBD Engagement' as "Total Redemptions", promoters_viral, BPO_NoBPO, Reg_NonReg  
+, 'Aap ki dukan pe aap sabse zyada kaun sa detergent tikiya bechte hain?' as Question
+, 'Rin ki tikiya' as Options, 'Wholesale' as newcol,count([Mobile #] ) as counts
+from [Unilever_CampaignDashboard].[dbo].TempRinUPTraderRegisteredConsumers
+where [Mobile #] in (select distinct [Mobile #] from
+[Unilever_CampaignDashboard].[dbo].[CampaignDashboard_Generic_Rin_UPTrader_OBD Master]
+where [Question ID] = 2 and [Answer ID] = 2 and [Mobile #] in (select distinct [Mobile #] from
+[Unilever_CampaignDashboard].[dbo].[CampaignDashboard_Generic_Rin_UPTrader_OBD Master]
+where [Question ID] = 3 and [Answer ID] = 2))
+group by promoters_viral,BPO_NoBPO, Reg_NonReg
+
+union all 
+
+select 'OBD Engagement' as "Total Redemptions", promoters_viral, BPO_NoBPO, Reg_NonReg  
+, 'Aap ki dukan pe aap sabse zyada kaun sa detergent tikiya bechte hain?' as Question
+, 'Rin ki tikiya' as Options, 'Don''t keep RIN in my shop' as newcol,count([Mobile #] ) as counts
+from [Unilever_CampaignDashboard].[dbo].TempRinUPTraderRegisteredConsumers
+where [Mobile #] in (select distinct [Mobile #] from
+[Unilever_CampaignDashboard].[dbo].[CampaignDashboard_Generic_Rin_UPTrader_OBD Master]
+where [Question ID] = 2 and [Answer ID] = 2 and [Mobile #] in (select distinct [Mobile #] from
+[Unilever_CampaignDashboard].[dbo].[CampaignDashboard_Generic_Rin_UPTrader_OBD Master]
+where [Question ID] = 3 and [Answer ID] = 3))
+group by promoters_viral,BPO_NoBPO, Reg_NonReg
+
+union all 
+
+--******
+
+select 'OBD Engagement' as "Total Redemptions", promoters_viral, BPO_NoBPO, Reg_NonReg  
+, 'Aap ki dukan pe aap sabse zyada kaun sa detergent tikiya bechte hain?' as Question
+, 'Others' as Options,'No Click' as newcol,count([Mobile #] ) as counts
+from [Unilever_CampaignDashboard].[dbo].TempRinUPTraderRegisteredConsumers
+where [Mobile #] in (select distinct [Mobile #] from
+[Unilever_CampaignDashboard].[dbo].[CampaignDashboard_Generic_Rin_UPTrader_OBD Master]
+where [Question ID] = 2 and [Answer ID] = 3)
+group by promoters_viral,BPO_NoBPO, Reg_NonReg
+
+union all
+
+select 'OBD Engagement' as "Total Redemptions", promoters_viral, BPO_NoBPO, Reg_NonReg  
+, 'Aap ki dukan pe aap sabse zyada kaun sa detergent tikiya bechte hain?' as Question
+, 'Others' as Options,'Distributor' as newcol
+,count([Mobile #] ) as counts
+from [Unilever_CampaignDashboard].[dbo].TempRinUPTraderRegisteredConsumers
+where [Mobile #] in (select distinct [Mobile #] from
+[Unilever_CampaignDashboard].[dbo].[CampaignDashboard_Generic_Rin_UPTrader_OBD Master]
+where [Question ID] = 2 and [Answer ID] = 3 and [Mobile #] in (select distinct [Mobile #] from
+[Unilever_CampaignDashboard].[dbo].[CampaignDashboard_Generic_Rin_UPTrader_OBD Master]
+where [Question ID] = 3 and [Answer ID] = 1))
+group by promoters_viral,BPO_NoBPO, Reg_NonReg
+
+
+union all
+
+select 'OBD Engagement' as "Total Redemptions", promoters_viral, BPO_NoBPO, Reg_NonReg  
+, 'Aap ki dukan pe aap sabse zyada kaun sa detergent tikiya bechte hain?' as Question
+, 'Others' as Options,'Wholesale' as newcol,count([Mobile #] ) as counts
+from [Unilever_CampaignDashboard].[dbo].TempRinUPTraderRegisteredConsumers
+where [Mobile #] in (select distinct [Mobile #] from
+[Unilever_CampaignDashboard].[dbo].[CampaignDashboard_Generic_Rin_UPTrader_OBD Master]
+where [Question ID] = 2 and [Answer ID] = 3 and [Mobile #] in (select distinct [Mobile #] from
+[Unilever_CampaignDashboard].[dbo].[CampaignDashboard_Generic_Rin_UPTrader_OBD Master]
+where [Question ID] = 3 and [Answer ID] = 2))
+group by promoters_viral,BPO_NoBPO, Reg_NonReg
+
+
+union all
+
+select 'OBD Engagement' as "Total Redemptions", promoters_viral, BPO_NoBPO, Reg_NonReg  
+, 'Aap ki dukan pe aap sabse zyada kaun sa detergent tikiya bechte hain?' as Question
+, 'Others' as Options,'Don''t keep RIN in my shop' as newcol,count([Mobile #] ) as counts
+from [Unilever_CampaignDashboard].[dbo].TempRinUPTraderRegisteredConsumers
+where [Mobile #] in (select distinct [Mobile #] from
+[Unilever_CampaignDashboard].[dbo].[CampaignDashboard_Generic_Rin_UPTrader_OBD Master]
+where [Question ID] = 2 and [Answer ID] = 3 and [Mobile #] in (select distinct [Mobile #] from
+[Unilever_CampaignDashboard].[dbo].[CampaignDashboard_Generic_Rin_UPTrader_OBD Master]
+where [Question ID] = 3 and [Answer ID] = 3))
+group by promoters_viral,BPO_NoBPO, Reg_NonReg
+
+
+union all 
+
+
+--******
+
+select 'OBD Engagement' as "Total Redemptions", promoters_viral, BPO_NoBPO, Reg_NonReg  
+, 'Aap Rin ki tikiya kaha se khareedte hain?' as Question, 'Distributor' as Options
+,'No Click' as newcol,count([Mobile #] ) as counts
+from [Unilever_CampaignDashboard].[dbo].TempRinUPTraderRegisteredConsumers
+where [Mobile #] in (select distinct [Mobile #] from
+[Unilever_CampaignDashboard].[dbo].[CampaignDashboard_Generic_Rin_UPTrader_OBD Master]
+where [Question ID] = 3 and [Answer ID] = 1)
+group by promoters_viral,BPO_NoBPO, Reg_NonReg
+
+union all 
+
+select 'OBD Engagement' as "Total Redemptions", promoters_viral, BPO_NoBPO
+, Reg_NonReg  , 'Aap Rin ki tikiya kaha se khareedte hain?' as Question, 'Distributor' as Options
+,'Ghadi ki tikiya' as newcol ,count([Mobile #] ) as counts
+from [Unilever_CampaignDashboard].[dbo].TempRinUPTraderRegisteredConsumers
+where [Mobile #] in (select distinct [Mobile #] from
+[Unilever_CampaignDashboard].[dbo].[CampaignDashboard_Generic_Rin_UPTrader_OBD Master]
+where [Question ID] = 3 and [Answer ID] = 1 and [Mobile #] in (select distinct [Mobile #] from
+[Unilever_CampaignDashboard].[dbo].[CampaignDashboard_Generic_Rin_UPTrader_OBD Master]
+where [Question ID] = 2 and [Answer ID] = 1))
+group by promoters_viral,BPO_NoBPO, Reg_NonReg
+
+union all 
+
+select 'OBD Engagement' as "Total Redemptions", promoters_viral, BPO_NoBPO, Reg_NonReg  
+, 'Aap Rin ki tikiya kaha se khareedte hain?' as Question, 'Distributor' as Options
+,'Rin ki tikiya' as newcol,count([Mobile #] ) as counts
+from [Unilever_CampaignDashboard].[dbo].TempRinUPTraderRegisteredConsumers
+where [Mobile #] in (select distinct [Mobile #] from
+[Unilever_CampaignDashboard].[dbo].[CampaignDashboard_Generic_Rin_UPTrader_OBD Master]
+where [Question ID] = 3 and [Answer ID] = 1 and [Mobile #] in (select distinct [Mobile #] from
+[Unilever_CampaignDashboard].[dbo].[CampaignDashboard_Generic_Rin_UPTrader_OBD Master]
+where [Question ID] = 2 and [Answer ID] = 2))
+group by promoters_viral,BPO_NoBPO, Reg_NonReg
+
+union all 
+
+select 'OBD Engagement' as "Total Redemptions", promoters_viral, BPO_NoBPO, Reg_NonReg  
+, 'Aap Rin ki tikiya kaha se khareedte hain?' as Question
+, 'Distributor' as Options,'Others' as newcol,count([Mobile #] ) as counts
+from [Unilever_CampaignDashboard].[dbo].TempRinUPTraderRegisteredConsumers
+where [Mobile #] in (select distinct [Mobile #] from
+[Unilever_CampaignDashboard].[dbo].[CampaignDashboard_Generic_Rin_UPTrader_OBD Master]
+where [Question ID] = 3 and [Answer ID] = 1 and [Mobile #] in (select distinct [Mobile #] from
+[Unilever_CampaignDashboard].[dbo].[CampaignDashboard_Generic_Rin_UPTrader_OBD Master]
+where [Question ID] = 2 and [Answer ID] = 3))
+group by promoters_viral,BPO_NoBPO, Reg_NonReg
+
+union all 
+
+--**********
+
+select 'OBD Engagement' as "Total Redemptions", promoters_viral, BPO_NoBPO, Reg_NonReg  
+, 'Aap Rin ki tikiya kaha se khareedte hain?' as Question
+, 'Wholesale' as Options, 'No Click' as newcol,count([Mobile #] ) as counts
+from [Unilever_CampaignDashboard].[dbo].TempRinUPTraderRegisteredConsumers
+where [Mobile #] in ( select distinct [Mobile #] from
+[Unilever_CampaignDashboard].[dbo].[CampaignDashboard_Generic_Rin_UPTrader_OBD Master]
+where [Question ID] = 3 and [Answer ID] = 2)
+group by promoters_viral,BPO_NoBPO, Reg_NonReg
+
+union all 
+
+select 'OBD Engagement' as "Total Redemptions", promoters_viral, BPO_NoBPO, Reg_NonReg  
+, 'Aap Rin ki tikiya kaha se khareedte hain?' as Question
+, 'Wholesale' as Options, 'Ghadi ki tikiya' as newcol,count([Mobile #] ) as counts
+from [Unilever_CampaignDashboard].[dbo].TempRinUPTraderRegisteredConsumers
+where [Mobile #] in (select distinct [Mobile #] from
+[Unilever_CampaignDashboard].[dbo].[CampaignDashboard_Generic_Rin_UPTrader_OBD Master]
+where [Question ID] = 3 and [Answer ID] = 2 and [Mobile #] in (select distinct [Mobile #] from
+[Unilever_CampaignDashboard].[dbo].[CampaignDashboard_Generic_Rin_UPTrader_OBD Master]
+where [Question ID] = 2 and [Answer ID] = 1))
+group by promoters_viral,BPO_NoBPO, Reg_NonReg
+
+union all 
+
+select 'OBD Engagement' as "Total Redemptions", promoters_viral, BPO_NoBPO, Reg_NonReg  
+, 'Aap Rin ki tikiya kaha se khareedte hain?' as Question
+, 'Wholesale' as Options, 'Rin ki tikiya' as newcol,count([Mobile #] ) as counts
+from [Unilever_CampaignDashboard].[dbo].TempRinUPTraderRegisteredConsumers
+where [Mobile #] in (select distinct [Mobile #] from
+[Unilever_CampaignDashboard].[dbo].[CampaignDashboard_Generic_Rin_UPTrader_OBD Master]
+where [Question ID] = 3 and [Answer ID] = 2 and [Mobile #] in (select distinct [Mobile #] from
+[Unilever_CampaignDashboard].[dbo].[CampaignDashboard_Generic_Rin_UPTrader_OBD Master]
+where [Question ID] = 2 and [Answer ID] = 2))
+group by promoters_viral,BPO_NoBPO, Reg_NonReg
+
+union all 
+
+select 'OBD Engagement' as "Total Redemptions", promoters_viral, BPO_NoBPO, Reg_NonReg  
+, 'Aap Rin ki tikiya kaha se khareedte hain?' as Question, 'Wholesale' as Options, 'Others' as newcol
+,count([Mobile #] ) as counts from [Unilever_CampaignDashboard].[dbo].TempRinUPTraderRegisteredConsumers
+where [Mobile #] in (select distinct [Mobile #] from
+[Unilever_CampaignDashboard].[dbo].[CampaignDashboard_Generic_Rin_UPTrader_OBD Master]
+where [Question ID] = 3 and [Answer ID] = 2 and [Mobile #] in (select distinct [Mobile #] from
+[Unilever_CampaignDashboard].[dbo].[CampaignDashboard_Generic_Rin_UPTrader_OBD Master]
+where [Question ID] = 2 and [Answer ID] = 3))
+group by promoters_viral,BPO_NoBPO, Reg_NonReg
+
+union all 
+
+--*****
+
+select 'OBD Engagement' as "Total Redemptions", promoters_viral, BPO_NoBPO, Reg_NonReg  
+, 'Aap Rin ki tikiya kaha se khareedte hain?' as Question, 'Don''t keep RIN in my shop' as Options,'No Click' as newcol
+,count([Mobile #] ) as counts from [Unilever_CampaignDashboard].[dbo].TempRinUPTraderRegisteredConsumers
+where [Mobile #] in (
+select distinct [Mobile #] from
+[Unilever_CampaignDashboard].[dbo].[CampaignDashboard_Generic_Rin_UPTrader_OBD Master]
+where [Question ID] = 3 and [Answer ID] = 3 )
+group by promoters_viral,BPO_NoBPO, Reg_NonReg
+
+union all
+
+select 'OBD Engagement' as "Total Redemptions", promoters_viral, BPO_NoBPO, Reg_NonReg  
+, 'Aap Rin ki tikiya kaha se khareedte hain?' as Question, 'Don''t keep RIN in my shop' as Options
+,'Ghadi ki tikiya' as newcol ,count([Mobile #] ) as counts
+from [Unilever_CampaignDashboard].[dbo].TempRinUPTraderRegisteredConsumers
+where [Mobile #] in (select distinct [Mobile #] from
+[Unilever_CampaignDashboard].[dbo].[CampaignDashboard_Generic_Rin_UPTrader_OBD Master]
+where [Question ID] = 3 and [Answer ID] = 3 and [Mobile #] in (select distinct [Mobile #] from
+[Unilever_CampaignDashboard].[dbo].[CampaignDashboard_Generic_Rin_UPTrader_OBD Master]
+where [Question ID] = 2 and [Answer ID] = 1))
+group by promoters_viral,BPO_NoBPO, Reg_NonReg
+
+union all
+
+select 'OBD Engagement' as "Total Redemptions", promoters_viral, BPO_NoBPO, Reg_NonReg  
+, 'Aap Rin ki tikiya kaha se khareedte hain?' as Question, 'Don''t keep RIN in my shop' as Options 
+,'Rin ki tikiya' as newcol,count([Mobile #] ) as counts
+from [Unilever_CampaignDashboard].[dbo].TempRinUPTraderRegisteredConsumers
+where [Mobile #] in (select distinct [Mobile #] from
+[Unilever_CampaignDashboard].[dbo].[CampaignDashboard_Generic_Rin_UPTrader_OBD Master]
+where [Question ID] = 3 and [Answer ID] = 3 and [Mobile #] in (select distinct [Mobile #] from
+[Unilever_CampaignDashboard].[dbo].[CampaignDashboard_Generic_Rin_UPTrader_OBD Master]
+where [Question ID] = 2 and [Answer ID] = 2))
+group by promoters_viral,BPO_NoBPO, Reg_NonReg
+
+union all
+
+select 'OBD Engagement' as "Total Redemptions", promoters_viral, BPO_NoBPO
+, Reg_NonReg  , 'Aap Rin ki tikiya kaha se khareedte hain?' as Question
+, 'Don''t keep RIN in my shop' as Options,'Others' as newcol,count([Mobile #] ) as counts
+from [Unilever_CampaignDashboard].[dbo].TempRinUPTraderRegisteredConsumers
+where [Mobile #] in (select distinct [Mobile #] from
+[Unilever_CampaignDashboard].[dbo].[CampaignDashboard_Generic_Rin_UPTrader_OBD Master]
+where [Question ID] = 3 and [Answer ID] = 3 and [Mobile #] in (select distinct [Mobile #] from
+[Unilever_CampaignDashboard].[dbo].[CampaignDashboard_Generic_Rin_UPTrader_OBD Master]
+where [Question ID] = 2 and [Answer ID] = 3))
+group by promoters_viral,BPO_NoBPO, Reg_NonReg
+
+union all
+
+select 'OBD Engagement' as "Total Redemptions", promoters_viral, BPO_NoBPO
+, Reg_NonReg  , '' as Question, '' as Options,'' as newcol,count([Mobile #] ) as counts
+from [Unilever_CampaignDashboard].[dbo].TempRinUPTraderRegisteredConsumers
+where Reg_NonReg = 'Not Registered'
+group by promoters_viral,BPO_NoBPO, Reg_NonReg
+) as redemption_tree_chart

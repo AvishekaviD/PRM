@@ -1,0 +1,95 @@
+SELECT concat(substring([Date and time of Interaction],1,13),':00',':00') DateOfInteraction
+,'BPO Call' as CallorMessageType,'' [Questions],''as Options
+,'' as NoOfRedemptions,count(distinct [Mobile #])as MobileCounts     ,'ALL' as HHT_VIRAL
+FROM [Unilever_CampaignDashboard].[dbo].[CampaignDashboard_Generic_Rin_UPTrader_BPOMaster] a
+group by concat(substring([Date and time of Interaction],1,13),':00',':00')
+
+union
+
+SELECT concat(substring([Date and time of Interaction],1,13),':00',':00') DateOfInteraction
+,'BPO Call' as CallorMessageType,'' [Questions],''as Options
+,'' as NoOfRedemptions,count(distinct [Mobile #])as MobileCounts     ,'HHT' as HHT_VIRAL
+FROM [Unilever_CampaignDashboard].[dbo].[CampaignDashboard_Generic_Rin_UPTrader_BPOMaster] a
+where [Mobile #] in (select distinct [PhoneNo] from
+[Unilever_CampaignDashboard].[dbo].[CampaignDashboard_Generic_Rin_UPTrader_HHT Master])
+group by concat(substring([Date and time of Interaction],1,13),':00',':00')
+
+union
+
+SELECT concat(substring([Date and time of Interaction],1,13),':00',':00') DateOfInteraction
+,'BPO Call' as CallorMessageType,'' [Questions],''as Options
+,'' as NoOfRedemptions,count(distinct [Mobile #])as MobileCounts     ,'Viral' as HHT_VIRAL
+FROM [Unilever_CampaignDashboard].[dbo].[CampaignDashboard_Generic_Rin_UPTrader_BPOMaster] a
+where [Mobile #] not in (select distinct [PhoneNo] from
+[Unilever_CampaignDashboard].[dbo].[CampaignDashboard_Generic_Rin_UPTrader_HHT Master])
+group by concat(substring([Date and time of Interaction],1,13),':00',':00')
+
+union all
+
+SELECT concat(substring([Date and time of Interaction],1,13),':00',':00') DateOfInteraction
+,'BPO Call' as CallorMessageType,[Question] [Questions],''as Options
+,'' as NoOfRedemptions,count(distinct [Mobile #])as MobileCounts,'ALL' as HHT_VIRAL
+FROM [Unilever_CampaignDashboard].[dbo].[CampaignDashboard_Generic_Rin_UPTrader_BPOMaster] a
+inner join [Unilever_CampaignDashboard].[dbo].[CampaignDashboard_Generic_Rin_UPTrader_Question Master] b
+on a.[Question ID]=b.[Question ID]
+group by concat(substring([Date and time of Interaction],1,13),':00',':00'),[Question]
+
+
+union all
+
+
+SELECT concat(substring([Date and time of Interaction],1,13),':00',':00') DateOfInteraction
+,'BPO Call' as CallorMessageType,[Question] [Questions],''as Options
+,'' as NoOfRedemptions,count(distinct [Mobile #])as MobileCounts,'HHT' as HHT_VIRAL
+FROM [Unilever_CampaignDashboard].[dbo].[CampaignDashboard_Generic_Rin_UPTrader_BPOMaster] a
+inner join [Unilever_CampaignDashboard].[dbo].[CampaignDashboard_Generic_Rin_UPTrader_Question Master] b
+on a.[Question ID]=b.[Question ID]
+where [Mobile #] in (select distinct [PhoneNo] from
+[Unilever_CampaignDashboard].[dbo].[CampaignDashboard_Generic_Rin_UPTrader_HHT Master])
+group by concat(substring([Date and time of Interaction],1,13),':00',':00'),[Question]
+
+union all
+
+SELECT concat(substring([Date and time of Interaction],1,13),':00',':00') DateOfInteraction
+,'BPO Call' as CallorMessageType,[Question] [Questions],''as Options
+,'' as NoOfRedemptions,count(distinct [Mobile #])as MobileCounts,'Viral' as HHT_VIRAL
+FROM [Unilever_CampaignDashboard].[dbo].[CampaignDashboard_Generic_Rin_UPTrader_BPOMaster] a
+inner join [Unilever_CampaignDashboard].[dbo].[CampaignDashboard_Generic_Rin_UPTrader_Question Master] b
+on a.[Question ID]=b.[Question ID]
+where [Mobile #] not in (select distinct [PhoneNo] from
+[Unilever_CampaignDashboard].[dbo].[CampaignDashboard_Generic_Rin_UPTrader_HHT Master])
+group by concat(substring([Date and time of Interaction],1,13),':00',':00'),[Question]
+
+
+union all
+
+select  '' as DateOfInteraction,'BPO Call/Redemption' as CallorMessageType,'ALL' as [Questions],''as Options
+,'' as NoOfRedemptions,count( distinct [coupon code] ) as MobileCounts,'ALL' as HHT_VIRAL
+from [Unilever_CampaignDashboard].[dbo].[TempRinUPTrader]
+--where Reg_NonReg = 'Registered' and BPO_NoBPO = 'Called BPO'
+--group by BPO_NoBPO 
+union all
+select  '' as DateOfInteraction,'BPO Call/Redemption' as CallorMessageType,'ALL' as [Questions],''as Options
+,'' as NoOfRedemptions,count( distinct [coupon code] ) as MobileCounts,
+case
+when promoters_viral = 'Viral' then 'Viral' else 'HHT' end as HHT_VIRAL
+from [Unilever_CampaignDashboard].[dbo].[TempRinUPTrader]
+where Reg_NonReg = 'Registered' and BPO_NoBPO = 'Called BPO'
+group by promoters_viral,BPO_NoBPO
+
+union all 
+
+select  '' as DateOfInteraction,'Total Traders Redeemed' as CallorMessageType,'ALL' as [Questions],''as Options
+,'' as NoOfRedemptions,count( distinct [Mobile #] ) as MobileCounts, promoters_viral as HHT_VIRAL
+from [Unilever_CampaignDashboard].[dbo].[TempRinUPTrader] a
+where BPO_NoBPO = 'Called BPO' 
+and a.[Mobile #] in (select distinct [Mobile #] 
+from [Unilever_CampaignDashboard].[dbo].[CampaignDashboard_Generic_Rin_UPTrader_BPOMaster] a where a.[Duration of Interaction] > 0)
+group by promoters_viral
+
+union all 
+
+SELECT '' DateOfInteraction ,'Total Completed Calls' as CallorMessageType,'ALL' as [Questions],''as Options
+,'' as NoOfRedemptions,count(distinct [Mobile #])as MobileCounts,'' as [Agent_id]     
+FROM [Unilever_CampaignDashboard].[dbo].[CampaignDashboard_Generic_Rin_UPTrader_BPOMaster] a
+where a.[Duration of Interaction] > 0

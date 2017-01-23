@@ -1,0 +1,20 @@
+SELECT 'Call Completed' as CallStatus,count(a.[Mobile #]) counts  
+  FROM [Unilever_CampaignDashboard].[dbo].[CampaignDashboard_Generic_Wheel_WBTrader_BPO_Master] a
+  inner join [Unilever_CampaignDashboard].[dbo].[CampaignDashboard_Generic_Wheel_WBTrader_Call Status Master] b
+  on a.[Call Status] = b.[Status ID] and b.[Status ID] = 11
+union all
+SELECT 'Call not Completed' as CallStatus,count(a.[Mobile #]) counts
+  FROM [Unilever_CampaignDashboard].[dbo].[CampaignDashboard_Generic_Wheel_WBTrader_BPO_Master] a
+  inner join [Unilever_CampaignDashboard].[dbo].[CampaignDashboard_Generic_Wheel_WBTrader_Call Status Master] b
+  on a.[Call Status] = b.[Status ID] and b.[Status ID] <> 11
+union all 
+SELECT 'Total' as CallStatus,count(a.[Mobile #]) counts
+  FROM [Unilever_CampaignDashboard].[dbo].[CampaignDashboard_Generic_Wheel_WBTrader_BPO_Master] a
+  inner join [Unilever_CampaignDashboard].[dbo].[CampaignDashboard_Generic_Wheel_WBTrader_Call Status Master] b
+  on a.[Call Status] = b.[Status ID]
+  union all
+SELECT 'Opted In' as CallStatus,count(a.[Mobile #])   
+  FROM [Unilever_CampaignDashboard].[dbo].[CampaignDashboard_Generic_Wheel_WBTrader_BPO_Master] a
+  inner join [Unilever_CampaignDashboard].[dbo].[CampaignDashboard_Generic_Wheel_WBTrader_Call Status Master] b
+  on a.[Call Status] = b.[Status ID] 
+  where lower(a.[Opt-in]) = 'y'

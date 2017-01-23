@@ -1,0 +1,1 @@
+select * from CampaignDashboard_Generic_Rin_UPTrader_CostAnalysis

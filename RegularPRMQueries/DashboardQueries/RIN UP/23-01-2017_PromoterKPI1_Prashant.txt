@@ -1,0 +1,69 @@
+select [Date],[Buckets],'Overall' [Group],'Promoter' [Group1],count(Distinct Promoter)[Count] from(
+SELECT [Date],[Promoter],case
+when Count([PhoneNo])  <=5 then '0-30%' when Count([PhoneNo]) >5and Count([PhoneNo]) <=9 then '30%-50%'
+when Count([PhoneNo]) >9 and Count([PhoneNo]) <=13 then '50%-70%' when Count([PhoneNo]) >13 and Count([PhoneNo]) <=16 then '70%-90%'
+when Count([PhoneNo]) >16and Count([PhoneNo]) <=18 then '100%' else '>100 %' end [Buckets] 
+,case
+when sum([Registered])  <=4 then '0-30%' when sum([Registered]) >4 and sum([Registered]) <=7 then '30%-50%'
+when sum([Registered]) >7 and sum([Registered]) <=9 then '50%-70%' when sum([Registered]) >9 and sum([Registered]) <=12 then '70%-90%'
+when sum([Registered]) >12 and sum([Registered]) <=13 then '100%' else '>100 %' end [Registered] 
+ from ( SELECT [Date],[Promoter],a.PhoneNo,case when len(b.[Mobile #])>0 then 1 else 0 end [Registered]
+FROM [Unilever_CampaignDashboard].[dbo].[CampaignDashboard_Generic_Rin_UPTrader_HHT Master] a
+left outer join [Unilever_CampaignDashboard].[dbo].[CampaignDashboard_Generic_Rin_UPTrader_Registration Master] b
+on a.PhoneNo=b.[Mobile #]) as a group by[Date],[Promoter]) as b group by [Date],[Buckets]
+
+union all
+
+select [Date],[Registered],'Registered' [Group],'Promoter' [Group1],count(Distinct Promoter)[Count] from(
+SELECT [Date],[Promoter],case
+when Count([PhoneNo])  <=5 then '0-30%' when Count([PhoneNo]) >5 and Count([PhoneNo]) <=9 then '30%-50%'
+when Count([PhoneNo]) >8 and Count([PhoneNo]) <=13 then '50%-70%' when Count([PhoneNo]) >13 and Count([PhoneNo]) <=16 then '70%-90%'
+when Count([PhoneNo]) >16 and Count([PhoneNo]) <=18 then '100%' else '>100 %' end [Buckets] 
+,case
+when sum([Registered])  <=4 then '0-30%' when sum([Registered]) >4 and sum([Registered]) <=7 then '30%-50%'
+when sum([Registered]) >7 and sum([Registered]) <=9 then '50%-70%' when sum([Registered]) >9 and sum([Registered]) <=12 then '70%-90%'
+when sum([Registered]) >12 and sum([Registered]) <=13 then '100%' else '>100 %' end [Registered] 
+ from (
+SELECT [Date],[Promoter],a.PhoneNo,case when len(b.[Mobile #])>0 then 1 else 0 end [Registered]
+FROM [Unilever_CampaignDashboard].[dbo].[CampaignDashboard_Generic_Rin_UPTrader_HHT Master] a
+left outer join [Unilever_CampaignDashboard].[dbo].[CampaignDashboard_Generic_Rin_UPTrader_Registration Master] b
+on a.PhoneNo=b.[Mobile #]) as a
+group by[Date],[Promoter]) as b group by [Date],[Registered]
+
+
+union all
+
+
+select [Date],[Buckets],'Overall' [Group],'Team' [Group1],count(Distinct team)[Count] from(
+SELECT [Date],Team,case
+when Count([PhoneNo])  <=10 then '0-30%' when Count([PhoneNo]) >10 and Count([PhoneNo]) <=18 then '30%-50%'
+when Count([PhoneNo]) >18 and Count([PhoneNo]) <=25 then '50%-70%' when Count([PhoneNo]) >25 and Count([PhoneNo]) <=32 then '70%-90%'
+when Count([PhoneNo]) >32 and Count([PhoneNo]) <=35 then '100%' else '>100 %' end [Buckets] 
+,case
+when sum([Registered])  <=8 then '0-30%' when sum([Registered]) >8 and sum([Registered]) <=13 then '30%-50%'
+when sum([Registered]) >13 and sum([Registered]) <=18 then '50%-70%' when sum([Registered]) >18and sum([Registered]) <=23 then '70%-90%'
+when sum([Registered]) >23 and sum([Registered]) <=25 then '100%' else '>100 %' end [Registered] 
+ from (
+SELECT [Date],Team,a.PhoneNo,case when len(b.[Mobile #])>0 then 1 else 0 end [Registered]
+FROM [Unilever_CampaignDashboard].[dbo].[CampaignDashboard_Generic_Rin_UPTrader_HHT Master] a
+left outer join [Unilever_CampaignDashboard].[dbo].[CampaignDashboard_Generic_Rin_UPTrader_Registration Master] b
+on a.PhoneNo=b.[Mobile #]) as a
+group by[Date],Team) as b group by [Date],[Buckets]
+
+union all
+
+select [Date],[Registered],'Registered' [Group],'Team' [Group1],count(Distinct team)[Count] from(
+SELECT [Date],Team,case
+when Count([PhoneNo])  <=10 then '0-30%' when Count([PhoneNo]) >10 and Count([PhoneNo]) <=18 then '30%-50%'
+when Count([PhoneNo]) >18 and Count([PhoneNo]) <=25 then '50%-70%' when Count([PhoneNo]) >25 and Count([PhoneNo]) <=32 then '70%-90%'
+when Count([PhoneNo]) >32 and Count([PhoneNo]) <=35 then '100%' else '>100 %' end [Buckets] 
+,case
+when sum([Registered])  <=8 then '0-30%' when sum([Registered]) >8 and sum([Registered]) <=13 then '30%-50%'
+when sum([Registered]) >13 and sum([Registered]) <=18 then '50%-70%' when sum([Registered]) >18and sum([Registered]) <=23 then '70%-90%'
+when sum([Registered]) >23 and sum([Registered]) <=25 then '100%' else '>100 %' end [Registered] 
+ from (
+SELECT [Date],Team,a.PhoneNo,case when len(b.[Mobile #])>0 then 1 else 0 end [Registered]
+FROM [Unilever_CampaignDashboard].[dbo].[CampaignDashboard_Generic_Rin_UPTrader_HHT Master] a
+left outer join [Unilever_CampaignDashboard].[dbo].[CampaignDashboard_Generic_Rin_UPTrader_Registration Master] b
+on a.PhoneNo=b.[Mobile #]) as a
+group by[Date],Team) as b group by [Date],[Registered]
