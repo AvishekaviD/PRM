@@ -1,0 +1,4 @@
+select 'User Vs Redemption' as calltype,a.counts,count(distinct a."profile_id") as redemptions 
+from (select a."profile_id",count(distinct a."voucher_code") as counts
+FROM "GAIN_THEORY"."Temp_FAL_Mapping" a group by 1) a 
+group by 1,2

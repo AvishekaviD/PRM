@@ -1,0 +1,4 @@
+select distinct a.entry_id,a.profile_id ,a.voucher_code ,a.pincode as zip_code,a.Taluk, a.district as "Districtname",
+a.question_text1 ,a.answer_text1 ,a.question_text2 ,a.answer_text2 
+,a.question_text3 ,a.answer_text3 ,a.question_text4 ,a.answer_text4,a.question_text5 ,a.answer_text5
+from GAIN_THEORY.Temp_FAL_QA a

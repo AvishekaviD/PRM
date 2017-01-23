@@ -1,0 +1,28 @@
+select 
+cast(substr(cast(cast(a."entry_date" as timestamp(6) format 'YYYY-MM-DDBHH:MI:SS.s(6)') as varchar(50)),1,11)||'00:00:00' as timestamp(0) format 'YYYY-MM-DDBHH:MI:SS') "Date",
+z.zip_code,z.Taluk ,z.Districtname,'Valid Redemption          ' as CallType,count(a."voucher_code") "Count"
+from "PRM"."bt_entry" a 
+left join GAIN_THEORY.fal_profile_picode z on substr(a.profile_id,8,length(a.profile_id)) = z.profile_id
+where a."campaign_id" = '2551' 
+and ((a.entry_status= 0 AND a.error_code= 0) OR (a.entry_status= -1 AND a.error_code= -9) OR (a.entry_status= 0 and a.error_code= -15))
+and a.voucher_code is not null
+group by 1,2,3,4
+
+union all
+
+select 
+cast(substr(cast(cast(a."entry_date" as timestamp(6) format 'YYYY-MM-DDBHH:MI:SS.s(6)') as varchar(50)),1,11)||'00:00:00' as timestamp(0) format 'YYYY-MM-DDBHH:MI:SS') "Date",
+z.zip_code,z.Taluk ,z.Districtname,'Unique Valid Redemption' as CallType,count(distinct a."voucher_code") "Count"
+from "PRM"."bt_entry" a 
+left join GAIN_THEORY.fal_profile_picode z on substr(a.profile_id,8,length(a.profile_id)) = z.profile_id
+where a."campaign_id" = '2551' 
+and ((a.entry_status= 0 AND a.error_code= 0) OR (a.entry_status= -1 AND a.error_code= -9) OR (a.entry_status= 0 and a.error_code= -15))
+and a.voucher_code is not null
+group by 1,2,3,4
+
+union all 
+
+select cast(substr(cast(cast(a.miss_call_date as timestamp(6) format 'YYYY-MM-DDBHH:MI:SS.s(6)') as varchar(50)),1,11)||'00:00:00' as timestamp(0) format 'YYYY-MM-DDBHH:MI:SS') "Date",
+a.pincode,a.Taluk ,a.Districtname,'Miss Call Count         ' as CallType,count(a."best_mobile_number_hash") "Count"
+from GAIN_THEORY.TEMP_FAL_Dashboard a
+group by 1,2,3,4
