@@ -1,0 +1,128 @@
+---86188
+select distinct 'IN' Market
+,case when lower(Provider) like '%btone%' then 'BT' when lower(Provider) like '%careline%' then 'CL' 
+when lower(Provider) like '%pure%' then 'PI' when lower(Provider) like '%kkt%' then 'KKT'
+when lower(Provider) like '%digi%' then 'DL' when lower(Provider) like '%lakm%' then 'LK'
+when lower(Provider) like '%h2h%' then 'H2H' when lower(Provider) like '%bebe%' then 'BB'
+end Provider ,mobileno,'1' Optin_Hierarchy_level,'Unilever' Optin_Hierarchy_value
+FROM prmprogrammepdwheudb.southasia.pdwh_counting_mobile
+where  provider in ('BeBeautiful','Careline','H2H','Lakme','PUREIT') 
+and (lower(city) like '%ahmedabad%' 
+ or lower(city) like 'ahm' or lower(city) like 'ahm%' )
+and length(mobileno)>0
+
+
+
+----88475
+select distinct 'IN' Market
+,case when lower(Provider) like '%btone%' then 'BT' when lower(Provider) like '%careline%' then 'CL' 
+when lower(Provider) like '%pure%' then 'PI' when lower(Provider) like '%kkt%' then 'KKT'
+when lower(Provider) like '%digi%' then 'DL' when lower(Provider) like '%lakm%' then 'LK'
+when lower(Provider) like '%h2h%' then 'H2H' when lower(Provider) like '%bebe%' then 'BB'
+end Provider ,mobileno,'1' Optin_Hierarchy_level,'Unilever' Optin_Hierarchy_value
+FROM prmprogrammepdwheudb.southasia.pdwh_counting_mobile
+where  provider in ('BeBeautiful','Careline','H2H','Lakme','PUREIT') 
+and lower(city) like '%surat%' 
+and length(mobileno)>0
+
+
+
+----417571
+
+select distinct 'IN' Market
+,case when lower(Provider) like '%btone%' then 'BT' when lower(Provider) like '%careline%' then 'CL' 
+when lower(Provider) like '%pure%' then 'PI' when lower(Provider) like '%kkt%' then 'KKT'
+when lower(Provider) like '%digi%' then 'DL' when lower(Provider) like '%lakm%' then 'LK'
+when lower(Provider) like '%h2h%' then 'H2H' when lower(Provider) like '%bebe%' then 'BB'
+end Provider ,mobileno,'1' Optin_Hierarchy_level,'Unilever' Optin_Hierarchy_value
+FROM prmprogrammepdwheudb.southasia.pdwh_counting_mobile
+where  provider in ('BeBeautiful','Careline','H2H','Lakme','PUREIT') 
+and  lower(city) like '%vadodar%' 
+and length(mobileno)>0
+
+
+---2111
+
+select distinct 'IN' Market
+,case when lower(Provider) like '%btone%' then 'BT' when lower(Provider) like '%careline%' then 'CL' 
+when lower(Provider) like '%pure%' then 'PI' when lower(Provider) like '%kkt%' then 'KKT'
+when lower(Provider) like '%digi%' then 'DL' when lower(Provider) like '%lakm%' then 'LK'
+when lower(Provider) like '%h2h%' then 'H2H' when lower(Provider) like '%bebe%' then 'BB'
+end Provider ,mobileno,'1' Optin_Hierarchy_level,'Unilever' Optin_Hierarchy_value
+FROM prmprogrammepdwheudb.southasia.pdwh_counting_mobile
+where  provider in ('BeBeautiful','Careline','H2H','Lakme','PUREIT') 
+and  lower(city) like '%gandhi%nagar%' 
+and length(mobileno)>0
+
+
+
+-----4735
+
+select distinct 'IN' Market
+,case when lower(Provider) like '%btone%' then 'BT' when lower(Provider) like '%careline%' then 'CL' 
+when lower(Provider) like '%pure%' then 'PI' when lower(Provider) like '%kkt%' then 'KKT'
+when lower(Provider) like '%digi%' then 'DL' when lower(Provider) like '%lakm%' then 'LK'
+when lower(Provider) like '%h2h%' then 'H2H' when lower(Provider) like '%bebe%' then 'BB'
+end Provider ,mobileno,'1' Optin_Hierarchy_level,'Unilever' Optin_Hierarchy_value
+FROM prmprogrammepdwheudb.southasia.pdwh_counting_mobile
+where  provider in ('BeBeautiful','Careline','H2H','Lakme','PUREIT') 
+and  lower(city) like '%anand%' 
+and length(mobileno)>0
+
+
+
+
+-------
+
+
+
+select distinct 'IN' Market
+,case when lower(Provider) like '%btone%' then 'BT' when lower(Provider) like '%careline%' then 'CL' 
+when lower(Provider) like '%pure%' then 'PI' when lower(Provider) like '%kkt%' then 'KKT'
+when lower(Provider) like '%digi%' then 'DL' when lower(Provider) like '%lakm%' then 'LK'
+when lower(Provider) like '%h2h%' then 'H2H'  when lower(Provider) like '%bebe%' then 'BB' end Provider 
+,mobileno,'1' Optin_Hierarchy_level ,'Unilever' Optin_Hierarchy_value
+FROM prmprogrammepdwheudb.southasia.pdwh_counting_mobile a inner join prmprogrammepdwheudb.southasia.pdwh_ref_region b on a.mobileprefix=b.mobileprefix
+where   Provider  in ('Btone OI','Digital','H2H') and 
+
+(  lower(a.brand) not like '%axe%' and 
+ lower(a.brand) not like '%bru%'  and  lower(a.brand) not like '%close%up%'   and  lower(a.brand) not like '%comfandt%'  and  
+ lower(a.brand) not like '%candnetto%'  and    lower(a.brand) not like '%domex%' and  
+ lower(a.brand) not like '%dove%'  and    lower(a.brand) not like '%huggies%' and  
+ lower(a.brand) not like '%kissan%' and   lower(a.brand) not like '%knandr%'  and  
+ lower(a.brand) not like '%lifeb%'  and    lower(a.brand) not like '%lipton%'  and  
+ lower(a.brand) not like '%lux%'  and  lower(a.brand) not like '%paddle&pop%'  and  
+ lower(a.brand) not like '%pears%' and   lower(a.brand) not like '%ponds%'  and  
+ lower(a.brand) not like '%pe%soden%'  and    lower(a.brand) not like '%red%label%'  and  
+ lower(a.brand) not like '%surf%'  and  
+   lower(a.brand) not like '%taj%'  and  
+ lower(a.brand) not like '%vaseline%'  and   lower(a.brand) not like '%vim%' )
+
+and lower(b.region) like '%gujar%' 
+
+
+--------------
+
+select distinct 'IN' Market
+,case when lower(Provider) like '%btone%' then 'BT' when lower(Provider) like '%careline%' then 'CL' 
+ when lower(Provider) like '%pure%' then 'PI'  when lower(Provider) like '%kkt%' then 'KKT'
+ when lower(Provider) like '%digi%' then 'DL' when  lower(Provider) like '%lakm%' then 'LK'
+when  lower(Provider) like '%h2h%' then 'H2H'  when  lower(Provider) like '%bebe%' then 'BB' end Provider 
+,mobileno,'1' Optin_Hierarchy_level ,'Unilever' Optin_Hierarchy_value
+FROM prmprogrammepdwheudb.southasia.pdwh_counting_mobile a inner join prmprogrammepdwheudb.southasia.pdwh_ref_region b on a.mobileprefix=b.mobileprefix
+where   Provider  in ('Btone OI','Digital') and 
+
+(  lower(a.brand) like '%axe%' or  
+ lower(a.brand) like '%bru%'  or  lower(a.brand) like '%close%up%'   or  lower(a.brand) like '%comfort%'  or  
+ lower(a.brand) like '%cornetto%'  or    lower(a.brand) like '%domex%' or  
+ lower(a.brand) like '%dove%'  or    lower(a.brand) like '%huggies%' or  
+ lower(a.brand) like '%kissan%' or   lower(a.brand) like '%knorr%'  or  
+ lower(a.brand) like '%lifeb%'  or    lower(a.brand) like '%lipton%'  or  
+ lower(a.brand) like '%lux%'  or  lower(a.brand) like '%paddle&pop%'  or  
+ lower(a.brand) like '%pears%' or   lower(a.brand) like '%ponds%'  or  
+ lower(a.brand) like '%pe%soden%'  or    lower(a.brand) like '%red%label%'  or  
+ lower(a.brand) like '%surf%'  or  
+   lower(a.brand) like '%taj%'  or  
+ lower(a.brand) like '%vaseline%'  or   lower(a.brand) like '%vim%' )
+
+and lower(b.region) like '%gujar%' 

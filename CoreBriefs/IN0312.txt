@@ -1,0 +1,16 @@
+ select region,campaign_brand,count(distinct best_mobile_number_hash)
+ from PRM.bt_entry a 
+ inner join PRM.ref_mobile_lookup b  on a.region_lookup_number=b.lookup_prefix5
+ inner join PRM.bt_campaign c on a.campaign_id=c.campaign_id
+ where a.campaign_id in (select distinct campaign_id
+ from PRM.bt_campaign where  lower(campaign_name) like '%trader%' 
+ and country_code='IN')
+ group by region,campaign_brand;
+ 
+ 
+  select region,brand_name,count(distinct best_mobile_number_hash)
+ from PRM.dl197_transaction  a 
+ inner join PRM.ref_mobile_lookup b  on a.region_lookup_number=b.lookup_prefix5
+ where lower(brand_name) like '%taaza%'
+ group by region,brand_name;
+ 

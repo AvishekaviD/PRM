@@ -1,0 +1,23 @@
+select distinct 'IN' Market
+,case when lower(Provider) like '%btone%' then 'BT' when lower(Provider) like '%careline%' then 'CL' 
+when lower(Provider) like '%pure%' then 'PI' when lower(Provider) like '%kkt%' then 'KKT'
+when lower(Provider) like '%digi%' then 'DL' when lower(Provider) like '%lakm%' then 'LK'
+when lower(Provider) like '%h2h%' then 'H2H' end Provider ,mobileno,'1' Optin_Hierarchy_level
+,'Unilever' Optin_Hierarchy_value
+FROM prmprogrammepdwheudb.southasia.pdwh_counting_mobile a inner join prmprogrammepdwheudb.southasia.pdwh_ref_region b on a.mobileprefix=b.mobileprefix
+where   Provider  in ('Btone OI','Digital','H2H') and lower(brand) like '%cornet%' 
+and b.region  in ('Mumbai','Chennai','Kolkata','Delhi')
+
+union
+
+select distinct 'IN' Market
+,case when lower(Provider) like '%btone%' then 'BT' when lower(Provider) like '%careline%' then 'CL' 
+when lower(Provider) like '%pure%' then 'PI' when lower(Provider) like '%kkt%' then 'KKT'
+when lower(Provider) like '%digi%' then 'DL' when lower(Provider) like '%lakm%' then 'LK'
+when lower(Provider) like '%h2h%' then 'H2H' when lower(Provider) like '%bebe%' then 'BB'
+end Provider ,mobileno,'1' Optin_Hierarchy_level
+,'Unilever' Optin_Hierarchy_value
+FROM prmprogrammepdwheudb.southasia.pdwh_counting_mobile a 
+where   Provider  in ('Btone OI','Digital','H2H') and lower(brand) like '%cornet%' 
+and (lower(city) like '%pune%' or lower(city) like '%hyder%'
+or lower(city) like '%bangalor%' or lower(city) like '%blr%')

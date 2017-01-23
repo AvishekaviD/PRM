@@ -1,0 +1,30 @@
+
+create multiset table IN0232rosesJingle("best_mobile_number_hash" varchar(300))
+
+insert into IN0232rosesJingle
+select distinct "best_mobile_number_hash" from (
+SELECT  "best_mobile_number_hash",count(distinct entry_id) as "Counts"
+FROM "PRM"."bt_entry" a
+inner join PRM.ref_mobile_lookup b on 
+
+b.lookup_prefix5=a."region_lookup_number"
+where "error_code"='0' and "campaign_id" in 
+
+('2120','2176','2195','2200')
+and b.region in ('Chennai','Tamilnadu','Tamil Nadu')
+group by  "best_mobile_number_hash"
+) as a where "Counts">1;
+
+
+
+-----consumers
+
+select distinct 'IN' Market
+,case when lower(Provider) like '%btone%' then 'BT' when lower(Provider) like '%careline%' then 'CL' 
+when lower(Provider) like '%pure%' then 'PI' when lower(Provider) like '%kkt%' then 'KKT'
+when lower(Provider) like '%digi%' then 'DL' when lower(Provider) like '%lakm%' then 'LK'
+when lower(Provider) like '%h2h%' then 'H2H' end Provider ,mobileno,'1' Optin_Hierarchy_level
+,'Unilever' Optin_Hierarchy_value
+FROM prmprogrammepdwheudb.southasia.pdwh_counting_mobile a inner join prmprogrammepdwheudb.southasia.pdwh_ref_region b on a.mobileprefix=b.mobileprefix
+where   Provider  in ('Btone OI','Digital','H2H') and lower(brand) like '%3%rose%' 
+and b.region  in ('Tamilnadu','Chennai')

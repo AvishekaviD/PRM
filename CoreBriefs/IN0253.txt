@@ -1,0 +1,59 @@
+ select campaign_brand,region,count(distinct best_mobile_number_hash)from PRM.bt_entry a
+ inner join PRM.ref_mobile_lookup b on a.region_lookup_number=b.lookup_prefix5
+ inner join PRM.bt_campaign c on a.campaign_id=c.campaign_id
+ where a.campaign_id in ( select distinct campaign_id from PRM.bt_campaign
+ where lower(campaign_name) like '%trader%'  and country_code='IN')
+ group by campaign_brand,region
+
+
+select brand_name,region,count(distinct best_mobile_number_hash)
+from PRM.dl197_transaction a
+inner join PRM.ref_mobile_lookup b on a.region_lookup_number=b.lookup_prefix5
+where campaign_name like '%Reyno%'
+ group by brand_name,region
+
+
+ select region,counts,count(distinct best_mobile_number_hash) from(
+   select region, best_mobile_number_hash,count(*)"Counts" from PRM.bt_entry a
+   inner join PRM.ref_mobile_lookup b on a.region_lookup_number=b.lookup_prefix5
+ where a.campaign_id in ( '2120','2200','2120','2176','2195')
+   and ((entry_status= 0 AND error_code= 0) OR (entry_status= -1 AND error_code= -9) OR 
+   (entry_status= 0 and error_code= -15))
+   and region in ('Andhra Pradesh','Karnataka','Kerala','Chennai','Tamilnadu')
+   group by region, best_mobile_number_hash) as a group by region,counts
+ 
+
+-------------------------------------
+create multiset table RosesRTD(region varchar(50),best_mobile_number_hash varchar(300) )
+ 
+
+insert into "GAIN_THEORY".RosesRTD
+select distinct region, best_mobile_number_hash from(
+   select region, best_mobile_number_hash,count(*)"Counts" from PRM.bt_entry a
+   inner join PRM.ref_mobile_lookup b on a.region_lookup_number=b.lookup_prefix5
+ where a.campaign_id in ( '2120','2200','2120','2176','2195')
+   and ((entry_status= 0 AND error_code= 0) OR (entry_status= -1 AND error_code= -9) OR 
+   (entry_status= 0 and error_code= -15))
+   and region in ('Andhra Pradesh','Karnataka','Kerala','Chennai','Tamilnadu')
+   group by region, best_mobile_number_hash) as a where counts >'1'
+ 
+   
+   
+   create multiset table RosesRTD(
+   market varchar(20),
+   provider varchar(20),
+   mobileno varchar(300),
+   optin_hierarchy_level varchar(5),optin_hierarchy_value varchar(50)
+ )
+ 
+
+insert into "GAIN_THEORY".RosesRTD
+select distinct 'IN','BT', best_mobile_number_hash,'1','Unilever' from(
+   select region, best_mobile_number_hash,count(*)"Counts" from PRM.bt_entry a
+   inner join PRM.ref_mobile_lookup b on a.region_lookup_number=b.lookup_prefix5
+ where a.campaign_id in ( '2120','2200','2120','2176','2195')
+   and ((entry_status= 0 AND error_code= 0) OR (entry_status= -1 AND error_code= -9) OR 
+   (entry_status= 0 and error_code= -15))
+   and region in ('Chennai','Tamilnadu')
+   group by region, best_mobile_number_hash) as a where counts >'1'
+ 

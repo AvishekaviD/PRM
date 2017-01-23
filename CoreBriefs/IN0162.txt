@@ -1,0 +1,172 @@
+select distinct b.region,b.operator,brand,productsize,count(distinct a.mobileno)
+FROM prmprogrammepdwheudb.southasia.pdwh_counting_mobile a
+inner join prmprogrammepdwheudb.southasia.pdwh_ref_region b on a.mobileprefix=b.mobileprefix
+where lower(brand) like '%close%up%'  
+and provider in ('Digital','Btone OI','H2H')
+and productsize in ('40g','80g','150g')
+and length(mobileno)>0
+group by b.region,b.operator,brand,productsize
+
+
+select distinct b.region,
+Case
+when lower(brand) like '%bru' then 'bru' when lower(brand) like '%comfort%' then 'comfort'
+When lower(brand) like '%sunlight%' then 'sunlight' When lower(brand) like '%taaza%' then 'taaza'
+When lower(brand) like '%vim%' then 'vim' When lower(brand) like '%fair%love%' then 'Fair Lovely'
+ When lower(brand) like '%fal%' then 'Fair Lovely'When lower(brand) like '%wheel%' then 'wheel' 
+ When lower(brand) like '%ponds%' then 'Ponds' when lower(brand) like '%lux%' then 'Lux' When lower(brand) like '%rin%' then 'rin' 
+When lower(brand) like '%clinic%plus%' then 'Clinic Plus' When lower(brand) like '%pe%sodent%' then 'Pepsodent'
+end Brands
+,count(distinct a.mobileno)
+FROM prmprogrammepdwheudb.southasia.pdwh_counting_mobile a
+inner join prmprogrammepdwheudb.southasia.pdwh_ref_region b on a.mobileprefix=b.mobileprefix
+where (lower(brand) like '%bru%' or lower(brand) like '%comfort%' or lower(brand) like '%sunlight%' 
+or lower(brand) like '%taaza%' or lower(brand) like '%vim%' or lower(brand) like '%wheel%'
+or lower(brand) like '%fair%love%' or lower(brand) like '%fal%' or lower(brand) like '%lux%' 
+or lower(brand) like '%pond%' or lower(brand) like '%rin%' or lower(brand) like '%clinic%plus%' or lower(brand) like '%pe%sodent%')
+and provider in ('Digital','Btone OI','H2H')
+and length(mobileno)>0
+and datediff(month,lastinteractiondate,'2015-12-31 00:00:00' ) in (0,1,2,3,4,5,6,7,8) 
+group by b.region,Brands
+
+
+-------final
+select distinct 'IN' Market
+,case when lower(Provider) like '%btone%' then 'BT' when lower(Provider) like '%careline%' then 'CL' 
+when lower(Provider) like '%pure%' then 'PI' when lower(Provider) like '%kkt%' then 'KKT'
+when lower(Provider) like '%digi%' then 'DL' when lower(Provider) like '%lakm%' then 'LK'
+when lower(Provider) like '%h2h%' then 'H2H' when lower(Provider) like '%bebe%' then 'BB'
+end Provider ,mobileno,'1' Optin_Hierarchy_level,'Unilever' Optin_Hierarchy_value
+FROM prmprogrammepdwheudb.southasia.pdwh_counting_mobile a
+inner join prmprogrammepdwheudb.southasia.pdwh_ref_region b on a.mobileprefix=b.mobileprefix
+where lower(brand) like '%close%up%'  
+and provider in ('Digital','Btone OI','H2H')
+and productsize in ('40g')
+and length(mobileno)>0
+
+782088 
+
+select distinct 'IN' Market
+,case when lower(Provider) like '%btone%' then 'BT' when lower(Provider) like '%careline%' then 'CL' 
+when lower(Provider) like '%pure%' then 'PI' when lower(Provider) like '%kkt%' then 'KKT'
+when lower(Provider) like '%digi%' then 'DL' when lower(Provider) like '%lakm%' then 'LK'
+when lower(Provider) like '%h2h%' then 'H2H' when lower(Provider) like '%bebe%' then 'BB'
+end Provider ,mobileno,'1' Optin_Hierarchy_level,'Unilever' Optin_Hierarchy_value
+FROM prmprogrammepdwheudb.southasia.pdwh_counting_mobile a
+inner join prmprogrammepdwheudb.southasia.pdwh_ref_region b on a.mobileprefix=b.mobileprefix
+where lower(brand) like '%close%up%'  
+and provider in ('Digital','Btone OI','H2H')
+and productsize in ('80g')
+and length(mobileno)>0
+
+
+select distinct 'IN' Market
+,case when lower(Provider) like '%btone%' then 'BT' when lower(Provider) like '%careline%' then 'CL' 
+when lower(Provider) like '%pure%' then 'PI' when lower(Provider) like '%kkt%' then 'KKT'
+when lower(Provider) like '%digi%' then 'DL' when lower(Provider) like '%lakm%' then 'LK'
+when lower(Provider) like '%h2h%' then 'H2H' when lower(Provider) like '%bebe%' then 'BB'
+end Provider ,mobileno,'1' Optin_Hierarchy_level,'Unilever' Optin_Hierarchy_value
+FROM prmprogrammepdwheudb.southasia.pdwh_counting_mobile a
+inner join prmprogrammepdwheudb.southasia.pdwh_ref_region b on a.mobileprefix=b.mobileprefix
+where lower(brand) like '%close%up%'  
+and provider in ('Digital','Btone OI','H2H')
+and productsize in ('150g')
+and length(mobileno)>0
+
+
+select distinct 'IN' Market
+,case when lower(Provider) like '%btone%' then 'BT' when lower(Provider) like '%careline%' then 'CL' 
+when lower(Provider) like '%pure%' then 'PI' when lower(Provider) like '%kkt%' then 'KKT'
+when lower(Provider) like '%digi%' then 'DL' when lower(Provider) like '%lakm%' then 'LK'
+when lower(Provider) like '%h2h%' then 'H2H' when lower(Provider) like '%bebe%' then 'BB'
+end Provider ,mobileno,'1' Optin_Hierarchy_level,'Unilever' Optin_Hierarchy_value
+FROM prmprogrammepdwheudb.southasia.pdwh_counting_mobile a
+inner join prmprogrammepdwheudb.southasia.pdwh_ref_region b on a.mobileprefix=b.mobileprefix
+where (lower(brand) like '%bru%' ) 
+and provider in ('Digital','Btone OI','H2H')
+and datediff(month,lastinteractiondate,'2015-12-31 00:00:00' ) in (0,1,2,3,4,5,6,7,8) 
+and length(mobileno)>0
+
+
+
+
+select distinct 'IN' Market
+,case when lower(Provider) like '%btone%' then 'BT' when lower(Provider) like '%careline%' then 'CL' 
+when lower(Provider) like '%pure%' then 'PI' when lower(Provider) like '%kkt%' then 'KKT'
+when lower(Provider) like '%digi%' then 'DL' when lower(Provider) like '%lakm%' then 'LK'
+when lower(Provider) like '%h2h%' then 'H2H' when lower(Provider) like '%bebe%' then 'BB'
+end Provider ,mobileno,'1' Optin_Hierarchy_level,'Unilever' Optin_Hierarchy_value
+FROM prmprogrammepdwheudb.southasia.pdwh_counting_mobile a
+inner join prmprogrammepdwheudb.southasia.pdwh_ref_region b on a.mobileprefix=b.mobileprefix
+where (lower(brand) like '%comfort%') 
+and provider in ('Digital','Btone OI','H2H')
+and datediff(month,lastinteractiondate,'2015-12-31 00:00:00' ) in (0,1,2,3,4,5,6,7,8) 
+and length(mobileno)>0
+
+select distinct 'IN' Market
+,case when lower(Provider) like '%btone%' then 'BT' when lower(Provider) like '%careline%' then 'CL' 
+when lower(Provider) like '%pure%' then 'PI' when lower(Provider) like '%kkt%' then 'KKT'
+when lower(Provider) like '%digi%' then 'DL' when lower(Provider) like '%lakm%' then 'LK'
+when lower(Provider) like '%h2h%' then 'H2H' when lower(Provider) like '%bebe%' then 'BB'
+end Provider ,mobileno,'1' Optin_Hierarchy_level,'Unilever' Optin_Hierarchy_value
+FROM prmprogrammepdwheudb.southasia.pdwh_counting_mobile a
+inner join prmprogrammepdwheudb.southasia.pdwh_ref_region b on a.mobileprefix=b.mobileprefix
+where (lower(brand) like '%pe%sodent%') 
+and provider in ('Digital','Btone OI','H2H')
+and datediff(month,lastinteractiondate,'2015-12-31 00:00:00' ) in (0,1,2,3,4,5,6,7,8) 
+and length(mobileno)>0
+
+select distinct 'IN' Market
+,case when lower(Provider) like '%btone%' then 'BT' when lower(Provider) like '%careline%' then 'CL' 
+when lower(Provider) like '%pure%' then 'PI' when lower(Provider) like '%kkt%' then 'KKT'
+when lower(Provider) like '%digi%' then 'DL' when lower(Provider) like '%lakm%' then 'LK'
+when lower(Provider) like '%h2h%' then 'H2H' when lower(Provider) like '%bebe%' then 'BB'
+end Provider ,mobileno,'1' Optin_Hierarchy_level,'Unilever' Optin_Hierarchy_value
+FROM prmprogrammepdwheudb.southasia.pdwh_counting_mobile a
+inner join prmprogrammepdwheudb.southasia.pdwh_ref_region b on a.mobileprefix=b.mobileprefix
+where (lower(brand) like '%sunlight%') 
+and provider in ('Digital','Btone OI','H2H')
+and datediff(month,lastinteractiondate,'2015-12-31 00:00:00' ) in (0,1,2,3,4,5,6,7,8) 
+and length(mobileno)>0
+
+select distinct 'IN' Market
+,case when lower(Provider) like '%btone%' then 'BT' when lower(Provider) like '%careline%' then 'CL' 
+when lower(Provider) like '%pure%' then 'PI' when lower(Provider) like '%kkt%' then 'KKT'
+when lower(Provider) like '%digi%' then 'DL' when lower(Provider) like '%lakm%' then 'LK'
+when lower(Provider) like '%h2h%' then 'H2H' when lower(Provider) like '%bebe%' then 'BB'
+end Provider ,mobileno,'1' Optin_Hierarchy_level,'Unilever' Optin_Hierarchy_value
+FROM prmprogrammepdwheudb.southasia.pdwh_counting_mobile a
+inner join prmprogrammepdwheudb.southasia.pdwh_ref_region b on a.mobileprefix=b.mobileprefix
+where (lower(brand) like '%taaza%') 
+and provider in ('Digital','Btone OI','H2H')
+and datediff(month,lastinteractiondate,'2015-12-31 00:00:00' ) in (0,1,2,3,4,5,6,7,8) 
+and length(mobileno)>0
+
+select distinct 'IN' Market
+,case when lower(Provider) like '%btone%' then 'BT' when lower(Provider) like '%careline%' then 'CL' 
+when lower(Provider) like '%pure%' then 'PI' when lower(Provider) like '%kkt%' then 'KKT'
+when lower(Provider) like '%digi%' then 'DL' when lower(Provider) like '%lakm%' then 'LK'
+when lower(Provider) like '%h2h%' then 'H2H' when lower(Provider) like '%bebe%' then 'BB'
+end Provider ,mobileno,'1' Optin_Hierarchy_level,'Unilever' Optin_Hierarchy_value
+FROM prmprogrammepdwheudb.southasia.pdwh_counting_mobile a
+inner join prmprogrammepdwheudb.southasia.pdwh_ref_region b on a.mobileprefix=b.mobileprefix
+where (lower(brand) like '%vim%') 
+and provider in ('Digital','Btone OI','H2H')
+and datediff(month,lastinteractiondate,'2015-12-31 00:00:00' ) in (0,1,2,3,4,5,6,7,8) 
+and length(mobileno)>0
+
+select distinct 'IN' Market
+,case when lower(Provider) like '%btone%' then 'BT' when lower(Provider) like '%careline%' then 'CL' 
+when lower(Provider) like '%pure%' then 'PI' when lower(Provider) like '%kkt%' then 'KKT'
+when lower(Provider) like '%digi%' then 'DL' when lower(Provider) like '%lakm%' then 'LK'
+when lower(Provider) like '%h2h%' then 'H2H' when lower(Provider) like '%bebe%' then 'BB'
+end Provider ,mobileno,'1' Optin_Hierarchy_level,'Unilever' Optin_Hierarchy_value
+FROM prmprogrammepdwheudb.southasia.pdwh_counting_mobile a
+inner join prmprogrammepdwheudb.southasia.pdwh_ref_region b on a.mobileprefix=b.mobileprefix
+where (lower(brand) like '%wheel%') 
+and provider in ('Digital','Btone OI','H2H')
+and datediff(month,lastinteractiondate,'2015-12-31 00:00:00' ) in (0,1,2,3,4,5,6,7,8) 
+and length(mobileno)>0
+
+
+

@@ -1,0 +1,75 @@
+drop table cl_optinnumbers 
+ 
+create multiset table cl_optinnumbers(
+ best_mobile_number_hash varchar(300),
+ regio_lookup_number varchar(20),city varchar(100),opt_out varchar(10),brand varchar(100) )
+ 
+ update cl_optinnumbers
+ set opt_out='No'  where lower(opt_out) like '%no%'
+ 
+ 
+  update cl_optinnumbers
+ set opt_out='Yes'  where lower(opt_out) like '%yes%'
+ 
+ insert into cl_optinnumbers
+ select distinct best_mobile_number_hash,region_lookup_number ,city,opt_out,brand
+ from PRM.cl_call ;
+
+ 
+  insert into cl_optinnumbers
+ select distinct best_mobile_number_hash,region_lookup_number   ,city,opt_out,brand
+ from PRM.cl_call_pti748;
+
+ 
+  insert into cl_optinnumbers
+ select distinct best_mobile_number_hash,region_lookup_number  ,city ,opt_out,brand
+ from PRM.cl_call_till_dec2015;
+ 
+
+  insert into cl_optinnumbers
+ select distinct best_mobile_number_hash,region_lookup_number   ,city,opt_out,brand
+ from PRM.cl_calls_aug_sep_2014;
+ 
+ 
+ select case when lower(brand) like '%knorr%' then 'Knorr'
+ when lower(brand) like '%kissan%' then 'kissan' end as brands ,opt_out,count(distinct best_mobile_number_hash) from cl_optinnumbers
+ where lower(brand) like '%knorr%' or lower(brand) like '%kissan%'
+ group by brands,opt_out
+ 
+ 
+  select b.region,opt_out,count(distinct best_mobile_number_hash) from cl_optinnumbers a
+  inner join PRM.ref_mobile_region_lookup b on a.regio_lookup_number=b.mscrange5
+ group by b.region,opt_out
+ 
+ 
+ drop table cl_optinnumbers2
+ create multiset table cl_optinnumbers2(
+  region varchar(100),opt_out varchar(100), best_mobile_number_hash varchar(300) )
+ 
+ 
+ insert into cl_optinnumbers2
+ select distinct b.region,opt_out, best_mobile_number_hash from cl_optinnumbers a
+ inner join PRM.ref_mobile_region_lookup b on a.regio_lookup_number=b.mscrange5
+  where (opt_out='No' or opt_out='NO') and (lower(region) like '%mumba%'
+  or lower(region) like '%delhi%'  or lower(region) like '%kolkata%')
+
+ 
+  
+   insert into cl_optinnumbers2
+ select distinct lower(city),opt_out, best_mobile_number_hash from cl_optinnumbers a
+ inner join PRM.ref_mobile_region_lookup b on a.regio_lookup_number=b.mscrange5
+  where (opt_out='No' or opt_out='NO') and (lower(city) like '%hyd%')
+
+ 
+ 
+  select opt_out,count(distinct best_mobile_number_hash) from cl_optinnumbers a
+ where lower(a.brand) like '%knorr%' 
+ group by opt_out
+ 
+  select opt_out,count(distinct best_mobile_number_hash) from cl_optinnumbers a
+ where lower(a.brand) like '%kissan%' 
+ group by opt_out
+ 
+ 
+ 
+ select  optin_status,count(*) from PRM.dl197_transaction group by optin_status

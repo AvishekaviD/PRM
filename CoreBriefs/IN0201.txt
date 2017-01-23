@@ -1,0 +1,78 @@
+SELECT b.region , case
+when brand like '%Dove%' then 'Dove' when brand like '%Lakme%' then 'Lakme'
+when brand like '%Ponds BB%' then 'Ponds' when brand like '%Taj Tea%' then 'Taj Mahal'
+when brand like '%Pureit%' then 'Pureit' when brand like '%Clear%' then 'Clear'
+when brand like '%Redlabel%' then 'Red label' when brand like '%Knorr%' then 'Knorr'
+when brand like '%AXE%' then 'AXE' when brand like '%Bru%' then 'Bru'
+when brand like '%Taaza%' then 'Taaza' when brand like '%Pepsodent%' then 'Pepsodent'
+when brand like '%VIM Gel%' then 'VIM' when brand like '%KKD 7500%' then 'Others'
+when brand like '%Combo 1(W 1Kg, 2R 150gm,2V 75gm)%' then 'Others'
+when brand like '%Sunlight%' then 'Sunlight' when brand like '%Huggies%' then 'Huggies'
+when brand like '%HUL%' then 'Others' when brand like '%Surf%' then 'Surf'
+when brand like '%3 ROSES%' then '3 ROSES' when brand like '%LUX%' then 'LUX'
+when brand like '%Vaseline%' then 'Vaseline' when brand like '%Clinic%' then 'Clinic Plus'
+when brand like '%FAL%' then 'Fair and Lovely' when brand like '%Clinic Plus%' then 'Clinic Plus'
+when brand like '%PONDS%' then 'Ponds' when brand like '%Tajmahal%' then 'Taj Mahal'
+when brand like '%KISSAN%' then 'KISSAN' when brand like '%Duss%' then 'Others'
+when brand like '%Shakthi MMD%' then 'Others' when brand like '%Surf Excel%' then 'Surf'
+when brand like '%LUX IMPRESS%' then 'Lux' when brand like '%Combo 2(W 1/2 kg,1R 150gm,1V 75gm)%' then 'Others'
+when brand like '%Domex%' then 'Domex' when brand like '%Vim%' then 'Vim'
+when brand like '%ClinicPlus_Feb2012%' then 'Clinic Plus' when brand like '%Sunsilk%' then 'Sunsilk'
+when brand like '%Dove conditioner%' then 'Dove' when brand like '%Swatch bharat%' then 'Others'
+when brand like '%DOVEDADI%' then 'Dove'when brand like '%Pears%' then 'Pears'
+when brand like '%WHEEL%' then 'WHEEL' when brand like '%Vaseline Jelly%' then 'Vaseline'
+when brand like '%PaddlePop%' then 'PaddlePop' when brand like '%SOCIETY%' then 'Others'
+when brand like '%Taj%' then 'Taj Mahal' when brand like '%SASB SCP%' then 'Others'
+when brand like '%Incentive%' then 'Others' when brand like '%SASB Mohalla%' then 'Others'
+when brand like '%Taaza_Tea_SMS%' then 'Others' when brand like '%MP Sampling 3 Brands%' then 'Others'
+when brand like '%Rin%' then 'RIN' when brand like '%PB Wheel sampling%' then 'Wheel'
+when brand like '%Santoor%' then 'Santoor' when brand like '%Wheel1Kg%' then 'Wheel'
+when brand like '%Wheel Sampling%' then 'Wheel' when brand like '%Magic%' then 'Magic Rinse'
+when brand like '%Taj Mahal%' then 'Taj Mahal' when brand like '%Magic Rinse%' then 'Magic Rinse'
+when brand like '%1 Rinse%' then 'Magic Rinse' when brand like '%Rin Sample%' then 'RIN'
+when brand like '%Comfort%' then 'Comfort' when brand like '%Red Label%' then 'Red Label'
+when brand like '%VIM bar%' then 'VIM' when brand like '%MDM H2H Sample%' then 'Others'
+when brand like '%TopLoad%' then 'Others' when brand like '%VIM liquid%' then 'Vim'
+when brand like '%Training%' then 'Others' when brand like '%Closeup%' then 'Close Up'
+when brand like '%Close Up%' then 'Close Up' when brand like '%Lipton%' then 'Lipton'
+when brand like '%KKD 7500 RCP%' then 'Others' when brand like '%SASB H2H%' then 'Others'
+when brand like '%New Combo Offer%' then 'Others' when brand like '%FrontLoad%' then 'Others'
+when brand like '%Fair & Lovely%' then 'Fair and Lovely'when brand like '%3 Rose%' then '3 Roses'when brand like '%Couponing%' then 'Others'when brand like '%Gold%' then 'Others'
+when brand like '%The Health Challenge%' then 'Others'when brand like '%Cornetto%' then 'Cornetto'when brand like '%WHEEL_Goldcoin%' then 'WHEEL'
+when brand like '%KKD 7500 H2H%' then 'Others'when brand like '%Intel%' then 'Others'when brand like '%RIN Trader%' then 'RIN'
+when brand like '%KKDOutbox%' then 'Others'when brand like '%Vaseline Moisturizer%' then 'Vaseline'when brand like '%Lux Bodywash%' then 'Lux'
+when brand like '%Pureit - Classic%' then 'Pureit'when brand like '%Fair and Lovely%' then 'Fair and Lovely'when brand like '%CLOSEUP_2013%' then 'Close Up'
+when brand like '%Distribution channel%' then 'Others'when brand like '%Comfort Sampling%' then 'Comfort'when brand like '%MDM Mandi 500%' then 'Others'
+when brand like '%VASELINE_HW%' then 'Vaseline'when brand like '%KKD 7500 Mohalla%' then 'Others'
+when brand like '%Bru Cafe%' then 'Bru'when brand like '%CORPORATE%' then 'Others'when brand like '%KKDdummy1%' then 'Others'
+when brand like '%Surf Excel Matic%' then 'Surf'when brand like '%Kissan and Knorr%' then 'KISSAN'when brand like '%Lifebuoy%' then 'Lifebuoy'
+when brand like '%comfortinstore%' then 'Comfort'when brand like '%ATTENDANCE TRACKER%' then 'Others'when brand like '%Wheel Sample%' then 'Wheel'
+when brand like '%KKD%' then 'Others' when lower(brand) like '%pe%dent%' then 'Pepsodent' when lower(brand) like '%comfort%' then 'Comfort'
+else 'Others' end brands,Case
+when datediff(month,lastinteractiondate,getdate() ) in (0,1,2,3) then '0-3 Months'
+when datediff(month,lastinteractiondate,getdate() ) in (4,5,6) then '4-6 Months'
+when datediff(month,lastinteractiondate,getdate())>6 or lastinteractiondate is null then '>6 Months'
+end Duration,count(distinct mobileno)
+FROM prmprogrammepdwheudb.southasia.pdwh_counting_mobile a 
+inner join prmprogrammepdwheudb.southasia.pdwh_ref_region b on a.mobileprefix=b.mobileprefix
+where  Provider in ('Digital','H2H','Btone OI')
+and length(mobileno)>0
+group by b.region,brands,Duration
+
+
+
+-----------------------------
+
+
+SELECT b.region ,provider,Case
+when datediff(month,lastinteractiondate,getdate() ) in (0,1,2,3) then '0-3 Months'
+when datediff(month,lastinteractiondate,getdate() ) in (4,5,6) then '4-6 Months'
+when datediff(month,lastinteractiondate,getdate())>6 or lastinteractiondate is null then '>6 Months'
+end Duration,count(distinct mobileno)
+FROM prmprogrammepdwheudb.southasia.pdwh_counting_mobile a 
+inner join prmprogrammepdwheudb.southasia.pdwh_ref_region b on a.mobileprefix=b.mobileprefix
+where  Provider not in ('Digital','H2H','Btone OI')
+and length(mobileno)>0
+group by b.region,provider,Duration
+
+

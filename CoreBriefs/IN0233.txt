@@ -1,0 +1,6 @@
+create multiset table IN0233Paddlepop("brand_name" varchar(50),"best_mobile_number_hash" varchar(300))
+
+insert into IN0233Paddlepop
+SELECT distinct "brand_name","best_mobile_number_hash"
+FROM "PRM"."dl197_transaction"
+where brand_name in ('P^psodent','Kissan') and "optin_status" in ('C','Yes')

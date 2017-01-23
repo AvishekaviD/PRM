@@ -1,0 +1,127 @@
+create multiset table DoveAHS(
+market varchar(10),provider varchar(50),mobileno varchar(300)
+,optin_hierarchy_level varchar(10),optin_hierarchy_value varchar(10),city varchar(100), "FinalLSM" varchar(10),
+"finalconfidence" varchar(20))
+
+insert into "GAIN_THEORY".DoveAHS
+(market ,mobileno,optin_hierarchy_level,optin_hierarchy_value, "FinalLSM", "finalconfidence")
+SELECT distinct 'IN',"best_mobile_number_hash",'1','Unilever', "FinalLSM", "finalconfidence"
+FROM "GAIN_THEORY"."LSM3_CombinedSourceSKU"
+where "FinalLSM"='7+' and "finalconfidence" in ('90','60');
+
+ update "GAIN_THEORY".DoveAHS
+ set city='Chennai'
+ where mobileno  in (select distinct "best_mobile_number_hash"  
+ FROM "GAIN_THEORY"."LSM3_CombinedSourceSKU" where lower(region) like '%chennai%'
+and "FinalLSM"='7+' and "finalconfidence" in ('90','60'))
+ and city is null;
+ 
+update "GAIN_THEORY".DoveAHS
+set city='Mumbai'where mobileno  in (select distinct "best_mobile_number_hash"  
+FROM "GAIN_THEORY"."LSM3_CombinedSourceSKU" where lower(region) like '%mumbai%'and "FinalLSM"='7+' and "finalconfidence" in ('90','60'))
+and city is null;
+
+update "GAIN_THEORY".DoveAHS
+set city='delhi'where mobileno  in (select distinct "best_mobile_number_hash"  
+FROM "GAIN_THEORY"."LSM3_CombinedSourceSKU" where lower(region) like '%delhi%'and "FinalLSM"='7+' and "finalconfidence" in ('90','60'))
+and city is null;
+
+
+update "GAIN_THEORY".DoveAHS
+set city='Kolkata'where mobileno  in (select distinct "best_mobile_number_hash"  
+FROM "GAIN_THEORY"."LSM3_CombinedSourceSKU" where lower(region) like '%kolkata%'and "FinalLSM"='7+' and "finalconfidence" in ('90','60'))
+and city is null;
+
+update "GAIN_THEORY".DoveAHS
+set city='bangalore'where mobileno  in (select distinct "best_mobile_number_hash"  
+FROM PRM.pi_consumer where lower(city) like '%bangalore%'
+or lower(city) like '%bengalur%' or lower(city) like 'bng'
+or lower(city) like 'blr') and city is null;
+
+
+update "GAIN_THEORY".DoveAHS
+set city='ahmedabad' where mobileno  in (select distinct "best_mobile_number_hash"  
+FROM PRM.pi_consumer where lower(city) like '%ahmedabad%'
+or lower(city) like 'ahm%') and city is null;
+
+
+update "GAIN_THEORY".DoveAHS
+set city='Pune' where mobileno  in (select distinct "best_mobile_number_hash"  
+FROM PRM.pi_consumer where lower(city) like '%pune%') and city is null;
+
+update "GAIN_THEORY".DoveAHS
+set city='hyderabad' where mobileno  in (select distinct "best_mobile_number_hash"  
+FROM PRM.pi_consumer where lower(city) like '%hyderabad%'
+or lower(city) like 'hyd%' or lower(city) like '% hyd%') and city is null;
+
+
+update "GAIN_THEORY".DoveAHS
+set city='Indore' where mobileno  in (select distinct "best_mobile_number_hash"  
+FROM PRM.pi_consumer where lower(city) like '%indore%') and city is null;
+
+update "GAIN_THEORY".DoveAHS
+set city='Chandigarh' where mobileno  in (select distinct "best_mobile_number_hash"  
+FROM PRM.pi_consumer where lower(city) like '%chandig%') and city is null;
+
+
+
+update "GAIN_THEORY".DoveAHS
+set city='bangalore'where mobileno  in (select distinct "best_mobile_number_hash"  
+FROM PRM.lk_customer where lower(city) like '%bangalore%'
+or lower(city) like '%bengalur%' or lower(city) like 'bng'
+or lower(city) like 'blr') and city is null;
+
+
+update "GAIN_THEORY".DoveAHS
+set city='ahmedabad' where mobileno  in (select distinct "best_mobile_number_hash"  
+FROM PRM.lk_customer where lower(city) like '%ahmedabad%'
+or lower(city) like 'ahm%') and city is null;
+
+
+update "GAIN_THEORY".DoveAHS
+set city='Pune' where mobileno  in (select distinct "best_mobile_number_hash"  
+FROM PRM.lk_customer where lower(city) like '%pune%') and city is null;
+
+update "GAIN_THEORY".DoveAHS
+set city='hyderabad' where mobileno  in (select distinct "best_mobile_number_hash"  
+FROM PRM.lk_customer where lower(city) like '%hyderabad%'
+or lower(city) like 'hyd%' or lower(city) like '% hyd%') and city is null;
+
+
+update "GAIN_THEORY".DoveAHS
+set city='Indore' where mobileno  in (select distinct "best_mobile_number_hash"  
+FROM PRM.lk_customer where lower(city) like '%indore%') and city is null;
+
+update "GAIN_THEORY".DoveAHS
+set city='Chandigarh' where mobileno  in (select distinct "best_mobile_number_hash"  
+FROM PRM.lk_customer where lower(city) like '%chandig%') and city is null;
+
+
+
+
+
+
+alter table "GAIN_THEORY".DoveAHS add "Gender" varchar(30)
+
+update  "GAIN_THEORY".DoveAHS
+set "Gender"= 'Female'where mobileno  in (select distinct "best_mobile_number_hash"  
+FROM PRM.lk_customer where lower(Gender) like '%female%') and "Gender" is null;
+
+update  "GAIN_THEORY".DoveAHS
+set "Gender"= 'Female'where mobileno  in (select distinct "best_mobile_number_hash"  
+FROM GAIN_THEORY.LSM3_BrandCombined_Unique 
+where lower(brand_name) like '%surf%' or  lower(brand_name) like '%dove%'
+or lower(brand_name) like '%comfort%'or lower(brand_name) like '%fair%love%'
+or lower(brand_name) like '%tigi%'or lower(brand_name) like '%tresem%') and "Gender" is null;
+
+
+
+update  "GAIN_THEORY".DoveAHS
+set "Gender"= 'Female'where mobileno  in (select distinct "best_mobile_number_hash"  
+FROM PRM.bb_registration ) and "Gender" is null;
+
+
+select city,gender,"FinalLSM", "finalconfidence",count(distinct mobileno)
+from "GAIN_THEORY".DoveAHS
+where city is not null
+group by  city,gender,"FinalLSM", "finalconfidence"

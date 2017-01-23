@@ -1,0 +1,81 @@
+SELECT "FinalLSM", "finalconfidence",region ,count(distinct "best_mobile_number_hash")
+FROM "GAIN_THEORY"."LSM3_CombinedSourceSKU"
+group by "FinalLSM", "finalconfidence",region;
+
+
+
+
+create multiset table LakmeperfectRadianceCampaign760(
+market varchar(10),provider varchar(50),mobileno varchar(300)
+,optin_hierarchy_level varchar(10),optin_hierarchy_value varchar(10))
+
+insert into "GAIN_THEORY".LakmeperfectRadianceCampaign790
+(market ,mobileno,optin_hierarchy_level,optin_hierarchy_value)
+SELECT distinct 'IN',"best_mobile_number_hash",'1','Unilever'
+FROM "GAIN_THEORY"."LSM3_CombinedSourceSKU"
+where "FinalLSM"='7+' and "finalconfidence"='90'
+and (lower(region) like '%bihar%' or lower(region) like '%haryana%' 
+or lower(region) like '%delhi%' or lower(region) like '%kolkata%' 
+or lower(region) like '%west%bengal%' or lower(region) like '%madhya%' 
+or lower(region) like '%punjab%' or lower(region) like '%rajasthan%' 
+or lower(region) like '%uttar%' );
+
+
+
+insert into "GAIN_THEORY".LakmeperfectRadianceCampaign760
+(market ,mobileno,optin_hierarchy_level,optin_hierarchy_value)
+SELECT distinct 'IN',"best_mobile_number_hash",'1','Unilever'
+FROM "GAIN_THEORY"."LSM3_CombinedSourceSKU"
+where "FinalLSM"='7+' and "finalconfidence"='60'
+and (lower(region) like '%bihar%' or lower(region) like '%haryana%' 
+or lower(region) like '%delhi%' or lower(region) like '%kolkata%' 
+or lower(region) like '%west%bengal%' or lower(region) like '%madhya%' 
+or lower(region) like '%punjab%' or lower(region) like '%rajasthan%' 
+or lower(region) like '%uttar%' );
+
+
+
+update "GAIN_THEORY".LakmeperfectRadianceCampaign790
+from "GAIN_THEORY"."LSM3_PureitDistinct_data"b 
+set provider='PI'
+where "GAIN_THEORY".LakmeperfectRadianceCampaign790."mobileno"=b."best_mobile_number_hash"
+and provider is null;
+
+update "GAIN_THEORY".LakmeperfectRadianceCampaign790
+set provider='BB'
+where "mobileno" in (select distinct best_mobile_number_hash from PRM.bb_registration )
+and provider is null;
+
+
+update "GAIN_THEORY".LakmeperfectRadianceCampaign790
+set provider='LK'
+where "mobileno" in (select distinct best_mobile_number_hash from PRM.lk_customer )
+and provider is null;
+
+update "GAIN_THEORY".LakmeperfectRadianceCampaign790
+set provider='DL'
+where provider is null;
+
+
+
+
+update "GAIN_THEORY".LakmeperfectRadianceCampaign760
+from "GAIN_THEORY"."LSM3_PureitDistinct_data"b 
+set provider='PI'
+where "GAIN_THEORY".LakmeperfectRadianceCampaign760."mobileno"=b."best_mobile_number_hash"
+and provider is null;
+
+update "GAIN_THEORY".LakmeperfectRadianceCampaign760
+set provider='BB'
+where "mobileno" in (select distinct best_mobile_number_hash from PRM.bb_registration )
+and provider is null;
+
+
+update "GAIN_THEORY".LakmeperfectRadianceCampaign760
+set provider='LK'
+where "mobileno" in (select distinct best_mobile_number_hash from PRM.lk_customer )
+and provider is null;
+
+update "GAIN_THEORY".LakmeperfectRadianceCampaign760
+set provider='DL'
+where provider is null;

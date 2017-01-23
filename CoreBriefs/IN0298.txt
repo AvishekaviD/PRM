@@ -1,0 +1,75 @@
+ select region,count(distinct best_mobile_number_hash)  
+ from PRM.bt_entry a inner join PRM.ref_mobile_lookup b
+ on a.region_lookup_number=b.lookup_prefix5
+ where a.campaign_id in (select distinct campaign_id from PRM.bt_campaign
+ where lower(campaign_name) like '%trader%' )
+ group by region;
+ 
+ select  region,count(distinct best_mobile_number_hash)  
+ from PRM.dl197_transaction a inner join PRM.ref_mobile_lookup b
+ on a.region_lookup_number=b.lookup_prefix5
+ where lower(brand_name) like '%taaza%'
+ group by region;
+
+
+ select question_id,answer_id,region,count(distinct best_mobile_number_hash)  
+ from PRM.bt_entry a 
+ inner join PRM.ref_mobile_lookup b on a.region_lookup_number=b.lookup_prefix5
+ inner join PRM.bt_response c on a.entry_id=c.entry_id 
+ where a.campaign_id in (select distinct campaign_id from PRM.bt_campaign
+ where lower(campaign_name) like '%trader%' )
+ group by question_id,answer_id,region;
+ 
+
+ select distinct question_id,question_text from PRM.bt_question 
+ where  campaign_id in (select distinct campaign_id from PRM.bt_campaign
+ where lower(campaign_name) like '%trader%' )
+ 
+  select distinct answer_id,answer_text from PRM.bt_answer
+ where  campaign_id in (select distinct campaign_id from PRM.bt_campaign
+ where lower(campaign_name) like '%trader%' )
+
+
+----------------
+create multiset table TraderCount_TN(
+market varchar(10),provider varchar(50),mobileno varchar(300)
+,optin_hierarchy_level varchar(10),optin_hierarchy_value varchar(10));
+
+create multiset table TraderCount_AP(
+market varchar(10),provider varchar(50),mobileno varchar(300)
+,optin_hierarchy_level varchar(10),optin_hierarchy_value varchar(10));
+
+create multiset table TraderCount_Chennai(
+market varchar(10),provider varchar(50),mobileno varchar(300)
+,optin_hierarchy_level varchar(10),optin_hierarchy_value varchar(10));
+
+
+
+insert into "GAIN_THEORY".TraderCount_TN
+(market,provider ,mobileno,optin_hierarchy_level,optin_hierarchy_value)
+SELECT distinct 'IN','BT',"best_mobile_number_hash",'1','Unilever'
+from PRM.bt_entry a inner join PRM.ref_mobile_lookup b
+ on a.region_lookup_number=b.lookup_prefix5
+ where a.campaign_id in (select distinct campaign_id from PRM.bt_campaign
+ where lower(campaign_name) like '%trader%' )
+and lower(b.region) like '%tamil%';
+
+
+insert into "GAIN_THEORY".TraderCount_AP
+(market,provider ,mobileno,optin_hierarchy_level,optin_hierarchy_value)
+SELECT distinct 'IN','BT',"best_mobile_number_hash",'1','Unilever'
+from PRM.bt_entry a inner join PRM.ref_mobile_lookup b
+ on a.region_lookup_number=b.lookup_prefix5
+ where a.campaign_id in (select distinct campaign_id from PRM.bt_campaign
+ where lower(campaign_name) like '%trader%' )
+and lower(b.region) like '%andhra%';
+
+
+insert into "GAIN_THEORY".TraderCount_Chennai
+(market,provider ,mobileno,optin_hierarchy_level,optin_hierarchy_value)
+SELECT distinct 'IN','BT',"best_mobile_number_hash",'1','Unilever'
+from PRM.bt_entry a inner join PRM.ref_mobile_lookup b
+ on a.region_lookup_number=b.lookup_prefix5
+ where a.campaign_id in (select distinct campaign_id from PRM.bt_campaign
+ where lower(campaign_name) like '%trader%' )
+and lower(b.region) like '%chennai%';

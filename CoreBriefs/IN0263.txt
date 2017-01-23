@@ -1,0 +1,229 @@
+---previouse close up campaign
+
+select circle,brand_name,count(distinct best_mobile_number_hash)
+from  PRM.dl197_transaction a
+where brand_name='Closeup'
+group by  circle,brand_name
+
+
+
+---------------
+
+
+CREATE MULTISET TABLE IN0263_CLOSEUP(
+region varchar(100),dob varchar(30),gender varchar(20),
+best_mobile_number_hash varchar(300),source varchar(100))
+
+
+insert into "GAIN_THEORY".IN0263_CLOSEUP
+select b.region,substr(date_of_birth,6,5),gender,
+count(distinct best_mobile_number_hash),'lakme'
+from PRM.lk_customer a
+inner join PRM.ref_mobile_lookup b
+on a.region_lookup_number=b.lookup_prefix5
+where lower(gender)in ('female','male')
+and length(substr(date_of_birth,6,5))>'0'
+group by b.region,substr(date_of_birth,6,5),gender;
+
+insert into "GAIN_THEORY".IN0263_CLOSEUP
+select b.region,age,'female',
+count(distinct best_mobile_number_hash),'bb'
+from PRM.bb_registration a
+inner join PRM.ref_mobile_lookup b
+on a.region_lookup_number=b.lookup_prefix5
+where length(age)>'0'
+group by b.region,age;
+
+
+
+----pdwh
+
+select case
+when lower(a.brand) like '%3%rose%' then '3 Roses' when lower(a.brand) like '%axe%' then 'Axe'
+when lower(a.brand) like '%bru%' then 'Bru' when lower(a.brand) like '%clinic%plu%' then 'Clinic Plus'
+when lower(a.brand) like '%clear%' then 'Clear'
+when lower(a.brand) like '%close%up%' then 'Close Up'when lower(a.brand) like '%comfort%' then 'Comfort'
+when lower(a.brand) like '%cornetto%' then 'Cornetto' when lower(a.brand) like '%domex%' then 'Domex'
+when lower(a.brand) like '%dove%' then 'Dove' when lower(a.brand) like '%fal%' then 'Fair and Lovely'
+when lower(a.brand) like '%fair%love%' then 'Fair and Lovely' when lower(a.brand) like '%huggies%' then 'huggies'
+When lower(a.brand) like '%kissan%' then 'Kissan' when lower(a.brand) like '%knorr%' then 'knorr'
+when lower(a.brand) like '%liril%' then 'liril'when lower(a.brand) like '%magnum%' then 'magnum'
+When lower(a.brand) like '%lifeb%' then 'Lifebuoy' when lower(a.brand) like '%lipton%' then 'Lipton'
+when lower(a.brand) like '%lux%' then 'Lux' when lower(a.brand) like '%paddle&pop%' then 'Paddlepop'
+when lower(a.brand) like '%pears%' then 'Pears'when lower(a.brand) like '%ponds%' then 'Ponds'
+When lower(a.brand) like '%pe%soden%' then 'peopsodent' When lower(a.brand) like '%red%label%' then 'Red Label'
+When lower(a.brand) like '%rin%' then 'rin'When lower(a.brand) like '%sunlight%' then 'Sunlight'
+when lower(a.brand) like '%sunsilk%' then 'Sunsilk' when lower(a.brand) like '%surf%' then 'Surf'
+When lower(a.brand) like '%taaza%' then 'Taaza' when lower(a.brand) like '%taj%' then 'Taj Tea'
+when lower(a.brand) like '%lipton%' then 'lipton'when lower(a.brand) like '%vaseline%' then 'vaseline'When lower(a.brand) like '%vim%' then 'Vim' 
+when lower(a.brand) like '%wheel%' then 'Wheel' else 'others' end Brands,b.region,count(distinct mobileno)
+FROM prmprogrammepdwheudb.southasia.pdwh_counting_mobile a
+inner join prmprogrammepdwheudb.southasia.pdwh_ref_region b
+on a.mobileprefix=b.mobileprefix
+where length(mobileno)>0 and  a.Provider in ('Digital','Btone OI','H2H') 
+group by Brands,b.region;
+
+
+
+
+---------------------------
+
+select case
+when lower(a.brand) like '%axe%' then 'Axe'
+when lower(a.brand) like '%bru%' then 'Bru' 
+when lower(a.brand) like '%close%up%' then 'Close Up'
+when lower(a.brand) like '%cornetto%' then 'Cornetto' end Brands,b.region,count(distinct mobileno)
+FROM prmprogrammepdwheudb.southasia.pdwh_counting_mobile a
+inner join prmprogrammepdwheudb.southasia.pdwh_ref_region b
+on a.mobileprefix=b.mobileprefix
+where length(mobileno)>0 and  a.Provider in ('Digital','Btone OI','H2H') 
+and (lower(a.brand) like '%axe%' or lower(a.brand) like '%bru%' or lower(a.brand) like '%close%up%' or lower(a.brand) like '%cornetto%')
+and firstinteractiondate>'2015-06-30 00:00:00'
+group by Brands,b.region;
+
+create multiset table CloseupFirstMove(best_mobile_number_hash varchar(300))
+
+insert into "GAIN_THEORY".CloseupFirstMove
+select distinct best_mobile_number_hash
+from PRM.dl197_transaction
+where lower(brand_name) like '%close%'
+
+select campaign_name,substr(date_of_interaction,4,10),region,count(distinct best_mobile_number_hash ) 
+from PRM.dl197_transaction a
+inner join PRM.ref_mobile_lookup b on a.region_lookup_number=b.lookup_prefix5
+where lower(brand_name) like '%close%'
+group by campaign_name,substr(date_of_interaction,4,10),region
+
+
+
+select count(distinct best_mobile_number_hash ) from  PRM.dl197_transaction a
+where lower(brand_name) like '%close%'
+
+
+select distinct campaign_name from PRM.dloz_tier3
+
+
+
+
+
+----------------20160812
+
+select case
+when lower(a.brand) like '%axe%' then 'Axe'
+when lower(a.brand) like '%close%up%' then 'Close Up'
+when lower(a.brand) like '%cornetto%' then 'Cornetto' end Brands
+,datepart(year,firstinteractiondate),datepart(month,firstinteractiondate),count(distinct mobileno)
+FROM prmprogrammepdwheudb.southasia.pdwh_counting_mobile a
+where length(mobileno)>0 and (lower(a.brand) like '%axe%' or lower(a.brand) like '%close%up%' or lower(a.brand) like '%cornetto%')
+group by brands,datepart(year,firstinteractiondate),datepart(month,firstinteractiondate)
+
+
+
+select provider,lower(a.brand),datepart(year,firstinteractiondate),count(distinct mobileno)
+FROM prmprogrammepdwheudb.southasia.pdwh_counting_mobile a
+where length(mobileno)>0 and (lower(a.brand) like '%cornetto%')
+group by provider,lower(a.brand),datepart(year,firstinteractiondate)
+
+
+select case
+when lower(a.brand) like '%axe%' then 'Axe'
+when lower(a.brand) like '%close%up%' then 'Close Up'
+when lower(a.brand) like '%cornetto%' then 'Cornetto' end Brands,b.region,
+Case
+when datediff(month,lastinteractiondate,getdate() ) in (0,1,2,3) then '0-3 Months'
+when datediff(month,lastinteractiondate,getdate() ) in (4,5,6) then '4-6 Months'
+when datediff(month,lastinteractiondate,getdate()) in (7,8,9) then '7-9 Months'
+when datediff(month,lastinteractiondate,getdate()) in (10,12,11) then '10-12 Months'
+when datediff(month,lastinteractiondate,getdate()) in (13,14,15) then '13-15 Months'
+when datediff(month,lastinteractiondate,getdate()) in (16,17,18) then '16-18 Months'
+when datediff(month,lastinteractiondate,getdate() )>18 or lastinteractiondate is null then '>18 Months'end Duration,
+count(distinct mobileno)
+FROM prmprogrammepdwheudb.southasia.pdwh_counting_mobile a
+inner join prmprogrammepdwheudb.southasia.pdwh_ref_region b
+on a.mobileprefix=b.mobileprefix
+where length(mobileno)>0 and  a.Provider in ('Digital','Btone OI','H2H') 
+and (lower(a.brand) like '%axe%' or lower(a.brand) like '%close%up%' or lower(a.brand) like '%cornetto%')
+group by Brands,b.region,Duration;
+
+
+select campaign_id,extract(YEAR from entry_date),extract(MONTH from entry_date),count(distinct best_mobile_number_hash )
+from PRM.bt_entry
+where campaign_id in (
+select * from PRM.bt_campaign
+where lower(campaign_brand) like '%bru%'
+and lower(campaign_name) not like '%trader%')
+group by campaign_id,extract(YEAR from entry_date),extract(MONTH from entry_date)
+
+
+
+select campaign,extract(YEAR from entry_date),extract(MONTH from entry_date),count(distinct best_mobile_number_hash )
+from PRM.dl_all_campaigns
+where lower(brand_name) like '%bru%'
+group by campaign,extract(YEAR from entry_date),extract(MONTH from entry_date)
+
+
+select campaign_name,brand_name,substr(date_of_interaction,4,10),'197',count(distinct best_mobile_number_hash )
+from PRM.dl197_transaction
+where lower(brand_name) like '%bru%'
+group by campaign_name,brand_name,substr(date_of_interaction,4,10)
+
+
+
+
+---------------------------20160819
+
+select campaign_id,extract(YEAR from entry_date),extract(MONTH from entry_date),count(distinct best_mobile_number_hash )
+from PRM.bt_entry
+where campaign_id in (
+select distinct campaign_id from PRM.bt_campaign
+where lower(campaign_brand) like '%close%up%'
+and lower(campaign_name) not like '%trader%'
+and country_code='IN')
+group by campaign_id,extract(YEAR from entry_date),extract(MONTH from entry_date)
+
+union
+
+select campaign,extract(YEAR from entry_date),extract(MONTH from entry_date),count(distinct best_mobile_number_hash )
+from PRM.dl_all_campaigns
+where lower(brand_name) like '%close%up%'
+group by campaign,extract(YEAR from entry_date),extract(MONTH from entry_date)
+
+union
+select campaign_name,brand_name,substr(date_of_interaction,4,10),'197',count(distinct best_mobile_number_hash )
+from PRM.dl197_transaction
+where lower(brand_name) like '%close%up%'
+group by campaign_name,brand_name,substr(date_of_interaction,4,10)
+
+union
+
+select campaign_name,brand_name,substr(datetime_of_interaction,4,10),'TS',count(distinct best_mobile_number_hash )
+from PRM.dlts_transaction
+where lower(brand_name) like '%close%up%'
+group by campaign_name,brand_name,substr(datetime_of_interaction,4,10)
+
+union
+
+select campaign_name,brand,substr(datetime_of_interaction,4,10),'ZD',count(distinct best_mobile_number_hash )
+from PRM.dlzd_transaction
+where lower(brand) like '%close%up%'
+group by campaign_name,brand,substr(datetime_of_interaction,4,10)
+
+
+select campaign_name,brand_name,substr(date_of_interaction,4,10),'imi',count(distinct best_mobile_number_hash )
+from PRM.imimobile_tier3
+where lower(brand_name) like '%close%up%'
+group by campaign_name,brand_name,substr(date_of_interaction,4,10)
+
+
+select campaign_name,brand_name,substr(date_of_interaction,4,10),'mgage',count(distinct best_mobile_number_hash )
+from PRM.mgage_tier3
+where lower(brand_name) like '%close%up%'
+group by campaign_name,brand_name,substr(date_of_interaction,4,10)
+
+
+
+
+
+
+
+

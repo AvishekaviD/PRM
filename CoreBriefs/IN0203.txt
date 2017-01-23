@@ -1,0 +1,29 @@
+SELECT distinct "contest_file_id"
+FROM "PRM"."kkt_contest_master"
+where  "contest_file" like '%Age%'
+
+
+SELECT *
+FROM "PRM"."kkt_contestmaster_lookup141009"
+where  "contest_master_id"='10'
+
+
+select option_provided,count(distinct best_mobile_number_hash)from "PRM"."kkt_cdrl_contest" a 
+inner join "PRM"."ref_mobile_region_lookup" b on a.region_lookup_number=b.mscrange5
+where contest_file_id='10' and option_provided in ('1','2','3','4')
+and b.region like '%Uttar%'
+group by option_provided
+
+
+
+
+select top 300 'IN','KKT',best_mobile_number_hash,'1','Unilever' from "PRM"."kkt_cdrl_contest" a 
+inner join "PRM"."ref_mobile_region_lookup" b on a.region_lookup_number=b.mscrange5
+where contest_file_id='10' and option_provided in ('2')
+and b.region like '%Uttar%'
+
+
+select top 400 'IN','KKT',best_mobile_number_hash,'1','Unilever' from "PRM"."kkt_cdrl_contest" a 
+inner join "PRM"."ref_mobile_region_lookup" b on a.region_lookup_number=b.mscrange5
+where contest_file_id='10' and option_provided in ('3')
+and b.region like '%Uttar%'

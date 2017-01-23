@@ -1,0 +1,53 @@
+
+create multiset table "GAIN_THEORY"."HumarashopFinal"
+(
+market varchar(5),provider varchar(10),
+mobileno varchar(300),optin_hierarchy_level int,
+optin_hierarchy_value varchar(50))
+
+
+insert into "GAIN_THEORY"."HumarashopFinal"
+select 'IN','',best_mobile_number_hash,'1','unilever'
+from GAIN_THEORY.LSM3_CombinedSourceSKU
+where lower(region) like '%delhi%'
+and FinalLSM like '%7+%' and finalconfidence='90'
+
+
+update "GAIN_THEORY"."HumarashopFinal"
+set provider='PI'
+where mobileno in (select distinct best_mobile_number_hash from PRM.pi_consumer a 
+inner join  PRM.ref_mobile_lookup b on a.region_lookup_number=b.lookup_prefix5
+where lower(region) like '%delhi%')
+and provider='';
+
+
+update "GAIN_THEORY"."HumarashopFinal"
+set provider='LK'
+where mobileno in (select distinct best_mobile_number_hash from PRM.lk_customer   a 
+inner join  PRM.ref_mobile_lookup b on a.region_lookup_number=b.lookup_prefix5
+where lower(region) like '%delhi%')and provider='';
+
+
+update "GAIN_THEORY"."HumarashopFinal"
+set provider='BB'
+where mobileno in (select distinct  best_mobile_number_hash from  PRM.bb_registration   a 
+inner join  PRM.ref_mobile_lookup b on a.region_lookup_number=b.lookup_prefix5
+where lower(region) like '%delhi%')and provider='';
+
+
+update "GAIN_THEORY"."HumarashopFinal"
+set provider='BT'
+where mobileno in (
+select distinct  best_mobile_number_hash from  PRM.bt_entry   a 
+inner join  PRM.ref_mobile_lookup b on a.region_lookup_number=b.lookup_prefix5
+where lower(region) like '%delhi%')and provider='';
+
+
+update "GAIN_THEORY"."HumarashopFinal"
+set provider='DL'
+where provider='';
+
+
+
+select count(*) from "GAIN_THEORY"."HumarashopFinal"
+where provider=''

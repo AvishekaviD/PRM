@@ -1,0 +1,42 @@
+SELECT count(distinct best_mobile_number_hash )
+--, "region_lookup_number"
+FROM "PRM"."mindtree_data"
+where lower("city") like '%mumbai%'
+
+
+SELECT 'bangalore',substr(geo_timestamp,4,6),count(distinct best_mobile_number_hash )
+FROM "PRM"."mindtree_data"
+where ( lower(city) like '%bangalore%' )
+group by substr(geo_timestamp,4,6)
+order by 1;
+
+SELECT 'mumbai',substr(geo_timestamp,4,6),count(distinct best_mobile_number_hash )
+--, "region_lookup_number"
+FROM "PRM"."mindtree_data"
+where lower("city") like '%mumbai%' 
+group by substr(geo_timestamp,4,6)
+order by 1;
+
+
+----extraction queries
+
+create multiset table H2HCampaignData(
+market varchar(10),provider varchar(20),mobileno varchar(300),
+optin_hierarchy_level varchar(10),optin_hierarchy_value varchar(20),city varchar(50))
+
+
+insert into "GAIN_THEORY".H2HCampaignData
+select 'IN','H2H',best_mobile_number_hash,'1','Unilever','Bangalore'
+FROM "PRM"."mindtree_data" where ( lower(city) like '%bangalore%' )
+and substr(geo_timestamp,4,6) in ('Jan-16','Feb-16','Mar-16','Apr-16',
+'May-16','Jun-16','Jul-16')
+
+
+insert into "GAIN_THEORY".H2HCampaignData
+select 'IN','H2H',best_mobile_number_hash,'1','Unilever','Mumbai'
+FROM "PRM"."mindtree_data" where ( lower(city) like '%mumbai%' )
+and substr(geo_timestamp,4,6) in ('Jan-16','Feb-16','Mar-16','Apr-16',
+'May-16','Jun-16','Jul-16')
+
+
+

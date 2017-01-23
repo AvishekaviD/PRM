@@ -1,0 +1,69 @@
+
+-------------------
+create multiset table DoveTaraCampaign
+(market varchar(10),provider varchar(10),
+mobileno varchar(300),optin_hierarchy_level varchar(10),
+optin_hierarchy_value varchar(30),LSM float,confidence int)
+
+
+
+insert into "GAIN_THEORY".DoveTaraCampaign
+select distinct 'IN','',best_mobile_number_hash,'1','Unilever',Final_Score,Final_Confidence
+FROM "GAIN_THEORY"."LSM_Final_Groupededata_Distinct"
+where Final_Score>'7' and Final_Confidence='60';
+
+
+
+
+UPDATE "GAIN_THEORY".DoveTaraCampaign
+SET provider = 'LK'
+WHERE mobileno in (select best_mobile_number_hash from GAIN_THEORY.LSM_Lakme_data);
+
+UPDATE "GAIN_THEORY".DoveTaraCampaign
+SET provider = 'BB'
+WHERE mobileno in (select best_mobile_number_hash from GAIN_THEORY.LSM_Bebeautiful_data )
+and provider='';
+
+
+UPDATE "GAIN_THEORY".DoveTaraCampaign
+SET provider = 'PI'
+WHERE mobileno in (select best_mobile_number_hash from GAIN_THEORY.LSM_Pureit_Distinctdata )
+and provider='';
+
+UPDATE "GAIN_THEORY".DoveTaraCampaign
+SET provider = 'H2H'
+WHERE mobileno in (select best_mobile_number_hash from GAIN_THEORY.LSM_H2H_data )
+and provider='';
+
+UPDATE "GAIN_THEORY".DoveTaraCampaign
+SET provider = 'DL'
+WHERE mobileno in (select best_mobile_number_hash from GAIN_THEORY.LSM_Digital_Completedata)
+and provider='';
+
+
+UPDATE "GAIN_THEORY".DoveTaraCampaign
+SET provider = 'BT'
+WHERE mobileno in (select best_mobile_number_hash from GAIN_THEORY.LSM_Brandtone_completedata)
+and provider='';
+
+
+ALTER TABLE "GAIN_THEORY".DoveTaraCampaign DROP confidence
+ALTER TABLE "GAIN_THEORY".DoveTaraCampaign DROP LSM
+
+
+select provider,count(*) from "GAIN_THEORY".DoveTaraCampaign
+group by provider
+---------
+
+insert into "GAIN_THEORY".DoveTaraCampaign
+select distinct 'IN','',best_mobile_number_hash,'1','Unilever',Final_Score,Final_Confidence
+FROM "GAIN_THEORY"."LSM_Final_Groupededata_Distinct"
+where Final_Score>'3' and Final_Confidence='90';
+
+
+
+
+insert into "GAIN_THEORY".DoveTaraCampaign
+select distinct 'IN','',best_mobile_number_hash,'1','Unilever'
+FROM "GAIN_THEORY"."LSM_Final_Groupededata_Distinct"
+where Final_Score in (4,5,6,7) and Final_Confidence='60';

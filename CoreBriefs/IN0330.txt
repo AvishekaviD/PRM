@@ -1,0 +1,318 @@
+create multiset table "GAIN_THEORY".RINRCRAPromotion
+(Brand varchar(100),mobileno varchar(300),region varchar(100))
+
+
+select lower(brand),region,count(distinct mobileno)
+from "GAIN_THEORY".RINRCRAPromotion
+group by lower(brand),region;
+
+
+
+
+delete from "GAIN_THEORY".RINRCRAPromotion
+where mobileno in (select distinct best_mobile_number_hash from PRM.dl197_rincareeracademy_registration);
+
+insert into "GAIN_THEORY".RINRCRAPromotion
+select distinct a.campaign_id,best_mobile_number_hash,b.region
+from PRM.bt_entry a
+inner join PRM.ref_mobile_lookup b on a.region_lookup_number=b.lookup_prefix5
+where a.campaign_id in (select distinct campaign_id from PRM.bt_campaign
+where country_code='IN')and 
+(lower(b.region) like '%karn%' or lower(b.region) like '%tamil%' or
+lower(b.region) like '%chennai%' or lower(b.region) like '%mumb%' or
+lower(b.region) like '%andhra%' or lower(b.region) like '%maha%' or
+lower(b.region) like '%uttar%' );
+
+
+insert into "GAIN_THEORY".RINRCRAPromotion
+select distinct brand_name ,best_mobile_number_hash,b. region
+from PRM.dl_all_campaigns a
+inner join PRM.ref_mobile_lookup b on a.region_lookup_number=b.lookup_prefix5
+where (lower(b.region) like '%karn%' or lower(b.region) like '%tamil%' or
+lower(b.region) like '%chennai%' or lower(b.region) like '%mumb%' or
+lower(b.region) like '%andhra%' or lower(b.region) like '%maha%' or
+lower(b.region) like '%uttar%' );
+
+
+insert into "GAIN_THEORY".RINRCRAPromotion
+select distinct brand_name ,best_mobile_number_hash,b. region
+from PRM.dl197_transaction a
+inner join PRM.ref_mobile_lookup b on a.region_lookup_number=b.lookup_prefix5
+where (lower(b.region) like '%karn%' or lower(b.region) like '%tamil%' or
+lower(b.region) like '%chennai%' or lower(b.region) like '%mumb%' or
+lower(b.region) like '%andhra%' or lower(b.region) like '%maha%' or
+lower(b.region) like '%uttar%' );
+
+
+insert into "GAIN_THEORY".RINRCRAPromotion
+select distinct brand_name ,best_mobile_number_hash,b. region
+from PRM.dloz_tier3 a
+inner join PRM.ref_mobile_lookup b on a.region_lookup_number=b.lookup_prefix5
+where (lower(b.region) like '%karn%' or lower(b.region) like '%tamil%' or
+lower(b.region) like '%chennai%' or lower(b.region) like '%mumb%' or
+lower(b.region) like '%andhra%' or lower(b.region) like '%maha%' or
+lower(b.region) like '%uttar%' );
+
+insert into "GAIN_THEORY".RINRCRAPromotion
+select distinct brand_name ,best_mobile_number_hash,b. region
+from PRM.dlts_transaction a
+inner join PRM.ref_mobile_lookup b on a.region_lookup_number=b.lookup_prefix5
+where (lower(b.region) like '%karn%' or lower(b.region) like '%tamil%' or
+lower(b.region) like '%chennai%' or lower(b.region) like '%mumb%' or
+lower(b.region) like '%andhra%' or lower(b.region) like '%maha%' or
+lower(b.region) like '%uttar%' );
+
+insert into "GAIN_THEORY".RINRCRAPromotion
+select distinct brand ,best_mobile_number_hash,b. region
+from PRM.dlzd_transaction a
+inner join PRM.ref_mobile_lookup b on a.region_lookup_number=b.lookup_prefix5
+where (lower(b.region) like '%karn%' or lower(b.region) like '%tamil%' or
+lower(b.region) like '%chennai%' or lower(b.region) like '%mumb%' or
+lower(b.region) like '%andhra%' or lower(b.region) like '%maha%' or
+lower(b.region) like '%uttar%' );
+
+insert into "GAIN_THEORY".RINRCRAPromotion
+select distinct brand_name ,best_mobile_number_hash,b. region
+from PRM.imimobile_tier3 a
+inner join PRM.ref_mobile_lookup b on a.region_lookup_number=b.lookup_prefix5
+where (lower(b.region) like '%karn%' or lower(b.region) like '%tamil%' or
+lower(b.region) like '%chennai%' or lower(b.region) like '%mumb%' or
+lower(b.region) like '%andhra%' or lower(b.region) like '%maha%' or
+lower(b.region) like '%uttar%' );
+
+
+insert into "GAIN_THEORY".RINRCRAPromotion
+select distinct brand_name ,best_mobile_number_hash,b. region
+from PRM.mgage_tier3 a
+inner join PRM.ref_mobile_lookup b on a.region_lookup_number=b.lookup_prefix5
+where (lower(b.region) like '%karn%' or lower(b.region) like '%tamil%' or
+lower(b.region) like '%chennai%' or lower(b.region) like '%mumb%' or
+lower(b.region) like '%andhra%' or lower(b.region) like '%maha%' or
+lower(b.region) like '%uttar%' );
+
+
+insert into "GAIN_THEORY".RINRCRAPromotion
+select distinct brand_name ,best_mobile_number_hash,b. region
+from PRM.thinkwalnut_tier3 a
+inner join PRM.ref_mobile_lookup b on a.region_lookup_number=b.lookup_prefix5
+where (lower(b.region) like '%karn%' or lower(b.region) like '%tamil%' or
+lower(b.region) like '%chennai%' or lower(b.region) like '%mumb%' or
+lower(b.region) like '%andhra%' or lower(b.region) like '%maha%' or
+lower(b.region) like '%uttar%' );
+
+
+insert into "GAIN_THEORY".RINRCRAPromotion
+select distinct brand ,best_mobile_number_hash,b. region
+from PRM.h2h_transaction a
+inner join PRM.ref_mobile_lookup b on a.region_lookup_number=b.lookup_prefix5
+where (lower(b.region) like '%karn%' or lower(b.region) like '%tamil%' or
+lower(b.region) like '%chennai%' or lower(b.region) like '%mumb%' or
+lower(b.region) like '%andhra%' or lower(b.region) like '%maha%' or
+lower(b.region) like '%uttar%' );
+
+
+insert into "GAIN_THEORY".RINRCRAPromotion
+select distinct brand ,best_mobile_number_hash,b. region
+from PRM.mindtree_data a
+inner join PRM.ref_mobile_lookup b on a.region_lookup_number=b.lookup_prefix5
+where (lower(b.region) like '%karn%' or lower(b.region) like '%tamil%' or
+lower(b.region) like '%chennai%' or lower(b.region) like '%mumb%' or
+lower(b.region) like '%andhra%' or lower(b.region) like '%maha%' or
+lower(b.region) like '%uttar%' );
+
+
+
+update "GAIN_THEORY".RINRCRAPromotion set brand='Sunlight'  where brand like  '%2035%';
+update "GAIN_THEORY".RINRCRAPromotion set brand='Sunlight'  where brand like  '%2036%';
+update "GAIN_THEORY".RINRCRAPromotion set brand='Sunlight'  where brand like  '%2037%';
+update "GAIN_THEORY".RINRCRAPromotion set brand='Bru'  where brand like  '%2038%';
+update "GAIN_THEORY".RINRCRAPromotion set brand='Bru'  where brand like  '%2039%';
+update "GAIN_THEORY".RINRCRAPromotion set brand='Bru'  where brand like  '%2040%';
+update "GAIN_THEORY".RINRCRAPromotion set brand='Bru'  where brand like  '%2041%';
+update "GAIN_THEORY".RINRCRAPromotion set brand='Bru'  where brand like  '%2042%';
+update "GAIN_THEORY".RINRCRAPromotion set brand='Surf'  where brand like  '%2056%';
+update "GAIN_THEORY".RINRCRAPromotion set brand='Taaza'  where brand like  '%2111%';
+update "GAIN_THEORY".RINRCRAPromotion set brand='Bru'  where brand like  '%2120%';
+update "GAIN_THEORY".RINRCRAPromotion set brand='Bru'  where brand like  '%2123%';
+update "GAIN_THEORY".RINRCRAPromotion set brand='VIM'  where brand like  '%2131%';
+update "GAIN_THEORY".RINRCRAPromotion set brand='VIM'  where brand like  '%2132%';
+update "GAIN_THEORY".RINRCRAPromotion set brand='Bru'  where brand like  '%2135%';
+update "GAIN_THEORY".RINRCRAPromotion set brand='Bru'  where brand like  '%2136%';
+update "GAIN_THEORY".RINRCRAPromotion set brand='Close Up'  where brand like  '%2137%';
+update "GAIN_THEORY".RINRCRAPromotion set brand='Close Up'  where brand like  '%2138%';
+update "GAIN_THEORY".RINRCRAPromotion set brand='Bru'  where brand like  '%2152%';
+update "GAIN_THEORY".RINRCRAPromotion set brand='Huggies'  where brand like  '%2164%';
+update "GAIN_THEORY".RINRCRAPromotion set brand='Bru'  where brand like  '%2176%';
+update "GAIN_THEORY".RINRCRAPromotion set brand='Bru'  where brand like  '%2195%';
+update "GAIN_THEORY".RINRCRAPromotion set brand='Bru'  where brand like  '%2200%';
+update "GAIN_THEORY".RINRCRAPromotion set brand='Bru'  where brand like  '%2213%';
+update "GAIN_THEORY".RINRCRAPromotion set brand='Wheel'  where brand like  '%2260%';
+update "GAIN_THEORY".RINRCRAPromotion set brand='Fair & Lovely'  where brand like  '%2264%';
+update "GAIN_THEORY".RINRCRAPromotion set brand='Sunlight'  where brand like  '%2265%';
+update "GAIN_THEORY".RINRCRAPromotion set brand='VIM'  where brand like  '%2289%';
+update "GAIN_THEORY".RINRCRAPromotion set brand='VIM'  where brand like  '%2290%';
+update "GAIN_THEORY".RINRCRAPromotion set brand='VIM'  where brand like  '%2294%';
+update "GAIN_THEORY".RINRCRAPromotion set brand='Fair & Lovely'  where brand like  '%2296%';
+update "GAIN_THEORY".RINRCRAPromotion set brand='SUNLIGHT'  where brand like  '%2297%';
+update "GAIN_THEORY".RINRCRAPromotion set brand='Bru'  where brand like  '%2305%';
+update "GAIN_THEORY".RINRCRAPromotion set brand='Wheel'  where brand like  '%2306%';
+update "GAIN_THEORY".RINRCRAPromotion set brand='Sunlight'  where brand like  '%2312%';
+update "GAIN_THEORY".RINRCRAPromotion set brand='Close Up'  where brand like  '%2321%';
+update "GAIN_THEORY".RINRCRAPromotion set brand='Wheel'  where brand like  '%2326%';
+update "GAIN_THEORY".RINRCRAPromotion set brand='Wheel'  where brand like  '%2327%';
+update "GAIN_THEORY".RINRCRAPromotion set brand='Wheel'  where brand like  '%2328%';
+update "GAIN_THEORY".RINRCRAPromotion set brand='RIN'  where brand like  '%2344%';
+update "GAIN_THEORY".RINRCRAPromotion set brand='Surf'  where brand like  '%2345%';
+update "GAIN_THEORY".RINRCRAPromotion set brand='Wheel'  where brand like  '%2355%';
+update "GAIN_THEORY".RINRCRAPromotion set brand='Wheel'  where brand like  '%2356%';
+update "GAIN_THEORY".RINRCRAPromotion set brand='Wheel'  where brand like  '%2357%';
+update "GAIN_THEORY".RINRCRAPromotion set brand='RIN'  where brand like  '%2366%';
+update "GAIN_THEORY".RINRCRAPromotion set brand='RIN'  where brand like  '%2382%';
+update "GAIN_THEORY".RINRCRAPromotion set brand='Close Up'  where brand like  '%2383%';
+update "GAIN_THEORY".RINRCRAPromotion set brand='Wheel'  where brand like  '%2390%';
+update "GAIN_THEORY".RINRCRAPromotion set brand='Surf'  where brand like  '%2400%';
+update "GAIN_THEORY".RINRCRAPromotion set brand='UFS'  where brand like  '%2500%';
+update "GAIN_THEORY".RINRCRAPromotion set brand='Taj Tea'  where brand like  '%2517%';
+update "GAIN_THEORY".RINRCRAPromotion set brand='BRU'  where brand like  '%2528%';
+update "GAIN_THEORY".RINRCRAPromotion set brand='Taj Tea'  where brand like  '%2543%';
+update "GAIN_THEORY".RINRCRAPromotion set brand='Pepsodent'  where brand like  '%2567%';
+update "GAIN_THEORY".RINRCRAPromotion set brand='Pepsodent'  where brand like  '%2568%';
+update "GAIN_THEORY".RINRCRAPromotion set brand='Others'  where brand='42401';
+update "GAIN_THEORY".RINRCRAPromotion set brand='1 Rinse'  where brand='1 Rinse';
+update "GAIN_THEORY".RINRCRAPromotion set brand='Others'  where brand='23-06-2016';
+update "GAIN_THEORY".RINRCRAPromotion set brand='3 Roses'  where brand='3 ROSES';
+update "GAIN_THEORY".RINRCRAPromotion set brand='3 Roses'  where brand='3ROSES';
+update "GAIN_THEORY".RINRCRAPromotion set brand='Others'  where brand='ATTENDANCE TRACKER';
+update "GAIN_THEORY".RINRCRAPromotion set brand='Axe'  where brand='AXE';
+update "GAIN_THEORY".RINRCRAPromotion set brand='Axe'  where brand='Axe';
+update "GAIN_THEORY".RINRCRAPromotion set brand='3 Roses'  where brand='BB 3 Roses';
+update "GAIN_THEORY".RINRCRAPromotion set brand='red label'  where brand='BB Red Label';
+update "GAIN_THEORY".RINRCRAPromotion set brand='Taaza'  where brand='BB Taaza';
+update "GAIN_THEORY".RINRCRAPromotion set brand='Others'  where brand='bebeautiful';
+update "GAIN_THEORY".RINRCRAPromotion set brand='Taaza'  where brand='Brook Bond Taaza';
+update "GAIN_THEORY".RINRCRAPromotion set brand='bru'  where brand='BRU';
+update "GAIN_THEORY".RINRCRAPromotion set brand='bru'  where brand='Bru';
+update "GAIN_THEORY".RINRCRAPromotion set brand='Clear'  where brand='Clear';
+update "GAIN_THEORY".RINRCRAPromotion set brand='Clinic Plus'  where brand='Clinic ALL Clear';
+update "GAIN_THEORY".RINRCRAPromotion set brand='Clinic Plus'  where brand='CLINIC PLUS';
+update "GAIN_THEORY".RINRCRAPromotion set brand='Clinic Plus'  where brand='Clinic Plus';
+update "GAIN_THEORY".RINRCRAPromotion set brand='close up'  where brand='Close UP';
+update "GAIN_THEORY".RINRCRAPromotion set brand='close up'  where brand='Close Up';
+update "GAIN_THEORY".RINRCRAPromotion set brand='close up'  where brand='Closeup';
+update "GAIN_THEORY".RINRCRAPromotion set brand='Others'  where brand='Combo 1(W 1Kg, 2R 150gm,2V 75gm)';
+update "GAIN_THEORY".RINRCRAPromotion set brand='Others'  where brand='Combo 2(W 1/2 kg,1R 150gm,1V 75gm)';
+update "GAIN_THEORY".RINRCRAPromotion set brand='comfort'  where brand='Comfort';
+update "GAIN_THEORY".RINRCRAPromotion set brand='comfort'  where brand='Comfort Sampling';
+update "GAIN_THEORY".RINRCRAPromotion set brand='comfort'  where brand='comfortinstore';
+update "GAIN_THEORY".RINRCRAPromotion set brand='cornetto'  where brand='Cornetto';
+update "GAIN_THEORY".RINRCRAPromotion set brand='Others'  where brand='CORPORATE';
+update "GAIN_THEORY".RINRCRAPromotion set brand='Others'  where brand='Distribution channel';
+update "GAIN_THEORY".RINRCRAPromotion set brand='domex'  where brand='Domex';
+update "GAIN_THEORY".RINRCRAPromotion set brand='Dove'  where brand='Dove';
+update "GAIN_THEORY".RINRCRAPromotion set brand='Dove'  where brand='Dove conditioner';
+update "GAIN_THEORY".RINRCRAPromotion set brand='Fair & Lovely'  where brand='Fair & Lovely';
+update "GAIN_THEORY".RINRCRAPromotion set brand='Fair & Lovely'  where brand='Fair and Lovely';
+update "GAIN_THEORY".RINRCRAPromotion set brand='Others'  where brand='FrontLoad';
+update "GAIN_THEORY".RINRCRAPromotion set brand='Others'  where brand='Godown Audit';
+update "GAIN_THEORY".RINRCRAPromotion set brand='bru'  where brand='Gold';
+update "GAIN_THEORY".RINRCRAPromotion set brand='Hamam'  where brand='Hamam';
+update "GAIN_THEORY".RINRCRAPromotion set brand='Others'  where brand='HUL';
+update "GAIN_THEORY".RINRCRAPromotion set brand='Others'  where brand='Incentive';
+update "GAIN_THEORY".RINRCRAPromotion set brand='Kissan'  where brand='KISSAN';
+update "GAIN_THEORY".RINRCRAPromotion set brand='Kissan'  where brand='Kissan';
+update "GAIN_THEORY".RINRCRAPromotion set brand='knorr'  where brand='Kissan and Knorr';
+update "GAIN_THEORY".RINRCRAPromotion set brand='Others'  where brand='KKD';
+update "GAIN_THEORY".RINRCRAPromotion set brand='Others'  where brand='KKD 7500';
+update "GAIN_THEORY".RINRCRAPromotion set brand='Others'  where brand='KKD 7500 H2H';
+update "GAIN_THEORY".RINRCRAPromotion set brand='Others'  where brand='KKD 7500 Mohalla';
+update "GAIN_THEORY".RINRCRAPromotion set brand='Others'  where brand='KKD 7500 RCP';
+update "GAIN_THEORY".RINRCRAPromotion set brand='Others'  where brand='KKD JWT';
+update "GAIN_THEORY".RINRCRAPromotion set brand='Others'  where brand='KKD MILESTONE RCP';
+update "GAIN_THEORY".RINRCRAPromotion set brand='Others'  where brand='KKDMilestone';
+update "GAIN_THEORY".RINRCRAPromotion set brand='Others'  where brand='KKDOutbox';
+update "GAIN_THEORY".RINRCRAPromotion set brand='knorr'  where brand='Knorr';
+update "GAIN_THEORY".RINRCRAPromotion set brand='Kwality walls'  where brand='Kwality Walls';
+update "GAIN_THEORY".RINRCRAPromotion set brand='Kwality walls'  where brand='Kwality walls';
+update "GAIN_THEORY".RINRCRAPromotion set brand='Lakme'  where brand='Lakme';
+update "GAIN_THEORY".RINRCRAPromotion set brand='Lifebuoy'  where brand='Lifebuoy';
+update "GAIN_THEORY".RINRCRAPromotion set brand='lipton'  where brand='Lipton';
+update "GAIN_THEORY".RINRCRAPromotion set brand='lux'  where brand='Lux';
+update "GAIN_THEORY".RINRCRAPromotion set brand='magic Rinse'  where brand='Magic';
+update "GAIN_THEORY".RINRCRAPromotion set brand='magic Rinse'  where brand='Magic Rinse';
+update "GAIN_THEORY".RINRCRAPromotion set brand='Others'  where brand='MDM H2H Sample';
+update "GAIN_THEORY".RINRCRAPromotion set brand='Others'  where brand='MDM Mandi 500';
+update "GAIN_THEORY".RINRCRAPromotion set brand='Others'  where brand='MP Sampling 3 Brands';
+update "GAIN_THEORY".RINRCRAPromotion set brand='Others'  where brand='New Combo Offer';
+update "GAIN_THEORY".RINRCRAPromotion set brand='Pepsodent'  where brand='P^psodent';
+update "GAIN_THEORY".RINRCRAPromotion set brand='paddlepop'  where brand='Paddlepop';
+update "GAIN_THEORY".RINRCRAPromotion set brand='Wheel'  where brand='PB Wheel sampling';
+update "GAIN_THEORY".RINRCRAPromotion set brand='Pears'  where brand='Pears';
+update "GAIN_THEORY".RINRCRAPromotion set brand='Pepsodent'  where brand='Pepsodent';
+update "GAIN_THEORY".RINRCRAPromotion set brand='Others'  where brand='Pokemon';
+update "GAIN_THEORY".RINRCRAPromotion set brand='Ponds'  where brand='Ponds';
+update "GAIN_THEORY".RINRCRAPromotion set brand='Ponds'  where brand='Ponds BB';
+update "GAIN_THEORY".RINRCRAPromotion set brand='Others'  where brand='Pure IT';
+update "GAIN_THEORY".RINRCRAPromotion set brand='Others'  where brand='Pure iT';
+update "GAIN_THEORY".RINRCRAPromotion set brand='pureit'  where brand='PUREIT';
+update "GAIN_THEORY".RINRCRAPromotion set brand='pureit'  where brand='PureIT';
+update "GAIN_THEORY".RINRCRAPromotion set brand='pureit'  where brand='Pureit';
+update "GAIN_THEORY".RINRCRAPromotion set brand='pureit'  where brand='Pureit - Classic';
+update "GAIN_THEORY".RINRCRAPromotion set brand='red label'  where brand='Redlabel';
+update "GAIN_THEORY".RINRCRAPromotion set brand='Rin'  where brand='Rin';
+update "GAIN_THEORY".RINRCRAPromotion set brand='Rin'  where brand='Rin Mandi';
+update "GAIN_THEORY".RINRCRAPromotion set brand='Rin'  where brand='Rin Sample';
+update "GAIN_THEORY".RINRCRAPromotion set brand='Rin'  where brand='RIN Trader';
+update "GAIN_THEORY".RINRCRAPromotion set brand='Rin'  where brand='RIN TRADER FRIENDZ';
+update "GAIN_THEORY".RINRCRAPromotion set brand='santoor'  where brand='Santoor';
+update "GAIN_THEORY".RINRCRAPromotion set brand='Others'  where brand='SASB';
+update "GAIN_THEORY".RINRCRAPromotion set brand='Others'  where brand='SASB H2H';
+update "GAIN_THEORY".RINRCRAPromotion set brand='Others'  where brand='SASB SCP';
+update "GAIN_THEORY".RINRCRAPromotion set brand='Shakthi MMD'  where brand='Shakthi MMD';
+update "GAIN_THEORY".RINRCRAPromotion set brand='Others'  where brand='SOCIETY';
+update "GAIN_THEORY".RINRCRAPromotion set brand='sunlight'  where brand='SUNLIGHT';
+update "GAIN_THEORY".RINRCRAPromotion set brand='sunlight'  where brand='Sunlight';
+update "GAIN_THEORY".RINRCRAPromotion set brand='Sunsilk'  where brand='Sunsilk';
+update "GAIN_THEORY".RINRCRAPromotion set brand='surf'  where brand='Surf';
+update "GAIN_THEORY".RINRCRAPromotion set brand='surf'  where brand='SURF Excel';
+update "GAIN_THEORY".RINRCRAPromotion set brand='surf'  where brand='Surf Excel';
+update "GAIN_THEORY".RINRCRAPromotion set brand='surf'  where brand='Surf Excel Matic';
+update "GAIN_THEORY".RINRCRAPromotion set brand='Others'  where brand='Swatch bharat';
+update "GAIN_THEORY".RINRCRAPromotion set brand='Taaza'  where brand='TAAZA';
+update "GAIN_THEORY".RINRCRAPromotion set brand='taj'  where brand='Taj';
+update "GAIN_THEORY".RINRCRAPromotion set brand='taj'  where brand='Taj Mahal';
+update "GAIN_THEORY".RINRCRAPromotion set brand='taj'  where brand='Taj Tea';
+update "GAIN_THEORY".RINRCRAPromotion set brand='taj'  where brand='Tajmahal';
+update "GAIN_THEORY".RINRCRAPromotion set brand='Others'  where brand='TopLoad';
+update "GAIN_THEORY".RINRCRAPromotion set brand='Others'  where brand='Training';
+update "GAIN_THEORY".RINRCRAPromotion set brand='Vaseline'  where brand='Vaseline';
+update "GAIN_THEORY".RINRCRAPromotion set brand='vim'  where brand='Vim';
+update "GAIN_THEORY".RINRCRAPromotion set brand='vim'  where brand='VIM bar';
+update "GAIN_THEORY".RINRCRAPromotion set brand='vim'  where brand='VIM Gel';
+update "GAIN_THEORY".RINRCRAPromotion set brand='vim'  where brand='VIM liquid';
+update "GAIN_THEORY".RINRCRAPromotion set brand='Wheel'  where brand='Wheel';
+update "GAIN_THEORY".RINRCRAPromotion set brand='Wheel'  where brand='Wheel (HPC)';
+update "GAIN_THEORY".RINRCRAPromotion set brand='Wheel'  where brand='Wheel Sample';
+update "GAIN_THEORY".RINRCRAPromotion set brand='Wheel'  where brand='Wheel Sampling';
+
+
+
+
+select option_provided,region,count(distinct best_mobile_number_hash) from (
+select distinct option_provided,region,best_mobile_number_hash from PRM.kkt_cdr_contest_trans_ST a
+inner join PRM.ref_mobile_lookup b on a.region_lookup_number=b.lookup_prefix5
+where (lower(b.region) like '%karn%' or lower(b.region) like '%tamil%' or
+lower(b.region) like '%chennai%' or lower(b.region) like '%mumb%' or
+lower(b.region) like '%andhra%' or lower(b.region) like '%maha%' or
+lower(b.region) like '%uttar%' ) and contest_file_id='9'
+and option_provided in ('1','2')
+
+union 
+
+select distinct option_provided,region,best_mobile_number_hash from PRM.kkt_cdrl_contest a
+inner join PRM.ref_mobile_lookup b on a.region_lookup_number=b.lookup_prefix5
+where (lower(b.region) like '%karn%' or lower(b.region) like '%tamil%' or
+lower(b.region) like '%chennai%' or lower(b.region) like '%mumb%' or
+lower(b.region) like '%andhra%' or lower(b.region) like '%maha%' or
+lower(b.region) like '%uttar%' )and contest_file_id='9'and contest_file_id='9'
+and option_provided in ('1','2')) as a
+group by option_provided,region;

@@ -1,0 +1,46 @@
+select distinct 'IN' Market
+,case when lower(Provider) like '%btone%' then 'BT' when lower(Provider) like '%careline%' then 'CL' 
+when lower(Provider) like '%pure%' then 'PI' when lower(Provider) like '%kkt%' then 'KKT'
+when lower(Provider) like '%digi%' then 'DL' when lower(Provider) like '%lakm%' then 'LK'
+when lower(Provider) like '%h2h%' then 'H2H' when lower(Provider) like '%bebe%' then 'BB'
+end Provider ,mobileno,'1' Optin_Hierarchy_level
+,'Unilever' Optin_Hierarchy_value
+FROM prmprogrammepdwheudb.southasia.pdwh_counting_mobile a
+inner join prmprogrammepdwheudb.southasia.pdwh_ref_region b
+on a.mobileprefix=b.mobileprefix
+where  (lower(brand) like '%wheel%' or lower(brand) like '%lifeb%' or lower(brand) like '%red%label%'
+or lower(brand) like '%sunlight%' or lower(brand) like '%vim%' or lower(brand) like '%clinic%' or lower(brand) like '%vaseli%')
+and Provider in ('Digital','Btone OI','H2H') 
+and b.region in('Madhya Pradesh and Chhattisgarh')
+
+
+select distinct 'IN' Market
+,case when lower(Provider) like '%btone%' then 'BT' when lower(Provider) like '%careline%' then 'CL' 
+when lower(Provider) like '%pure%' then 'PI' when lower(Provider) like '%kkt%' then 'KKT'
+when lower(Provider) like '%digi%' then 'DL' when lower(Provider) like '%lakm%' then 'LK'
+when lower(Provider) like '%h2h%' then 'H2H' when lower(Provider) like '%bebe%' then 'BB'
+end Provider ,mobileno,'1' Optin_Hierarchy_level
+,'Unilever' Optin_Hierarchy_value
+FROM prmprogrammepdwheudb.southasia.pdwh_counting_mobile a
+inner join prmprogrammepdwheudb.southasia.pdwh_ref_region b
+on a.mobileprefix=b.mobileprefix
+where  (lower(brand) like '%wheel%' or lower(brand) like '%lifeb%' or lower(brand) like '%red%label%'
+or lower(brand) like '%sunlight%' or lower(brand) like '%vim%' or lower(brand) like '%clinic%' or lower(brand) like '%vaseli%')
+and Provider in ('Digital','Btone OI','H2H') 
+and b.region in('Bihar and Jharkhand')
+
+
+create multiset table "GAIN_THEORY".IN0310KKTFEMALe(
+"Market" varchar(10),"Provider" varchar(10)
+,"mobileno"  varchar(300),"optin_hierarchy_level" varchar(10)
+,"optin_hierarchy_value"  varchar(10),region  varchar(80))
+
+insert into "GAIN_THEORY".IN0310KKTFEMALe
+select distinct 'IN','KKT',"best_mobile_number_hash",'1','Unilever',region
+from GAIN_THEORY.KKT_female a
+inner join PRM.ref_mobile_lookup c on a."region_lookup_number"=c.lookup_prefix5
+where region in ('Uttar Pradesh (East)'
+,'West Bengal & Andaman and Nicobar Is.','Punjab'
+,'Madhya Pradesh and Chhattisgarh','Bihar and Jharkhand','Delhi','Maharashtra','Gujarat','Kolkata','Rajasthan','Uttar Pradesh (West) and Uttarakhand','Mumbai'
+,'Haryana')
+

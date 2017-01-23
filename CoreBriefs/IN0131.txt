@@ -1,0 +1,67 @@
+select distinct b.region,b.operator,brand,productsize,count(distinct a.mobileno)
+FROM prmprogrammepdwheudb.southasia.pdwh_counting_mobile a
+inner join prmprogrammepdwheudb.southasia.pdwh_ref_region b on a.mobileprefix=b.mobileprefix
+where lower(brand) like '%close%up%'  
+and provider in ('Digital','Btone OI','H2H')
+and productsize in ('40g','80g','150g')
+and length(mobileno)>0
+group by b.region,b.operator,brand,productsize
+
+select distinct b.region,b.operator,count(distinct a.mobileno)
+FROM prmprogrammepdwheudb.southasia.pdwh_counting_mobile a
+inner join prmprogrammepdwheudb.southasia.pdwh_ref_region b on a.mobileprefix=b.mobileprefix
+where (lower(brand) like '%bru%' or lower(brand) like '%comfort%' or lower(brand) like '%sunlight%' 
+or lower(brand) like '%taaza%' or lower(brand) like '%vim%' or lower(brand) like '%wheel%')
+and provider in ('Digital','Btone OI','H2H')
+and length(mobileno)>0
+and datediff(month,lastinteractiondate,'2015-10-05 00:00:00' ) in (0,1,2,3,4) 
+group by b.region,b.operator
+
+
+
+
+
+select distinct 'IN' Market
+,case when lower(Provider) like '%btone%' then 'BT' when lower(Provider) like '%careline%' then 'CL' 
+when lower(Provider) like '%pure%' then 'PI' when lower(Provider) like '%kkt%' then 'KKT'
+when lower(Provider) like '%digi%' then 'DL' when lower(Provider) like '%lakm%' then 'LK'
+when lower(Provider) like '%h2h%' then 'H2H' when lower(Provider) like '%bebe%' then 'BB'
+end Provider ,mobileno,'1' Optin_Hierarchy_level,'Unilever' Optin_Hierarchy_value
+FROM prmprogrammepdwheudb.southasia.pdwh_counting_mobile a
+inner join prmprogrammepdwheudb.southasia.pdwh_ref_region b on a.mobileprefix=b.mobileprefix
+where lower(brand) like '%close%up%'  
+and provider in ('Digital','Btone OI','H2H')
+and productsize in ('40g','80g','150g')
+and length(mobileno)>0
+and b.region  in('Delhi','Kolkata','Mumbai','Andhra Pradesh','Haryana','Madhya Pradesh and Chhattisgarh',
+'Punjab','Rajasthan','Uttar Pradesh (East)','Uttar Pradesh (West) and Uttarakhand')
+and b.operator in ('ID','IDEA','Idea Cellular Ltd.','Idea Cellular Ltd. (in. CH)'
+,'VF','VODAFONE','Vodafone Essar Cellular Ltd.','Vodafone Essar Cellular Ltd. (ex. CH)'
+,'Vodafone Essar Digilink Ltd.','Vodafone Essar East Ltd.','Vodafone Essar Gujarat Ltd.'
+,'Vodafone Essar Ltd.','Vodafone Essar Mobile Services Ltd.','Vodafone Essar South Ltd.','Vodafone Essar Spacetel Ltd.')
+
+
+
+select distinct 'IN' Market
+,case when lower(Provider) like '%btone%' then 'BT' when lower(Provider) like '%careline%' then 'CL' 
+when lower(Provider) like '%pure%' then 'PI' when lower(Provider) like '%kkt%' then 'KKT'
+when lower(Provider) like '%digi%' then 'DL' when lower(Provider) like '%lakm%' then 'LK'
+when lower(Provider) like '%h2h%' then 'H2H' when lower(Provider) like '%bebe%' then 'BB'
+end Provider ,mobileno,'1' Optin_Hierarchy_level,'Unilever' Optin_Hierarchy_value
+FROM prmprogrammepdwheudb.southasia.pdwh_counting_mobile a
+inner join prmprogrammepdwheudb.southasia.pdwh_ref_region b on a.mobileprefix=b.mobileprefix
+where (lower(brand) like '%bru%' or lower(brand) like '%comfort%' or lower(brand) like '%sunlight%' 
+or lower(brand) like '%taaza%' or lower(brand) like '%vim%' or lower(brand) like '%wheel%') 
+and provider in ('Digital','Btone OI','H2H')
+and datediff(month,lastinteractiondate,'2015-10-05 00:00:00' ) in (0,1,2,3,4) 
+and length(mobileno)>0
+and b.region  in('Delhi','Kolkata','Mumbai','Andhra Pradesh','Haryana','Madhya Pradesh and Chhattisgarh',
+'Punjab','Rajasthan','Uttar Pradesh (East)','Uttar Pradesh (West) and Uttarakhand')
+and b.operator in ('ID','IDEA','Idea Cellular Ltd.','Idea Cellular Ltd. (in. CH)'
+,'VF','VODAFONE','Vodafone Essar Cellular Ltd.','Vodafone Essar Cellular Ltd. (ex. CH)'
+,'Vodafone Essar Digilink Ltd.','Vodafone Essar East Ltd.','Vodafone Essar Gujarat Ltd.'
+,'Vodafone Essar Ltd.','Vodafone Essar Mobile Services Ltd.','Vodafone Essar South Ltd.','Vodafone Essar Spacetel Ltd.')
+
+
+
+

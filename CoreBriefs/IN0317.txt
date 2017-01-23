@@ -1,0 +1,258 @@
+
+create multiset table "GAIN_THEORY".BRUAdhoc(campaign_name varchar(100)
+,product_name varchar(100),pack_size varchar(100),region varchar(100),counts int)
+
+insert into  "GAIN_THEORY".BRUAdhoc
+SELECT campaign_id,product_id,'',region,count(distinct  "best_mobile_number_hash")
+FROM "PRM"."bt_entry" a
+inner join PRM.ref_mobile_lookup c on a."region_lookup_number"=c.lookup_prefix5
+where a."campaign_id" in (select distinct "campaign_id" from PRM.bt_campaign where lower(campaign_brand) like '%bru%')
+group by campaign_id,product_id,region;
+
+
+
+select * from "GAIN_THEORY".BRUAdhoc
+
+select * from PRM.bt_product
+where campaign_id in (select distinct campaign_name from "GAIN_THEORY".BRUAdhoc)
+
+
+
+
+
+
+--------------------
+
+ create multiset table "GAIN_THEORY".BRUAdhoc(
+ campaign_name varchar(100),years varchar(100),region varchar(100),counts int)
+
+insert into  "GAIN_THEORY".BRUAdhoc
+SELECT 'Bru Rs. 5 HUL CODE',EXTRACT (YEAR FROM entry_date),region,count(distinct  "best_mobile_number_hash")
+FROM "PRM"."bt_entry" a
+inner join PRM.ref_mobile_lookup c on a."region_lookup_number"=c.lookup_prefix5
+where a."campaign_id" in (
+select distinct "campaign_id" from PRM.bt_campaign 
+where bt_campaign.campaign_name like '%Bru Rs. 5 HUL CODE%')
+group by EXTRACT (YEAR FROM entry_date),region;
+
+
+insert into  "GAIN_THEORY".BRUAdhoc
+SELECT 'IN_HUL_BruTrader_Rs5',EXTRACT (YEAR FROM entry_date),region,count(distinct  "best_mobile_number_hash")
+FROM "PRM"."bt_entry" a
+inner join PRM.ref_mobile_lookup c on a."region_lookup_number"=c.lookup_prefix5
+where a."campaign_id" in (
+select distinct "campaign_id" from PRM.bt_campaign 
+where bt_campaign.campaign_name like '%IN_HUL_BruTrader_Rs5%')
+group by EXTRACT (YEAR FROM entry_date),region;
+
+
+insert into  "GAIN_THEORY".BRUAdhoc
+SELECT 'IN_HUL_BRUTRADER_2014',EXTRACT (YEAR FROM entry_date),region,count(distinct  "best_mobile_number_hash")
+FROM "PRM"."bt_entry" a
+inner join PRM.ref_mobile_lookup c on a."region_lookup_number"=c.lookup_prefix5
+where a."campaign_id" in (
+select distinct "campaign_id" from PRM.bt_campaign 
+where bt_campaign.campaign_name like '%IN_HUL_BRUTRADER_2014%')
+group by EXTRACT (YEAR FROM entry_date),region;
+
+
+----------------
+
+
+
+create multiset table "GAIN_THEORY".IN0317BruCampaignsAP10
+(Market varchar(10),Provider varchar(10),mobileno varchar(300),
+Optin_Hierarchy_level varchar(10),Optin_Hierarchy_value varchar(20),years int,campaignname varchar(100))
+
+create multiset table "GAIN_THEORY".IN0317BruCampaignsChennai10
+(Market varchar(10),Provider varchar(10),mobileno varchar(300),
+Optin_Hierarchy_level varchar(10),Optin_Hierarchy_value varchar(20),years int,campaignname varchar(100))
+
+
+create multiset table "GAIN_THEORY".IN0317BruCampaignskarnataka10
+(Market varchar(10),Provider varchar(10),mobileno varchar(300),
+Optin_Hierarchy_level varchar(10),Optin_Hierarchy_value varchar(20),years int,campaignname varchar(100))
+
+create multiset table "GAIN_THEORY".IN0317BruCampaignskerala10
+(Market varchar(10),Provider varchar(10),mobileno varchar(300),
+Optin_Hierarchy_level varchar(10),Optin_Hierarchy_value varchar(20),years int,campaignname varchar(100))
+
+
+create multiset table "GAIN_THEORY".IN0317BruCampaignsTN10
+(Market varchar(10),Provider varchar(10),mobileno varchar(300),
+Optin_Hierarchy_level varchar(10),Optin_Hierarchy_value varchar(20),years int,campaignname varchar(100))
+
+
+
+
+
+
+insert into "GAIN_THEORY".IN0317BruCampaignsAP10
+SELECT distinct  'IN','BT',"best_mobile_number_hash",'1','Unilever',EXTRACT (YEAR FROM entry_date)
+,'Rs 10 sachet'
+FROM "PRM"."bt_entry" a
+inner join PRM.ref_mobile_lookup c on a."region_lookup_number"=c.lookup_prefix5
+where a."campaign_id" in (
+select distinct "campaign_id" from PRM.bt_campaign 
+where campaign_name like '%IN_HUL_BRUTRADER_2014%') and region like '%Andhra%' 
+and EXTRACT (YEAR FROM entry_date) in ('2015','2016');
+
+insert into "GAIN_THEORY".IN0317BruCampaignsAP10
+SELECT distinct  'IN','BT',"best_mobile_number_hash",'1','Unilever',EXTRACT (YEAR FROM entry_date)
+,'Rs 5 sachet'
+FROM "PRM"."bt_entry" a
+inner join PRM.ref_mobile_lookup c on a."region_lookup_number"=c.lookup_prefix5
+where a."campaign_id" in (
+select distinct "campaign_id" from PRM.bt_campaign 
+where campaign_name like '%IN_HUL_BruTrader_Rs5%') and region like '%Andhra%' 
+and EXTRACT (YEAR FROM entry_date) in ('2015','2016');
+
+insert into "GAIN_THEORY".IN0317BruCampaignsAP10
+SELECT distinct  'IN','BT',"best_mobile_number_hash",'1','Unilever',EXTRACT (YEAR FROM entry_date)
+,'HUL CODE'
+FROM "PRM"."bt_entry" a
+inner join PRM.ref_mobile_lookup c on a."region_lookup_number"=c.lookup_prefix5
+where a."campaign_id" in (
+select distinct "campaign_id" from PRM.bt_campaign 
+where campaign_name like '%Bru Rs. 5 HUL CODE%') and region like '%Andhra%' 
+and EXTRACT (YEAR FROM entry_date) in ('2015','2016');
+
+-------
+
+
+
+insert into "GAIN_THEORY".IN0317BruCampaignsChennai10
+SELECT distinct  'IN','BT',"best_mobile_number_hash",'1','Unilever',EXTRACT (YEAR FROM entry_date)
+,'Rs 10 sachet'
+FROM "PRM"."bt_entry" a
+inner join PRM.ref_mobile_lookup c on a."region_lookup_number"=c.lookup_prefix5
+where a."campaign_id" in (
+select distinct "campaign_id" from PRM.bt_campaign 
+where campaign_name like '%IN_HUL_BRUTRADER_2014%') and region like '%Chennai%' 
+and EXTRACT (YEAR FROM entry_date) in ('2015','2016');
+
+insert into "GAIN_THEORY".IN0317BruCampaignsChennai10
+SELECT distinct  'IN','BT',"best_mobile_number_hash",'1','Unilever',EXTRACT (YEAR FROM entry_date)
+,'Rs 5 sachet'
+FROM "PRM"."bt_entry" a
+inner join PRM.ref_mobile_lookup c on a."region_lookup_number"=c.lookup_prefix5
+where a."campaign_id" in (
+select distinct "campaign_id" from PRM.bt_campaign 
+where campaign_name like '%IN_HUL_BruTrader_Rs5%') and region like '%Chennai%' 
+and EXTRACT (YEAR FROM entry_date) in ('2015','2016');
+
+insert into "GAIN_THEORY".IN0317BruCampaignsChennai10
+SELECT distinct  'IN','BT',"best_mobile_number_hash",'1','Unilever',EXTRACT (YEAR FROM entry_date)
+,'HUL CODE'
+FROM "PRM"."bt_entry" a
+inner join PRM.ref_mobile_lookup c on a."region_lookup_number"=c.lookup_prefix5
+where a."campaign_id" in (
+select distinct "campaign_id" from PRM.bt_campaign 
+where campaign_name like '%Bru Rs. 5 HUL CODE%') and region like '%Chennai%' 
+and EXTRACT (YEAR FROM entry_date) in ('2015','2016');
+
+
+-------
+
+insert into "GAIN_THEORY".IN0317BruCampaignskarnataka10
+SELECT distinct  'IN','BT',"best_mobile_number_hash",'1','Unilever',EXTRACT (YEAR FROM entry_date)
+,'Rs 10 sachet'
+FROM "PRM"."bt_entry" a
+inner join PRM.ref_mobile_lookup c on a."region_lookup_number"=c.lookup_prefix5
+where a."campaign_id" in (
+select distinct "campaign_id" from PRM.bt_campaign 
+where campaign_name like '%IN_HUL_BRUTRADER_2014%') and region like '%Karna%' 
+and EXTRACT (YEAR FROM entry_date) in ('2015','2016');
+
+insert into "GAIN_THEORY".IN0317BruCampaignskarnataka10
+SELECT distinct  'IN','BT',"best_mobile_number_hash",'1','Unilever',EXTRACT (YEAR FROM entry_date)
+,'Rs 5 sachet'
+FROM "PRM"."bt_entry" a
+inner join PRM.ref_mobile_lookup c on a."region_lookup_number"=c.lookup_prefix5
+where a."campaign_id" in (
+select distinct "campaign_id" from PRM.bt_campaign 
+where campaign_name like '%IN_HUL_BruTrader_Rs5%') and region like '%Karna%' 
+and EXTRACT (YEAR FROM entry_date) in ('2015','2016');
+
+insert into "GAIN_THEORY".IN0317BruCampaignskarnataka10
+SELECT distinct  'IN','BT',"best_mobile_number_hash",'1','Unilever',EXTRACT (YEAR FROM entry_date)
+,'HUL CODE'
+FROM "PRM"."bt_entry" a
+inner join PRM.ref_mobile_lookup c on a."region_lookup_number"=c.lookup_prefix5
+where a."campaign_id" in (
+select distinct "campaign_id" from PRM.bt_campaign 
+where campaign_name like '%Bru Rs. 5 HUL CODE%') and region like '%Karna%' 
+and EXTRACT (YEAR FROM entry_date) in ('2015','2016');
+
+
+-------
+insert into "GAIN_THEORY".IN0317BruCampaignskerala10
+SELECT distinct  'IN','BT',"best_mobile_number_hash",'1','Unilever',EXTRACT (YEAR FROM entry_date)
+,'Rs 10 sachet'
+FROM "PRM"."bt_entry" a
+inner join PRM.ref_mobile_lookup c on a."region_lookup_number"=c.lookup_prefix5
+where a."campaign_id" in (
+select distinct "campaign_id" from PRM.bt_campaign 
+where campaign_name like '%IN_HUL_BRUTRADER_2014%') and region like '%Kerala%' 
+and EXTRACT (YEAR FROM entry_date) in ('2015','2016');
+
+insert into "GAIN_THEORY".IN0317BruCampaignskerala10
+SELECT distinct  'IN','BT',"best_mobile_number_hash",'1','Unilever',EXTRACT (YEAR FROM entry_date)
+,'Rs 5 sachet'
+FROM "PRM"."bt_entry" a
+inner join PRM.ref_mobile_lookup c on a."region_lookup_number"=c.lookup_prefix5
+where a."campaign_id" in (
+select distinct "campaign_id" from PRM.bt_campaign 
+where campaign_name like '%IN_HUL_BruTrader_Rs5%') and region like '%Kerala%' 
+and EXTRACT (YEAR FROM entry_date) in ('2015','2016');
+
+insert into "GAIN_THEORY".IN0317BruCampaignskerala10
+SELECT distinct  'IN','BT',"best_mobile_number_hash",'1','Unilever',EXTRACT (YEAR FROM entry_date)
+,'HUL CODE'
+FROM "PRM"."bt_entry" a
+inner join PRM.ref_mobile_lookup c on a."region_lookup_number"=c.lookup_prefix5
+where a."campaign_id" in (
+select distinct "campaign_id" from PRM.bt_campaign 
+where campaign_name like '%Bru Rs. 5 HUL CODE%') and region like '%Kerala%' 
+and EXTRACT (YEAR FROM entry_date) in ('2015','2016');
+
+
+
+
+------
+
+insert into "GAIN_THEORY".IN0317BruCampaignsTN10
+SELECT distinct  'IN','BT',"best_mobile_number_hash",'1','Unilever',EXTRACT (YEAR FROM entry_date)
+,'Rs 10 sachet'
+FROM "PRM"."bt_entry" a
+inner join PRM.ref_mobile_lookup c on a."region_lookup_number"=c.lookup_prefix5
+where a."campaign_id" in (
+select distinct "campaign_id" from PRM.bt_campaign 
+where campaign_name like '%IN_HUL_BRUTRADER_2014%') and region like '%Tamil%' 
+and EXTRACT (YEAR FROM entry_date) in ('2015','2016');
+
+insert into "GAIN_THEORY".IN0317BruCampaignsTN10
+SELECT distinct  'IN','BT',"best_mobile_number_hash",'1','Unilever',EXTRACT (YEAR FROM entry_date)
+,'Rs 5 sachet'
+FROM "PRM"."bt_entry" a
+inner join PRM.ref_mobile_lookup c on a."region_lookup_number"=c.lookup_prefix5
+where a."campaign_id" in (
+select distinct "campaign_id" from PRM.bt_campaign 
+where campaign_name like '%IN_HUL_BruTrader_Rs5%') and region like '%Tamil%' 
+and EXTRACT (YEAR FROM entry_date) in ('2015','2016');
+
+insert into "GAIN_THEORY".IN0317BruCampaignsTN10
+SELECT distinct  'IN','BT',"best_mobile_number_hash",'1','Unilever',EXTRACT (YEAR FROM entry_date)
+,'HUL CODE'
+FROM "PRM"."bt_entry" a
+inner join PRM.ref_mobile_lookup c on a."region_lookup_number"=c.lookup_prefix5
+where a."campaign_id" in (
+select distinct "campaign_id" from PRM.bt_campaign 
+where campaign_name like '%Bru Rs. 5 HUL CODE%') and region like '%Tamil%' 
+and EXTRACT (YEAR FROM entry_date) in ('2015','2016');
+
+
+
+
+
+

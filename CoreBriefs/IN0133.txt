@@ -1,0 +1,57 @@
+
+
+select distinct 'IN' Market
+,case when lower(Provider) like '%btone%' then 'BT' when lower(Provider) like '%careline%' then 'CL' 
+when lower(Provider) like '%pure%' then 'PI' when lower(Provider) like '%kkt%' then 'KKT'
+when lower(Provider) like '%digi%' then 'DL' when lower(Provider) like '%lakm%' then 'LK'
+when lower(Provider) like '%h2h%' then 'H2H' when lower(Provider) like '%bebe%' then 'BB'
+end Provider ,mobileno,'1' Optin_Hierarchy_level
+,'Unilever' Optin_Hierarchy_value
+FROM prmprogrammepdwheudb.southasia.pdwh_counting_mobile a
+inner join prmprogrammepdwheudb.southasia.pdwh_ref_region b
+on a.mobileprefix=b.mobileprefix
+where  lower(brand) like '%bru%' 
+and Provider in ('Digital','Btone OI','H2H') and b.region in('Andhra Pradesh','Chennai','Tamilnadu')
+
+
+
+select distinct 'IN' Market
+,case when lower(Provider) like '%btone%' then 'BT' when lower(Provider) like '%careline%' then 'CL' 
+when lower(Provider) like '%pure%' then 'PI' when lower(Provider) like '%kkt%' then 'KKT'
+when lower(Provider) like '%digi%' then 'DL' when lower(Provider) like '%lakm%' then 'LK'
+when lower(Provider) like '%h2h%' then 'H2H' when lower(Provider) like '%bebe%' then 'BB'
+end Provider ,mobileno,'1' Optin_Hierarchy_level
+,'Unilever' Optin_Hierarchy_value
+FROM prmprogrammepdwheudb.southasia.pdwh_counting_mobile a
+inner join prmprogrammepdwheudb.southasia.pdwh_ref_region b
+on a.mobileprefix=b.mobileprefix
+where ( lower(brand) like '%bru%' or lower(brand) like '%close%up%'
+or lower(brand) like '%fair%love%' or lower(brand) like '%lifeb%'
+or lower(brand) like '%lux%' or lower(brand) like '%pears%'
+or lower(brand) like '%red%label%' or lower(brand) like '%rin%'
+or lower(brand) like '%sunlight%' or lower(brand) like '%surf%'
+or lower(brand) like '%vim%' or lower(brand) like '%wheel%'
+)
+and Provider in ('Digital','Btone OI','H2H') and b.region in('Kerala','Karnataka')
+
+
+
+
+
+------sunrise users
+create multiset table BRU_Campaign_TNAP(
+market varchar(5),Provider varchar(5),
+best_mobile_number_hash varchar(200),
+Optin_Hierarchy_level varchar(5),Optin_Hierarchy_value varchar(20))
+
+
+
+insert into "GAIN_THEORY".BRU_Campaign_TNAP
+select distinct 'IN','BT',a.best_mobile_number_hash,'1' Optin_Hierarchy_level
+,'Unilever' Optin_Hierarchy_value from "PRM"."bt_entry" a
+inner join "PRM"."bt_response" b on a.entry_id=b.entry_id
+inner join "PRM"."ref_mobile_region_lookup" c on c.mscrange5=a.region_lookup_number
+where b.answer_id in (
+select distinct answer_id from "PRM"."bt_answer"
+where answer_text like 'Sunrise')
+and c.region in('Andhra Pradesh','Chennai','Tamilnadu')

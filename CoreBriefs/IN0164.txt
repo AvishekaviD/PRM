@@ -1,0 +1,37 @@
+select 
+case
+when lower(city) like '%bangalo%' or lower(city) like '%blore%' or lower(city) like '%bengalu%'  
+then 'Bangalore'
+when lower(city) like '%hyd%' then 'Hyderabad'
+when lower(city) like '%ahmed%' then 'Ahmedabad' 
+when lower(city) like '%pune%' then 'Pune' end cities,
+Case
+when lower(brand) like '%dove' then 'Dove' when lower(brand) like '%surf%' then 'Surf'
+When lower(brand) like '%cornet%' then 'Cornetto' When lower(brand) like '%magnum%' then 'magnum'
+end Brands,count(distinct mobileno)
+FROM prmprogrammepdwheudb.southasia.pdwh_counting_mobile a
+where (lower(brand) like '%surf%' or lower(brand) like '%dove%'
+or lower(brand) like '%cornet%' or lower(brand) like '%magnum%')
+and length(mobileno)>0
+and (lower(city) like '%bangalo%' or lower(city) like '%blore%' or lower(city) like '%bengalu%' or
+lower(city) like '%hyd%' or lower(city) like '%ahmed%' or lower(city) like '%pune%')
+and datediff(month,lastinteractiondate,'2016-02-09 00:00:00' ) in (0,1,2,3,5,6,7,8)
+and Provider in ('Digital','H2H','Btone OI')
+group by  cities,brands
+
+
+
+select b.region,
+Case
+when lower(brand) like '%dove' then 'Dove' when lower(brand) like '%surf%' then 'Surf'
+When lower(brand) like '%cornet%' then 'Cornetto' When lower(brand) like '%magnum%' then 'magnum'
+end Brands,count(distinct mobileno)
+FROM prmprogrammepdwheudb.southasia.pdwh_counting_mobile a
+inner join prmprogrammepdwheudb.southasia.pdwh_ref_region b
+on a.mobileprefix=b.mobileprefix
+where (lower(brand) like '%surf%' or lower(brand) like '%dove%'
+or lower(brand) like '%cornet%' or lower(brand) like '%magnum%')
+and length(mobileno)>0
+and Provider in ('Digital','H2H','Btone OI')
+and datediff(month,lastinteractiondate,'2016-02-09 00:00:00' ) in (0,1,2,3,5,6,7,8)
+group by  b.region,brands

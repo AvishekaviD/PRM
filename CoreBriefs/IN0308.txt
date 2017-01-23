@@ -1,0 +1,34 @@
+ select top 5000 * from "GAIN_THEORY".DoveAHS
+ where "FinalLSM"='7+' and "finalconfidence" in ('90')
+ and lower(city) like '%mumbai%'
+ 
+ 
+ update "GAIN_THEORY".DoveAHS
+from "GAIN_THEORY"."LSM3_PureitDistinct_data"b 
+set provider='PI'
+where "GAIN_THEORY".DoveAHS."mobileno"=b."best_mobile_number_hash"
+and provider is null;
+
+update "GAIN_THEORY".DoveAHS
+set provider='BB'
+where "mobileno" in (select distinct best_mobile_number_hash from PRM.bb_registration )
+and provider is null;
+
+
+update "GAIN_THEORY".DoveAHS
+set provider='LK'
+where "mobileno" in (select distinct best_mobile_number_hash from PRM.lk_customer )
+and provider is null;
+
+update "GAIN_THEORY".DoveAHS
+set provider='DL'
+where provider is null;
+
+ select top 6000 'IN'"Market",'BB' "Provider",email_hash,
+ '1' "optin_hierarchy_level",'Unilever'"optin_hierarchy_value"
+ from PRM.bb_registration
+where "best_mobile_number_hash"
+in (select distinct mobileno from "GAIN_THEORY".DoveAHS
+ where "FinalLSM"='7+' and "finalconfidence" in ('90')
+ and lower(city) like '%bangalore%');
+ 

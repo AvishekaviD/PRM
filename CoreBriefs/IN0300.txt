@@ -1,0 +1,256 @@
+create multiset table RCRA_AP030(
+market varchar(10),provider varchar(50),mobileno varchar(300)
+,optin_hierarchy_level varchar(10),optin_hierarchy_value varchar(10));
+
+create multiset table RCRA_AP060(
+market varchar(10),provider varchar(50),mobileno varchar(300)
+,optin_hierarchy_level varchar(10),optin_hierarchy_value varchar(10));
+
+
+create multiset table RCRA_AP430(
+market varchar(10),provider varchar(50),mobileno varchar(300)
+,optin_hierarchy_level varchar(10),optin_hierarchy_value varchar(10));
+
+create multiset table RCRA_AP460(
+market varchar(10),provider varchar(50),mobileno varchar(300)
+,optin_hierarchy_level varchar(10),optin_hierarchy_value varchar(10));
+
+
+
+
+create multiset table RCRA_TN030(
+market varchar(10),provider varchar(50),mobileno varchar(300)
+,optin_hierarchy_level varchar(10),optin_hierarchy_value varchar(10));
+
+create multiset table RCRA_TN060(
+market varchar(10),provider varchar(50),mobileno varchar(300)
+,optin_hierarchy_level varchar(10),optin_hierarchy_value varchar(10));
+
+
+create multiset table RCRA_TN430(
+market varchar(10),provider varchar(50),mobileno varchar(300)
+,optin_hierarchy_level varchar(10),optin_hierarchy_value varchar(10));
+
+create multiset table RCRA_TN460(
+market varchar(10),provider varchar(50),mobileno varchar(300)
+,optin_hierarchy_level varchar(10),optin_hierarchy_value varchar(10));
+
+
+
+
+create multiset table RCRA_Chennai030(
+market varchar(10),provider varchar(50),mobileno varchar(300)
+,optin_hierarchy_level varchar(10),optin_hierarchy_value varchar(10));
+
+create multiset table RCRA_Chennai060(
+market varchar(10),provider varchar(50),mobileno varchar(300)
+,optin_hierarchy_level varchar(10),optin_hierarchy_value varchar(10));
+
+
+create multiset table RCRA_Chennai430(
+market varchar(10),provider varchar(50),mobileno varchar(300)
+,optin_hierarchy_level varchar(10),optin_hierarchy_value varchar(10));
+
+create multiset table RCRA_Chennai460(
+market varchar(10),provider varchar(50),mobileno varchar(300)
+,optin_hierarchy_level varchar(10),optin_hierarchy_value varchar(10));
+
+
+
+
+
+insert into "GAIN_THEORY".RCRA_AP030(market ,mobileno,optin_hierarchy_level,optin_hierarchy_value)
+SELECT distinct  'IN',"best_mobile_number_hash",'1','Unilever'
+FROM "GAIN_THEORY"."LSM3_CombinedSourceSKU"
+where "FinalLSM"='0-3' and "finalconfidence"='30' and (lower(region) like '%andhra%' );
+
+
+insert into "GAIN_THEORY".RCRA_AP060(market ,mobileno,optin_hierarchy_level,optin_hierarchy_value)
+SELECT distinct  'IN',"best_mobile_number_hash",'1','Unilever'
+FROM "GAIN_THEORY"."LSM3_CombinedSourceSKU"
+where "FinalLSM"='0-3' and "finalconfidence"='60' and (lower(region) like '%andhra%' );
+
+
+
+insert into "GAIN_THEORY".RCRA_AP430(market ,mobileno,optin_hierarchy_level,optin_hierarchy_value)
+SELECT distinct  'IN',"best_mobile_number_hash",'1','Unilever'
+FROM "GAIN_THEORY"."LSM3_CombinedSourceSKU"
+where "FinalLSM"='4-7' and "finalconfidence"='30' and (lower(region) like '%andhra%' );
+
+
+insert into "GAIN_THEORY".RCRA_AP460(market ,mobileno,optin_hierarchy_level,optin_hierarchy_value)
+SELECT distinct  'IN',"best_mobile_number_hash",'1','Unilever'
+FROM "GAIN_THEORY"."LSM3_CombinedSourceSKU"
+where "FinalLSM"='4-7' and "finalconfidence"='60' and (lower(region) like '%andhra%' );
+
+
+
+-----
+
+insert into "GAIN_THEORY".RCRA_TN030(market ,mobileno,optin_hierarchy_level,optin_hierarchy_value)
+SELECT distinct  'IN',"best_mobile_number_hash",'1','Unilever'
+FROM "GAIN_THEORY"."LSM3_CombinedSourceSKU"
+where "FinalLSM"='0-3' and "finalconfidence"='30' and (lower(region) like '%tamil%' );
+
+
+insert into "GAIN_THEORY".RCRA_TN060(market ,mobileno,optin_hierarchy_level,optin_hierarchy_value)
+SELECT distinct  'IN',"best_mobile_number_hash",'1','Unilever'
+FROM "GAIN_THEORY"."LSM3_CombinedSourceSKU"
+where "FinalLSM"='0-3' and "finalconfidence"='60' and (lower(region) like '%tamil%' );
+
+
+
+insert into "GAIN_THEORY".RCRA_TN430(market ,mobileno,optin_hierarchy_level,optin_hierarchy_value)
+SELECT distinct  'IN',"best_mobile_number_hash",'1','Unilever'
+FROM "GAIN_THEORY"."LSM3_CombinedSourceSKU"
+where "FinalLSM"='4-7' and "finalconfidence"='30' and (lower(region) like '%tamil%' );
+
+
+insert into "GAIN_THEORY".RCRA_TN460(market ,mobileno,optin_hierarchy_level,optin_hierarchy_value)
+SELECT distinct  'IN',"best_mobile_number_hash",'1','Unilever'
+FROM "GAIN_THEORY"."LSM3_CombinedSourceSKU"
+where "FinalLSM"='4-7' and "finalconfidence"='60' and (lower(region) like '%tamil%' );
+
+
+-----
+
+insert into "GAIN_THEORY".RCRA_Chennai030(market ,mobileno,optin_hierarchy_level,optin_hierarchy_value)
+SELECT distinct  'IN',"best_mobile_number_hash",'1','Unilever'
+FROM "GAIN_THEORY"."LSM3_CombinedSourceSKU"
+where "FinalLSM"='0-3' and "finalconfidence"='30' and (lower(region) like '%chennai%' );
+
+
+insert into "GAIN_THEORY".RCRA_Chennai060(market ,mobileno,optin_hierarchy_level,optin_hierarchy_value)
+SELECT distinct  'IN',"best_mobile_number_hash",'1','Unilever'
+FROM "GAIN_THEORY"."LSM3_CombinedSourceSKU"
+where "FinalLSM"='0-3' and "finalconfidence"='60' and (lower(region) like '%chennai%' );
+
+
+
+insert into "GAIN_THEORY".RCRA_Chennai430(market ,mobileno,optin_hierarchy_level,optin_hierarchy_value)
+SELECT distinct  'IN',"best_mobile_number_hash",'1','Unilever'
+FROM "GAIN_THEORY"."LSM3_CombinedSourceSKU"
+where "FinalLSM"='4-7' and "finalconfidence"='30' and (lower(region) like '%chennai%' );
+
+
+insert into "GAIN_THEORY".RCRA_Chennai460(market ,mobileno,optin_hierarchy_level,optin_hierarchy_value)
+SELECT distinct  'IN',"best_mobile_number_hash",'1','Unilever'
+FROM "GAIN_THEORY"."LSM3_CombinedSourceSKU"
+where "FinalLSM"='4-7' and "finalconfidence"='60' and (lower(region) like '%chennai%' );
+
+PRM.kkt_cdrl_1800
+---------------------------------
+
+update "GAIN_THEORY".RCRA_AP030 set provider='KKT' 
+where "mobileno" in (select distinct best_mobile_number_hash from PRM.kkt_cdrl_1800) and provider is null;
+
+update "GAIN_THEORY".RCRA_AP030 set provider='BT' 
+where "mobileno" in (select distinct best_mobile_number_hash from PRM.bt_entry )and provider is null;
+
+update "GAIN_THEORY".RCRA_AP030 set provider='DL'where provider is null;
+
+
+update "GAIN_THEORY".RCRA_AP060 set provider='KKT' 
+where "mobileno" in (select distinct best_mobile_number_hash from PRM.kkt_cdrl_1800) and provider is null;
+
+update "GAIN_THEORY".RCRA_AP060 set provider='BT' 
+where "mobileno" in (select distinct best_mobile_number_hash from PRM.bt_entry )and provider is null;
+
+update "GAIN_THEORY".RCRA_AP060 set provider='DL'where provider is null;
+
+update "GAIN_THEORY".RCRA_AP460 set provider='KKT' 
+where "mobileno" in (select distinct best_mobile_number_hash from PRM.kkt_cdrl_1800) and provider is null;
+
+update "GAIN_THEORY".RCRA_AP460 set provider='BT' 
+where "mobileno" in (select distinct best_mobile_number_hash from PRM.bt_entry )and provider is null;
+
+update "GAIN_THEORY".RCRA_AP460 set provider='DL'where provider is null;
+
+update "GAIN_THEORY".RCRA_AP430 set provider='KKT' 
+where "mobileno" in (select distinct best_mobile_number_hash from PRM.kkt_cdrl_1800) and provider is null;
+
+update "GAIN_THEORY".RCRA_AP430 set provider='BT' 
+where "mobileno" in (select distinct best_mobile_number_hash from PRM.bt_entry )and provider is null;
+
+update "GAIN_THEORY".RCRA_AP430 set provider='DL'where provider is null;
+
+
+
+---------------------------------
+
+update "GAIN_THEORY".RCRA_TN030 set provider='KKT' 
+where "mobileno" in (select distinct best_mobile_number_hash from PRM.kkt_cdrl_1800) and provider is null;
+
+update "GAIN_THEORY".RCRA_TN030 set provider='BT' 
+where "mobileno" in (select distinct best_mobile_number_hash from PRM.bt_entry )and provider is null;
+
+update "GAIN_THEORY".RCRA_TN030 set provider='DL'where provider is null;
+
+
+update "GAIN_THEORY".RCRA_TN060 set provider='KKT' 
+where "mobileno" in (select distinct best_mobile_number_hash from PRM.kkt_cdrl_1800) and provider is null;
+
+update "GAIN_THEORY".RCRA_TN060 set provider='BT' 
+where "mobileno" in (select distinct best_mobile_number_hash from PRM.bt_entry )and provider is null;
+
+update "GAIN_THEORY".RCRA_TN060 set provider='DL'where provider is null;
+
+update "GAIN_THEORY".RCRA_TN460 set provider='KKT' 
+where "mobileno" in (select distinct best_mobile_number_hash from PRM.kkt_cdrl_1800) and provider is null;
+
+update "GAIN_THEORY".RCRA_TN460 set provider='BT' 
+where "mobileno" in (select distinct best_mobile_number_hash from PRM.bt_entry )and provider is null;
+
+update "GAIN_THEORY".RCRA_TN460 set provider='DL'where provider is null;
+
+update "GAIN_THEORY".RCRA_TN430 set provider='KKT' 
+where "mobileno" in (select distinct best_mobile_number_hash from PRM.kkt_cdrl_1800) and provider is null;
+
+update "GAIN_THEORY".RCRA_TN430 set provider='BT' 
+where "mobileno" in (select distinct best_mobile_number_hash from PRM.bt_entry )and provider is null;
+
+update "GAIN_THEORY".RCRA_TN430 set provider='DL'where provider is null;
+
+
+
+-----------------
+
+update "GAIN_THEORY".RCRA_CHENNAI030 set provider='KKT' 
+where "mobileno" in (select distinct best_mobile_number_hash from PRM.kkt_cdrl_1800) and provider is null;
+
+update "GAIN_THEORY".RCRA_CHENNAI030 set provider='BT' 
+where "mobileno" in (select distinct best_mobile_number_hash from PRM.bt_entry )and provider is null;
+
+update "GAIN_THEORY".RCRA_CHENNAI030 set provider='DL'where provider is null;
+
+
+update "GAIN_THEORY".RCRA_CHENNAI060 set provider='KKT' 
+where "mobileno" in (select distinct best_mobile_number_hash from PRM.kkt_cdrl_1800) and provider is null;
+
+update "GAIN_THEORY".RCRA_CHENNAI060 set provider='BT' 
+where "mobileno" in (select distinct best_mobile_number_hash from PRM.bt_entry )and provider is null;
+
+update "GAIN_THEORY".RCRA_CHENNAI060 set provider='DL'where provider is null;
+
+update "GAIN_THEORY".RCRA_CHENNAI460 set provider='KKT' 
+where "mobileno" in (select distinct best_mobile_number_hash from PRM.kkt_cdrl_1800) and provider is null;
+
+update "GAIN_THEORY".RCRA_CHENNAI460 set provider='BT' 
+where "mobileno" in (select distinct best_mobile_number_hash from PRM.bt_entry )and provider is null;
+
+update "GAIN_THEORY".RCRA_CHENNAI460 set provider='DL'where provider is null;
+
+update "GAIN_THEORY".RCRA_CHENNAI430 set provider='KKT' 
+where "mobileno" in (select distinct best_mobile_number_hash from PRM.kkt_cdrl_1800) and provider is null;
+
+update "GAIN_THEORY".RCRA_CHENNAI430 set provider='BT' 
+where "mobileno" in (select distinct best_mobile_number_hash from PRM.bt_entry )and provider is null;
+
+update "GAIN_THEORY".RCRA_CHENNAI430 set provider='DL'where provider is null;
+
+
+
+
+
+
+

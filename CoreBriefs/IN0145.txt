@@ -1,0 +1,153 @@
+ create multiset table PRM_Emailid
+ (
+ market varchar(10), provider varchar(10),
+ emailid varchar(200), optin_hierarchy_level int,
+ optin_hierarchy_value varchar(10) )
+ 
+ 
+insert into "GAIN_THEORY"."PRM_Emailid"
+select distinct 'IN','BB',email_hash,'1','Unilever' from "PRM"."bb_registration" a
+inner join "PRM".ref_mobile_region_lookup b on b.mscrange5=a.region_lookup_number
+where length(email_hash)>'0'
+and b.region in ('Andhra Pradesh','Chennai','Delhi','Gujarat',
+'Karnataka','Kolkata','Maharashtra','Mumbai','Tamilnadu')
+
+insert into "GAIN_THEORY"."PRM_Emailid"
+ select distinct 'IN','CL',e_mail_hash,'1','Unilever' from (
+select e_mail_hash,region_lookup_number from "PRM"."cl_call" where length(e_mail_hash)>'0' union 
+select email_address_hash,region_lookup_number from "PRM"."cl_calls_01Mar2014_30jun2014"  where length(email_address_hash)>'0' union 
+select cl_email_hash,region_lookup_number from "PRM"."cl_calls_2012_2013" where length(cl_email_hash)>'0' union 
+select email_address_hash,region_lookup_number from "PRM"."cl_calls_2013_2014" where length(email_address_hash)>'0' union 
+select e_mail_hash,region_lookup_number from "PRM"."cl_calls_aug_sep_2014" where length(e_mail_hash)>'0') as a 
+inner join "PRM".ref_mobile_region_lookup b on b.mscrange5=a.region_lookup_number
+and b.region in ('Andhra Pradesh','Chennai','Delhi','Gujarat','Karnataka','Kolkata','Maharashtra','Mumbai','Tamilnadu')
+
+
+
+insert into "GAIN_THEORY"."PRM_Emailid"
+select distinct 'IN', 'LK',email_hash,'1','Unilever' from (
+select email_hash,region_lookup_number from "PRM"."lk_customer" where length(email_hash)>'0' union 
+select email_hash,region_lookup_number from "PRM"."lk_customer_master" where length(email_hash)>'0' union
+select email_hash,region_lookup_number from "PRM"."lk_transaction_void_cust" where length(email_hash)>'0') as a 
+inner join "PRM".ref_mobile_region_lookup b on b.mscrange5=a.region_lookup_number
+where b.region in ('Andhra Pradesh','Chennai','Delhi','Gujarat',
+'Karnataka','Kolkata','Maharashtra','Mumbai','Tamilnadu')
+
+
+create multiset table PRM_Emailid
+ (
+ market varchar(10), provider varchar(10),
+ emailid varchar(200), optin_hierarchy_level int,
+ optin_hierarchy_value varchar(10) )
+ 
+ 
+insert into "GAIN_THEORY"."PRM_Emailid"
+select distinct 'IN','BB',email_hash,'1','Unilever' from "PRM"."bb_registration" a
+inner join "PRM".ref_mobile_region_lookup b on b.mscrange5=a.region_lookup_number
+where length(email_hash)>'0'
+and b.region in ('Chennai','Delhi','Kolkata','Mumbai')
+
+
+insert into "GAIN_THEORY"."PRM_Emailid"
+select distinct 'IN', 'LK',email_hash,'1','Unilever' from (
+select email_hash,region_lookup_number from "PRM"."lk_customer" where length(email_hash)>'0' union 
+select email_hash,region_lookup_number from "PRM"."lk_customer_master" where length(email_hash)>'0' union
+select email_hash,region_lookup_number from "PRM"."lk_transaction_void_cust" where length(email_hash)>'0') as a 
+inner join "PRM".ref_mobile_region_lookup b on b.mscrange5=a.region_lookup_number
+where length(email_hash)>'0'
+and b.region in ('Chennai','Delhi','Kolkata','Mumbai')
+
+
+
+
+
+--------------------------------------------------------------------------------
+
+ create multiset table PRM_Emailid_city
+ (
+ market varchar(10), provider varchar(10),
+ emailid varchar(200), optin_hierarchy_level int,
+ optin_hierarchy_value varchar(10) )
+ 
+ 
+insert into "GAIN_THEORY"."PRM_Emailid_city"
+select distinct 'IN','BB',email_hash,'1','Unilever' from "PRM"."bb_registration" a
+where length(email_hash)>'0'
+and lower(city) like ('%bangalore%')
+
+ 
+insert into "GAIN_THEORY"."PRM_Emailid_city"
+select distinct 'IN','BB',email_hash,'1','Unilever' from "PRM"."bb_registration" a
+where length(email_hash)>'0'
+and lower(city) like ('%coimbato%')
+
+ 
+insert into "GAIN_THEORY"."PRM_Emailid_city"
+select distinct 'IN','BB',email_hash,'1','Unilever' from "PRM"."bb_registration" a
+where length(email_hash)>'0'
+and lower(city) like ('%madurai%')
+
+ 
+insert into "GAIN_THEORY"."PRM_Emailid_city"
+select distinct 'IN','BB',email_hash,'1','Unilever' from "PRM"."bb_registration" a
+where length(email_hash)>'0'
+and lower(city) like ('%hyd%')
+
+
+
+
+
+----------------
+
+ 
+insert into "GAIN_THEORY"."PRM_Emailid_city"
+select distinct 'IN','LK',email_hash,'1','Unilever' from "PRM"."lk_customer" a
+where length(email_hash)>'0'
+and lower(city) like ('%bangalo%')
+
+ 
+insert into "GAIN_THEORY"."PRM_Emailid_city"
+select distinct 'IN','LK',email_hash,'1','Unilever' from "PRM"."lk_customer" a
+where length(email_hash)>'0'
+and lower(city) like ('%coimbato%')
+
+ 
+insert into "GAIN_THEORY"."PRM_Emailid_city"
+select distinct 'IN','LK',email_hash,'1','Unilever' from "PRM"."lk_customer" a
+where length(email_hash)>'0'
+and lower(city) like ('%madurai%')
+
+ 
+insert into "GAIN_THEORY"."PRM_Emailid_city"
+select distinct 'IN','LK',email_hash,'1','Unilever' from "PRM"."lk_customer" a
+where length(email_hash)>'0'
+and lower(city) like ('%hyd%')
+
+
+----------------
+
+ 
+insert into "GAIN_THEORY"."PRM_Emailid_city"
+select distinct 'IN','LK',email_hash,'1','Unilever' from "PRM"."lk_customer_pti748" a
+where length(email_hash)>'0'
+and lower(city) like ('%bangalo%')
+
+ 
+insert into "GAIN_THEORY"."PRM_Emailid_city"
+select distinct 'IN','LK',email_hash,'1','Unilever' from "PRM"."lk_customer_pti748" a
+where length(email_hash)>'0'
+and lower(city) like ('%coimbato%')
+
+ 
+insert into "GAIN_THEORY"."PRM_Emailid_city"
+select distinct 'IN','LK',email_hash,'1','Unilever' from "PRM"."lk_customer_pti748" a
+where length(email_hash)>'0'
+and lower(city) like ('%madurai%')
+
+ 
+insert into "GAIN_THEORY"."PRM_Emailid_city"
+select distinct 'IN','LK',email_hash,'1','Unilever' from "PRM"."lk_customer_pti748" a
+where length(email_hash)>'0'
+and lower(city) like ('%hyd%')
+
+
