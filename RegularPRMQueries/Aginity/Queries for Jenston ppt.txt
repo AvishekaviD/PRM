@@ -1,0 +1,58 @@
+----Provider wise count
+
+SELECT provider,count(distinct mobileno)FROM prmprogrammepdwheudb.southasia.pdwh_counting_mobile group by provider;
+
+--Note :- For Opt in select (Btone OI,H2H,PUREIT,Lakme,Digital,Bebabeutiful,KKT)
+--Note :- For btone consider "btone EN"" for overall value 
+
+----slide 2 total customer
+
+SELECT count(distinct mobileno),'Whatage' FROM prmprogrammepdwheudb.southasia.pdwh_dataprofiling where whatage='Y' and length(mobileno)>0 union
+SELECT count(distinct mobileno),'Whatgender' FROM prmprogrammepdwheudb.southasia.pdwh_dataprofiling where whatgender='Y' and length(mobileno)>0 union
+SELECT count(distinct mobileno),'whatcity' FROM prmprogrammepdwheudb.southasia.pdwh_dataprofiling where whatcity='Y' and length(mobileno)>0 union
+SELECT count(distinct mobileno),'whatprodsize' FROM prmprogrammepdwheudb.southasia.pdwh_dataprofiling where whatprodsize='Y' and length(mobileno)>0 union
+SELECT count(distinct mobileno),'whatbrandbuy' FROM prmprogrammepdwheudb.southasia.pdwh_dataprofiling where whatbrandbuy='Y' and length(mobileno)>0 union
+SELECT count(distinct mobileno),'whatprodfrequse' FROM prmprogrammepdwheudb.southasia.pdwh_dataprofiling where whatprodfrequse='Y' and length(mobileno)>0;
+
+------slide 6
+
+---Exists
+SELECT count( distinct mobileno),'Exists'
+ FROM prmprogrammepdwheudb.southasia.pdwh_counting_mobile 
+ where datediff('day',lastinteractiondate,getdate())>180
+and length(mobileno)>0 
+
+union
+
+---Connected 
+ SELECT count( distinct mobileno),'Connected'
+ FROM prmprogrammepdwheudb.southasia.pdwh_counting_mobile 
+ where  datediff('day',lastinteractiondate,getdate())<180
+ and length(mobileno)>0 
+ 
+ union
+
+---Interacted
+ SELECT count( distinct mobileno),'Interacted'
+ FROM prmprogrammepdwheudb.southasia.pdwh_counting_mobile 
+ where datediff('day',lastinteractiondate,getdate())<=90
+ and length(mobileno)>0 and interactiontype in ('EN','CV','CI','CO','CW') 
+ 
+ union
+
+
+---Engaged
+SELECT count( distinct mobileno),'Engaged'
+ FROM prmprogrammepdwheudb.southasia.pdwh_counting_mobile 
+ where datediff('day',lastinteractiondate,getdate())<=90
+ and length(mobileno)>0   and ( engagedlast180days='Y' )and interactiontype in ('EN','CV','CI','CO','CW');
+ 
+
+
+--------------------datepart count
+SELECT datepart(year,firstinteractiondate),datepart(month,firstinteractiondate),
+count( distinct mobileno)
+ FROM prmprogrammepdwheudb.southasia.pdwh_counting_mobile 
+ group by datepart(year,firstinteractiondate),datepart(month,firstinteractiondate)
+
+ 

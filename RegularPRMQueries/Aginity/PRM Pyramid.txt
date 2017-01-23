@@ -1,0 +1,28 @@
+---This code calculates PRM pyramid count from Redhsift environment
+
+
+---Exists
+SELECT count( distinct mobileno)
+ FROM prmprogrammepdwheudb.southasia.pdwh_counting_mobile 
+ where datediff('day',lastinteractiondate,getdate())>180
+and length(mobileno)>0 ;
+
+---Connected 
+ SELECT count( distinct mobileno)
+ FROM prmprogrammepdwheudb.southasia.pdwh_counting_mobile 
+ where  datediff('day',lastinteractiondate,getdate())<180
+ and length(mobileno)>0 ;
+
+---Interacted
+ SELECT count( distinct mobileno)
+ FROM prmprogrammepdwheudb.southasia.pdwh_counting_mobile 
+ where datediff('day',lastinteractiondate,getdate())<=90
+ and length(mobileno)>0 and interactiontype in ('EN','CV','CI','CO','CW') ;
+
+
+---Engaged
+SELECT count( distinct mobileno)
+ FROM prmprogrammepdwheudb.southasia.pdwh_counting_mobile 
+ where datediff('day',lastinteractiondate,getdate())<=90
+ and length(mobileno)>0   and ( engagedlast180days='Y' )and interactiontype in ('EN','CV','CI','CO','CW');
+ 

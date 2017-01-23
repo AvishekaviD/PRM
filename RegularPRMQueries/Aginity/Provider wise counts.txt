@@ -1,0 +1,3 @@
+---calculate provider wise data count from redshift
+
+SELECT provider,count(distinct mobileno)FROM prmprogrammepdwheudb.southasia.pdwh_counting_mobile group by provider;
