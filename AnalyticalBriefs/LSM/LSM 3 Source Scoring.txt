@@ -1,0 +1,189 @@
+/*---------------creating tables for storing all the source values-------------*/
+
+----- Pureit
+ 
+create multiset table "GAIN_THEORY"."LSM3_Pureit_data"
+( best_mobile_number_hash varchar(150), region_lookup_number varchar(10), device_category varchar(100), region varchar(100) )
+ 
+  ------be beautiful & Lakme
+ 
+  create multiset table "GAIN_THEORY"."LSM3_BebeautifulLakme_data"
+ ( best_mobile_number_hash varchar(150), region_lookup_number varchar(10), region varchar(100) )
+  
+create multiset table "GAIN_THEORY"."LSM3_BebeautifulLakmeDistinct_data"
+ ( best_mobile_number_hash varchar(150), region_lookup_number varchar(10), region varchar(100) )
+   
+ 
+   -------KKT
+  create multiset table "GAIN_THEORY"."LSM3_KKT_Completedata"
+ ( best_mobile_number_hash varchar(150), region_lookup_number varchar(10), region varchar(100))
+  
+ 
+/*-------------inserting necessary data from indvidual tables---------------*/
+
+insert into "GAIN_THEORY"."LSM3_KKT_Completedata"
+select distinct best_mobile_number_hash,region_lookup_number,b.region
+ from "PRM"."kkt_cdrlobd" a inner join "PRM"."ref_mobile_region_lookup" b
+ on a.region_lookup_number=b.mscrange5
+ where length(best_mobile_number_hash)>'0';
+ 
+ 
+insert into "GAIN_THEORY"."LSM3_Pureit_data"
+select distinct best_mobile_number_hash,region_lookup_number,device_category,b.region
+from "PRM"."pi_consumer" a inner join "PRM"."ref_mobile_region_lookup" b
+on a.region_lookup_number=b.mscrange5;
+ 
+  
+insert into "GAIN_THEORY"."LSM3_BebeautifulLakme_data"
+select distinct best_mobile_number_hash,region_lookup_number,b.region
+from "PRM"."bb_registration" a inner join "PRM"."ref_mobile_region_lookup" b
+on a.region_lookup_number=b.mscrange5
+where length(best_mobile_number_hash)>'0';
+ 
+
+insert into "GAIN_THEORY"."LSM3_BebeautifulLakme_data"
+select distinct best_mobile_number_hash,region_lookup_number,b.region
+from "PRM"."lk_customer"a inner join "PRM"."ref_mobile_region_lookup" b
+on a.region_lookup_number=b.mscrange5
+where length(best_mobile_number_hash)>'0';
+ 
+ 
+insert into "GAIN_THEORY"."LSM3_BebeautifulLakme_data"
+select distinct best_mobile_number_hash,region_lookup_number,b.region
+from "PRM"."lk_customer_master" a inner join "PRM"."ref_mobile_region_lookup" b
+on a.region_lookup_number=b.mscrange5
+where length(best_mobile_number_hash)>'0';
+ 
+
+
+insert into "GAIN_THEORY"."LSM3_BebeautifulLakmeDistinct_data"(best_mobile_number_hash,region_lookup_number,region)
+select distinct best_mobile_number_hash,region_lookup_number,region
+from "GAIN_THEORY"."LSM3_BebeautifulLakme_data";
+
+
+/*----------------------SOurce Scoring-----------------------------*/
+
+
+-------creating additional columns for source scoring
+
+alter table "GAIN_THEORY"."LSM3_BebeautifulLakmeDistinct_data" add "LSM" integer;
+alter table "GAIN_THEORY"."LSM3_BebeautifulLakmeDistinct_data" add "Confidence" integer;
+alter table "GAIN_THEORY"."LSM3_Pureit_data" add "Device_Mapping" varchar(100);
+alter table "GAIN_THEORY"."LSM3_Pureit_data" add "LSM" varchar(50);
+alter table "GAIN_THEORY"."LSM3_Pureit_data" add "Presentin_BB_Lakme" integer;
+alter table "GAIN_THEORY"."LSM3_Pureit_data" add "Presentin_Others" integer;
+alter table "GAIN_THEORY"."LSM3_Pureit_data" add "Confidence" integer;
+
+
+-----------Lakme and Be Beatuiful
+
+update "GAIN_THEORY"."LSM3_BebeautifulLakmeDistinct_data" set "LSM"='7',"Confidence"='90';
+
+------------------------pureit
+
+------ pureit device category mapping
+
+update "GAIN_THEORY"."LSM3_Pureit_data"
+from "GAIN_THEORY"."LSM_Pureit_Device_mapping" b 
+set "Device_Mapping"=b."Classification Final"
+where "GAIN_THEORY"."LSM3_Pureit_data"."device_category"=b."device_category in PRM";
+
+
+------ mapping of common numbers between pureit and bb_Lakme
+
+update "GAIN_THEORY"."LSM3_Pureit_data"
+from "GAIN_THEORY"."LSM3_BebeautifulLakmeDistinct_data" b 
+set "Presentin_BB_Lakme"='1'
+where "GAIN_THEORY"."LSM3_Pureit_data"."best_mobile_number_hash"=b."best_mobile_number_hash";
+
+------ mapping of common numbers between KKT
+
+update "GAIN_THEORY"."LSM3_Pureit_data"
+set "Presentin_Others"='1'
+where "GAIN_THEORY"."LSM3_Pureit_data"."best_mobile_number_hash"
+in (select b."best_mobile_number_hash" from "GAIN_THEORY"."LSM3_KKT_Completedata" b );
+
+
+-----final sku mapping for pureit
+update "GAIN_THEORY"."LSM3_Pureit_data"
+set "LSM"='7' ,"Confidence" ='90' where Device_Mapping='RO';
+
+
+update "GAIN_THEORY"."LSM3_Pureit_data"
+set "LSM"='7',"Confidence" ='90' where Presentin_BB_Lakme='1';
+
+
+update "GAIN_THEORY"."LSM3_Pureit_data"
+set "LSM"='4',"Confidence" ='60' 
+where Device_Mapping like'%Autofil%' and "LSM" is null and Presentin_BB_Lakme is null;
+
+update "GAIN_THEORY"."LSM3_Pureit_data"
+set "LSM"='0',"Confidence" ='30'
+where Device_Mapping like'%Manual%'and "LSM" is null ;
+
+
+update "GAIN_THEORY"."LSM3_Pureit_data"
+set "LSM"='0',"Confidence" ='30'
+where "LSM" is null ;
+
+
+---creating this table for taking highes device which user uses
+
+create multiset table "GAIN_THEORY"."LSM3_PureitDistinct_data"
+ ( best_mobile_number_hash varchar(150), region_lookup_number varchar(10),
+region varchar(100), LSM varchar(100), COnfidence varchar(20) );
+
+insert into "GAIN_THEORY"."LSM3_PureitDistinct_data"
+select best_mobile_number_hash,region_lookup_number,region,max("LSM"),max("Confidence")
+from "GAIN_THEORY"."LSM3_Pureit_data" group by best_mobile_number_hash,region_lookup_number,region;
+
+
+-------creating table for final source scoring
+
+ create multiset table "GAIN_THEORY"."LSM3_SourcedataCombined"
+ ( best_mobile_number_hash varchar(150), region_lookup_number varchar(10),region varchar(100) );
+
+ 
+  create multiset table "GAIN_THEORY"."LSM3_SourcedataCombinedDistinct"
+ ( best_mobile_number_hash varchar(150), region_lookup_number varchar(10),region varchar(100)
+ , LSM varchar(100), COnfidence varchar(20) );
+
+
+-------final source scoring
+
+insert into "GAIN_THEORY"."LSM3_SourcedataCombined"
+select distinct best_mobile_number_hash,region_lookup_number,region from "GAIN_THEORY"."LSM3_KKT_Completedata";
+ 
+ insert into "GAIN_THEORY"."LSM3_SourcedataCombined"
+select distinct best_mobile_number_hash,region_lookup_number,region from "GAIN_THEORY"."LSM3_Pureit_data";
+
+insert into "GAIN_THEORY"."LSM3_SourcedataCombined"
+select distinct  best_mobile_number_hash,region_lookup_number,region from "GAIN_THEORY"."LSM3_BebeautifulLakmeDistinct_data";
+
+
+insert into "GAIN_THEORY"."LSM3_SourcedataCombinedDistinct"( best_mobile_number_hash,region_lookup_number,region)
+select distinct  best_mobile_number_hash,region_lookup_number,region 
+from "GAIN_THEORY"."LSM3_SourcedataCombined";
+
+
+update "GAIN_THEORY"."LSM3_SourcedataCombinedDistinct"
+set "LSM"='0',"Confidence"='60'
+where "GAIN_THEORY"."LSM3_SourcedataCombinedDistinct"."best_mobile_number_hash"
+in (select b."best_mobile_number_hash" from "GAIN_THEORY"."LSM3_KKT_Completedata" b );
+
+
+update "GAIN_THEORY"."LSM3_SourcedataCombinedDistinct"
+from "GAIN_THEORY"."LSM3_PureitDistinct_data" b 
+set "LSM"=b.LSM,"Confidence"=b.Confidence
+where "GAIN_THEORY"."LSM3_SourcedataCombinedDistinct".best_mobile_number_hash=b.best_mobile_number_hash;
+
+
+update "GAIN_THEORY"."LSM3_SourcedataCombinedDistinct"
+from "GAIN_THEORY"."LSM3_BebeautifulLakmeDistinct_data" b 
+set "LSM"=b.LSM,"Confidence"=b.Confidence
+where "GAIN_THEORY"."LSM3_SourcedataCombinedDistinct".best_mobile_number_hash=b.best_mobile_number_hash;
+
+
+select LSM,"Confidence",count(distinct best_mobile_number_hash)
+from "GAIN_THEORY"."LSM3_SourcedataCombinedDistinct"
+group by LSM,"Confidence"

@@ -1,0 +1,50 @@
+-------Final Table
+
+
+create multiset table LSM3_CombinedSourceSKU(
+best_mobile_number_hash varchar(300),region_lookup_number varchar(50),region varchar(100),
+SourceLSM varchar(10),SourceConfidence int,
+SkuLSM varchar(10),SkuConfidence int,FinalLsm varchar(10),finalConfidence int)
+
+create multiset table LSM3_CombinedSourceSKUTemp(
+best_mobile_number_hash varchar(300),region_lookup_number varchar(50),region varchar(100))
+
+
+
+insert into "GAIN_THEORY".LSM3_CombinedSourceSKUTemp
+select distinct best_mobile_number_hash,region_lookup_number,region
+from GAIN_THEORY.LSM3_SourcedataCombinedDistinct;
+
+insert into "GAIN_THEORY".LSM3_CombinedSourceSKUTemp(best_mobile_number_hash,region)
+select distinct mobile_number,circle from GAIN_THEORY.LSM3_BrandCombined_Unique;
+
+
+insert into "GAIN_THEORY".LSM3_CombinedSourceSKU(best_mobile_number_hash)
+select distinct best_mobile_number_hash from "GAIN_THEORY".LSM3_CombinedSourceSKUTemp;
+
+update "GAIN_THEORY".LSM3_CombinedSourceSKU
+from GAIN_THEORY.LSM3_SourcedataCombinedDistinct b 
+set SourceLSM=b."LSM",SourceConfidence=b.COnfidence
+where "GAIN_THEORY".LSM3_CombinedSourceSKU."best_mobile_number_hash"=b."best_mobile_number_hash";
+
+update "GAIN_THEORY".LSM3_CombinedSourceSKU
+from "GAIN_THEORY"."LSM3_SkuScoringGroupingPivoted" b 
+set SkuLSM=b.FInal_Lsm,SkuConfidence=b.Final_Confidence
+where "GAIN_THEORY".LSM3_CombinedSourceSKU."best_mobile_number_hash"=b.mobile_number;
+
+create multiset table temp123 (circle varchar(100),mobile_number varchar(300) )
+
+insert into GAIN_THEORY.temp123
+select distinct circle,mobile_number from "GAIN_THEORY"."LSM3_BrandCombined_Unique"
+where circle is not null;
+
+update GAIN_THEORY.LSM3_CombinedSourceSKU
+from GAIN_THEORY.temp123 b 
+set region=b.circle
+where GAIN_THEORY.LSM3_CombinedSourceSKU.best_mobile_number_hash=b.mobile_number;
+
+
+update GAIN_THEORY.LSM3_CombinedSourceSKU
+from GAIN_THEORY.LSM3_SourcedataCombinedDistinct b 
+set region=b.region
+where GAIN_THEORY.LSM3_CombinedSourceSKU.best_mobile_number_hash=b.best_mobile_number_hash;
