@@ -1,0 +1,282 @@
+select zip_code,count(distinct best_mobile_number_hash )
+from PRM.pi_consumer
+group by zip_code
+
+select zip,count(distinct best_mobile_number_hash )
+from PRM.lk_customer
+group by zip
+select store_address6,count(distinct best_mobile_number_hash )from(
+
+select  store_address6,best_mobile_number_hash from PRM.lk_transaction a
+inner join PRM.lk_salon_store_master b on a.store_name=b.store_name
+
+union
+
+select  store_address6,best_mobile_number_hash from PRM.lk_transaction_all_years a
+inner join PRM.lk_salon_store_master b on a.lk_store_name=b.store_name
+
+union
+
+select  store_address6,best_mobile_number_hash from PRM.lk_transaction_void_cust a
+inner join PRM.lk_salon_store_master b on a.store_name=b.store_name
+
+union
+
+select  store_address6,best_mobile_number_hash from PRM.lk_transaction_voided a
+inner join PRM.lk_salon_store_master b on a.store_name=b.store_name
+
+union
+
+select  store_address6,best_mobile_number_hash from PRM.lk_redeem_transaction a
+inner join PRM.lk_salon_store_master b on a.store_name=b.store_name
+
+union
+
+select  store_address6,best_mobile_number_hash from PRM.lk_redemption_all_years a
+inner join PRM.lk_salon_store_master b on a.lk_store_name=b.store_name )as a
+group by store_address6;
+
+
+
+----------------
+
+
+create multiset table "GAIN_THEORY"."HumarashopPincodes"
+(best_mobile_number_hash varchar(300),pincode varchar(50),brand varchar(100))
+
+select top 10 * from "GAIN_THEORY"."HumarashopPincodes"
+
+insert into "GAIN_THEORY"."HumarashopPincodes"(pincode,best_mobile_number_hash,brand)
+select * from (
+select distinct zip_code, best_mobile_number_hash ,'PI' "brands"
+from PRM.pi_consumer
+where zip_code in ('122001','122011','122002','120022','122017','110051','122003','120002','121001'
+,'110091','110078','110018','120018','400050','110024','122009','101010','122007','110042','518301','110095','110053','110062','110032','122018','400001','110085','400059','110092','110037'
+,'110033','110017','110045','400093','110075','110096','121104','110054','110060','110058','110052'
+,'110059','110093','122004','110094','400029','110044','110070','110022','122006','110008','201005'
+,'122101','110019','110034','110002','110061','110014','120001','122016','110043','122015','560043'
+,'110065','110009','110038','122029','100100','400032','110006','560001','122008','110027','110023'
+,'500032','110015','110029','110049','565677','110077','400099','122091','110064','500033','560037'
+,'110021','600041','110046','400015','122010','500084','500055','110001','143001','110048','110010'
+,'110003','560032','110030')
+
+union
+
+select distinct zip, best_mobile_number_hash ,'LK'
+from PRM.lk_customer
+where zip in ('122001','122011','122002','120022','122017','110051','122003','120002','121001'
+,'110091','110078','110018','120018','400050','110024','122009','101010','122007','110042','518301','110095','110053','110062','110032','122018','400001','110085','400059','110092','110037'
+,'110033','110017','110045','400093','110075','110096','121104','110054','110060','110058','110052'
+,'110059','110093','122004','110094','400029','110044','110070','110022','122006','110008','201005'
+,'122101','110019','110034','110002','110061','110014','120001','122016','110043','122015','560043'
+,'110065','110009','110038','122029','100100','400032','110006','560001','122008','110027','110023'
+,'500032','110015','110029','110049','565677','110077','400099','122091','110064','500033','560037'
+,'110021','600041','110046','400015','122010','500084','500055','110001','143001','110048','110010'
+,'110003','560032','110030')
+
+union
+
+select  distinct store_address6,best_mobile_number_hash,'LK' from PRM.lk_transaction a
+inner join PRM.lk_salon_store_master b on a.store_name=b.store_name
+where store_address6 in ('122001','122011','122002','120022','122017','110051','122003','120002','121001'
+,'110091','110078','110018','120018','400050','110024','122009','101010','122007','110042','518301','110095','110053','110062','110032','122018','400001','110085','400059','110092','110037'
+,'110033','110017','110045','400093','110075','110096','121104','110054','110060','110058','110052'
+,'110059','110093','122004','110094','400029','110044','110070','110022','122006','110008','201005'
+,'122101','110019','110034','110002','110061','110014','120001','122016','110043','122015','560043'
+,'110065','110009','110038','122029','100100','400032','110006','560001','122008','110027','110023'
+,'500032','110015','110029','110049','565677','110077','400099','122091','110064','500033','560037'
+,'110021','600041','110046','400015','122010','500084','500055','110001','143001','110048','110010'
+,'110003','560032','110030')
+
+
+
+union
+
+select distinct store_address6,best_mobile_number_hash,'LK' from PRM.lk_transaction_all_years a
+inner join PRM.lk_salon_store_master b on a.lk_store_name=b.store_name
+where store_address6 in ('122001','122011','122002','120022','122017','110051','122003','120002','121001'
+,'110091','110078','110018','120018','400050','110024','122009','101010','122007','110042','518301','110095','110053','110062','110032','122018','400001','110085','400059','110092','110037'
+,'110033','110017','110045','400093','110075','110096','121104','110054','110060','110058','110052'
+,'110059','110093','122004','110094','400029','110044','110070','110022','122006','110008','201005'
+,'122101','110019','110034','110002','110061','110014','120001','122016','110043','122015','560043'
+,'110065','110009','110038','122029','100100','400032','110006','560001','122008','110027','110023'
+,'500032','110015','110029','110049','565677','110077','400099','122091','110064','500033','560037'
+,'110021','600041','110046','400015','122010','500084','500055','110001','143001','110048','110010'
+,'110003','560032','110030')
+
+union
+
+select distinct store_address6,best_mobile_number_hash,'LK' from PRM.lk_transaction_void_cust a
+inner join PRM.lk_salon_store_master b on a.store_name=b.store_name
+where store_address6 in ('122001','122011','122002','120022','122017','110051','122003','120002','121001'
+,'110091','110078','110018','120018','400050','110024','122009','101010','122007','110042','518301','110095','110053','110062','110032','122018','400001','110085','400059','110092','110037'
+,'110033','110017','110045','400093','110075','110096','121104','110054','110060','110058','110052'
+,'110059','110093','122004','110094','400029','110044','110070','110022','122006','110008','201005'
+,'122101','110019','110034','110002','110061','110014','120001','122016','110043','122015','560043'
+,'110065','110009','110038','122029','100100','400032','110006','560001','122008','110027','110023'
+,'500032','110015','110029','110049','565677','110077','400099','122091','110064','500033','560037'
+,'110021','600041','110046','400015','122010','500084','500055','110001','143001','110048','110010'
+,'110003','560032','110030')
+
+
+union
+
+select distinct store_address6,best_mobile_number_hash,'LK' from PRM.lk_transaction_voided a
+inner join PRM.lk_salon_store_master b on a.store_name=b.store_name
+where store_address6 in ('122001','122011','122002','120022','122017','110051','122003','120002','121001'
+,'110091','110078','110018','120018','400050','110024','122009','101010','122007','110042','518301','110095','110053','110062','110032','122018','400001','110085','400059','110092','110037'
+,'110033','110017','110045','400093','110075','110096','121104','110054','110060','110058','110052'
+,'110059','110093','122004','110094','400029','110044','110070','110022','122006','110008','201005'
+,'122101','110019','110034','110002','110061','110014','120001','122016','110043','122015','560043'
+,'110065','110009','110038','122029','100100','400032','110006','560001','122008','110027','110023'
+,'500032','110015','110029','110049','565677','110077','400099','122091','110064','500033','560037'
+,'110021','600041','110046','400015','122010','500084','500055','110001','143001','110048','110010'
+,'110003','560032','110030')
+
+
+union
+
+select distinct store_address6,best_mobile_number_hash,'LK' from PRM.lk_redeem_transaction a
+inner join PRM.lk_salon_store_master b on a.store_name=b.store_name
+where store_address6 in ('122001','122011','122002','120022','122017','110051','122003','120002','121001'
+,'110091','110078','110018','120018','400050','110024','122009','101010','122007','110042','518301','110095','110053','110062','110032','122018','400001','110085','400059','110092','110037'
+,'110033','110017','110045','400093','110075','110096','121104','110054','110060','110058','110052'
+,'110059','110093','122004','110094','400029','110044','110070','110022','122006','110008','201005'
+,'122101','110019','110034','110002','110061','110014','120001','122016','110043','122015','560043'
+,'110065','110009','110038','122029','100100','400032','110006','560001','122008','110027','110023'
+,'500032','110015','110029','110049','565677','110077','400099','122091','110064','500033','560037'
+,'110021','600041','110046','400015','122010','500084','500055','110001','143001','110048','110010'
+,'110003','560032','110030')
+
+
+union
+
+select distinct store_address6,best_mobile_number_hash,'LK' from PRM.lk_redemption_all_years a
+inner join PRM.lk_salon_store_master b on a.lk_store_name=b.store_name
+where store_address6 in ('122001','122011','122002','120022','122017','110051','122003','120002','121001'
+,'110091','110078','110018','120018','400050','110024','122009','101010','122007','110042','518301','110095','110053','110062','110032','122018','400001','110085','400059','110092','110037'
+,'110033','110017','110045','400093','110075','110096','121104','110054','110060','110058','110052'
+,'110059','110093','122004','110094','400029','110044','110070','110022','122006','110008','201005'
+,'122101','110019','110034','110002','110061','110014','120001','122016','110043','122015','560043'
+,'110065','110009','110038','122029','100100','400032','110006','560001','122008','110027','110023'
+,'500032','110015','110029','110049','565677','110077','400099','122091','110064','500033','560037'
+,'110021','600041','110046','400015','122010','500084','500055','110001','143001','110048','110010'
+,'110003','560032','110030'))as a;
+
+
+create multiset table "GAIN_THEORY"."HumarashopPincodesDigitalBrandtone"
+(best_mobile_number_hash varchar(300),pincode varchar(50),brand varchar(100))
+
+insert into "GAIN_THEORY"."HumarashopPincodesDigitalBrandtone"(best_mobile_number_hash,brand)
+select distinct best_mobile_number_hash,updated_brand_name
+from GAIN_THEORY.PRMActiveInactiveSourceFinalDistinct
+where best_mobile_number_hash in (select distinct best_mobile_number_hash 
+from "GAIN_THEORY"."HumarashopPincodes" )
+and source in ('BT','DL','H2H')
+
+
+update "GAIN_THEORY"."HumarashopPincodesDigitalBrandtone"
+from "GAIN_THEORY"."HumarashopPincodes" b 
+set "pincode"=b.pincode
+where "GAIN_THEORY"."HumarashopPincodesDigitalBrandtone"."best_mobile_number_hash"=b."best_mobile_number_hash";
+
+
+select top 10 * from "GAIN_THEORY"."HumarashopPincodesDigitalBrandtone"
+
+
+---------delhi haryana overall couunt
+select region,"Category",count(distinct best_mobile_number_hash)
+from (
+select distinct region,case
+when updated_brand_name='Dove' then 'Skin Care'when updated_brand_name='Clear' then 'Hair Care'when updated_brand_name='knorr' then 'Food'when updated_brand_name='VIM' then 'Cleaners & Detergents'
+when updated_brand_name='Fair & Lovely' then 'Skin Care'
+when updated_brand_name='SUNLIGHT' then 'Cleaners & Detergents'
+when updated_brand_name='Kwality Walls' then 'Food'when updated_brand_name='Sunsilk' then 'Hair Care'when updated_brand_name='lux' then 'Personal Hygiene'
+when updated_brand_name='Taj' then 'Tea & Coffee'when updated_brand_name='Surf Excel' then 'Cleaners & Detergents'
+when updated_brand_name='Surf' then 'Cleaners & Detergents'
+when updated_brand_name='Vaseline' then 'Personal Hygiene'when updated_brand_name='Lifebuoy' then 'Personal Hygiene'when updated_brand_name='3 Roses' then 'Tea & Coffee'
+when updated_brand_name='Pepsodent' then 'Oral Care'when updated_brand_name='Kissan' then 'Food'when updated_brand_name='comfort' then 'Cleaners & Detergents'
+when updated_brand_name='Close Up' then 'Oral Care'
+when updated_brand_name='Axe' then 'Skin Care'when updated_brand_name='Paddlepop' then 'Food'when updated_brand_name='Lakme' then 'Skin Care'
+when updated_brand_name='Pears' then 'Personal Hygiene'when updated_brand_name='Pure IT' then 'Personal Hygiene'
+when updated_brand_name='cornetto' then 'Food'when updated_brand_name='Ponds' then 'Skin Care'when updated_brand_name='Wheel' then 'Cleaners & Detergents'
+when updated_brand_name='RIN' then 'Cleaners & Detergents'
+when updated_brand_name='vim' then 'Cleaners & Detergents'
+when updated_brand_name='Sunlight' then 'Cleaners & Detergents'
+when updated_brand_name='taj' then 'Tea & Coffee'when updated_brand_name='surf' then 'Cleaners & Detergents'
+when updated_brand_name='BRU' then 'Tea & Coffee'when updated_brand_name='Red Label' then 'Tea & Coffee'
+when updated_brand_name='3 roses' then 'Tea & Coffee'when updated_brand_name='Taaza' then 'Tea & Coffee'
+when updated_brand_name='Close up' then 'Oral Care'when updated_brand_name='lipton' then 'Tea & Coffee'
+when updated_brand_name='sunlight' then 'Cleaners & Detergents'
+when updated_brand_name='Taj Tea' then 'Tea & Coffee'when updated_brand_name='Bru' then 'Tea & Coffee'
+when updated_brand_name='red label' then 'Tea & Coffee'when updated_brand_name='close up' then 'Oral Care'
+when updated_brand_name='bru' then 'Tea & Coffee' end "Category" , best_mobile_number_hash
+from GAIN_THEORY.PRMActiveInactiveSourceFinal
+where source in ('DL','BT') and region in ('Delhi','Haryana')
+and best_mobile_number_hash not in ((select distinct best_mobile_number_hash 
+from "GAIN_THEORY"."HumarashopPincodes" ))) as a
+group by region,Category ;
+
+
+
+
+------------------------------sql code----------------------
+//****** Script for SelectTopNRows command from SSMS  ******/
+SELECT [best_mobile_number_hash],[pincode],[brand]
+FROM [Unilever_CampaignDashboard].[dbo].[HumarshopPincode]
+
+
+-----mapping the pin code
+
+
+
+select distinct [best_mobile_number_hash],[pincode]
+into #t
+FROM [Unilever_CampaignDashboard].[dbo].[HumarshopPincode]
+where len([pincode])>0
+
+
+update [Unilever_CampaignDashboard].[dbo].[HumarshopPincode]
+set [pincode]=b.[pincode]
+FROM [Unilever_CampaignDashboard].[dbo].[HumarshopPincode] a
+inner join #t b
+on a.[best_mobile_number_hash]=b.[best_mobile_number_hash]
+where len(a.[pincode])<=0
+
+
+select * from #t
+drop table #t
+
+----updating brand nmaes
+update  [Unilever_CampaignDashboard].[dbo].[HumarshopPincode]
+set [brand]='Lakme' where [brand]='LK'
+
+update  [Unilever_CampaignDashboard].[dbo].[HumarshopPincode]
+set [brand]='Pure IT' where [brand]='PI'
+
+
+update  [Unilever_CampaignDashboard].[dbo].[HumarshopPincode]
+set [brand]='Pure IT' where [brand]='Pureit'
+
+
+
+
+-------creating new column category 
+alter table  [Unilever_CampaignDashboard].[dbo].[HumarshopPincode] add [Category] varchar(100)
+
+update [Unilever_CampaignDashboard].[dbo].[HumarshopPincode]
+set [Category]=b.[Category]
+from [Unilever_CampaignDashboard].[dbo].[HumarshopPincode] a
+inner join [dbo].[BrandCategoy] b on a.[brand]=b.[brand]
+
+
+--final data count
+
+SELECT [pincode],category,count(distinct [best_mobile_number_hash])
+FROM [Unilever_CampaignDashboard].[dbo].[HumarshopPincode]
+where len(category)>0 group by [pincode],category
+
+
+select distinct brand from  [Unilever_CampaignDashboard].[dbo].[HumarshopPincode]
+
+

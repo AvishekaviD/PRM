@@ -1,0 +1,547 @@
+ 
+/*---------------------city wise counts-------------------------*/
+select city,count(distinct best_mobile_number_hash )
+ from ( 
+select distinct city, best_mobile_number_hash
+from PRM.pi_consumer
+where lower(city) in ('shillong','dhanbad','rohtas','guwahati','mumbai','pune','raipur','gandhidham','moradabad','delhi','kathmandu','fazilka'
+,'barnala','alwar','bengaluru','bangalore','blore','chikmagaluru','belgaum','shimoga'
+,'guntur','secunderabad','palakkad ')
+ 
+ union
+ 
+select distinct city, best_mobile_number_hash
+from PRM.pi_consumer a inner join  PRM.pi_complaint b on a.customer_number=b.customer_number
+where lower(city) in ('shillong','dhanbad','rohtas','guwahati','mumbai','pune','raipur','gandhidham','moradabad','delhi','kathmandu','fazilka'
+,'barnala','alwar','bengaluru','bangalore','blore','chikmagaluru','belgaum','shimoga'
+,'guntur','secunderabad','palakkad ')
+ 
+union
+
+select distinct city, best_mobile_number_hash
+from PRM.pi_consumer a
+inner join PRM.pi_rfs b on a.customer_number=b.customer_number
+where lower(city) in ('shillong','dhanbad','rohtas','guwahati','mumbai','pune','raipur','gandhidham','moradabad','delhi','kathmandu','fazilka'
+,'barnala','alwar','bengaluru','bangalore','blore','chikmagaluru','belgaum','shimoga'
+,'guntur','secunderabad','palakkad ')) as a group by city;
+
+
+
+--H2H
+ select brands, city,count(distinct best_mobile_number_hash )
+ from ( 
+select distinct case
+when brand ='VIM bar' then 'vim' when brand ='Shakthi MMD' then 'Shakti'
+when brand ='KKD 7500' then 'KKD' when brand ='MDM Mandi 500' then 'MDM'
+when brand ='KKD 7500 Mohalla' then 'KKD' when brand ='Santoor' then 'Santoor'
+when brand ='KKDMilestone' then 'KKD' when brand ='MDM H2H Sample' then 'MDM'
+when brand ='Ponds BB' then 'Ponds' when brand ='Wheel Sampling' then 'Wheel'
+when brand ='Surf Excel' then 'surf' when brand ='KKD 7500 H2H' then 'KKD'
+when brand ='SASB Mohalla' then 'Others' when brand ='CORPORATE' then 'Others'
+when brand ='FrontLoad' then 'Others' when brand ='Distribution channel' then 'Others'
+when brand ='Godown Audit' then 'Others' when brand ='Slum' then 'Others'
+when brand ='VIM liquid' then 'vim' when brand ='Wheel Sample' then 'Wheel'
+when brand ='Training' then 'Others' when brand ='Comfort' then 'comfort'
+when brand ='VIM Gel' then 'vim' when brand ='Surf Excel Matic' then 'surf'
+when brand ='1 Rinse' then 'Magic Rinse' when brand ='Recce' then 'Others'
+when brand ='Incentive' then 'Others' when brand ='SASB SCP' then 'Others'
+when brand ='Wheel' then 'Wheel' when brand ='Rin' then 'Rin'
+when brand ='KKD MILESTONE RCP' then 'KKD' when brand ='Lipton' then 'lipton'
+when brand ='MP Sampling 3 Brands' then 'Others' when brand ='Dove' then 'Dove'
+when brand ='Comfort Sampling' then 'comfort' when brand ='KKDOutbox' then 'KKD'
+when brand ='TopLoad' then 'Others' when brand ='New Combo Offer' then 'Others'
+when brand ='Domex' then 'domex' when brand ='Pureit - Classic' then 'pureit'
+when brand ='SOCIETY' then 'Others'when brand ='SASB H2H' then 'Others'
+when brand ='KKD 7500 RCP' then 'KKD' end "brands" ,city, best_mobile_number_hash
+from PRM.h2h_transaction
+where lower(city) in ('shillong','dhanbad','rohtas','guwahati','mumbai','pune','raipur','gandhidham','moradabad','delhi','kathmandu','fazilka'
+,'barnala','alwar','bengaluru','bangalore','blore','chikmagaluru','belgaum','shimoga'
+,'guntur','secunderabad','palakkad ')
+
+union
+
+select distinct case
+when brand ='VIM bar' then 'vim' when brand ='Shakthi MMD' then 'Shakti'
+when brand ='KKD 7500' then 'KKD' when brand ='MDM Mandi 500' then 'MDM'
+when brand ='KKD 7500 Mohalla' then 'KKD' when brand ='Santoor' then 'Santoor'
+when brand ='KKDMilestone' then 'KKD' when brand ='MDM H2H Sample' then 'MDM'
+when brand ='Ponds BB' then 'Ponds' when brand ='Wheel Sampling' then 'Wheel'
+when brand ='Surf Excel' then 'surf' when brand ='KKD 7500 H2H' then 'KKD'
+when brand ='SASB Mohalla' then 'Others' when brand ='CORPORATE' then 'Others'
+when brand ='FrontLoad' then 'Others' when brand ='Distribution channel' then 'Others'
+when brand ='Godown Audit' then 'Others' when brand ='Slum' then 'Others'
+when brand ='VIM liquid' then 'vim' when brand ='Wheel Sample' then 'Wheel'
+when brand ='Training' then 'Others' when brand ='Comfort' then 'comfort'
+when brand ='VIM Gel' then 'vim' when brand ='Surf Excel Matic' then 'surf'
+when brand ='1 Rinse' then 'Magic Rinse' when brand ='Recce' then 'Others'
+when brand ='Incentive' then 'Others' when brand ='SASB SCP' then 'Others'
+when brand ='Wheel' then 'Wheel' when brand ='Rin' then 'Rin'
+when brand ='KKD MILESTONE RCP' then 'KKD' when brand ='Lipton' then 'lipton'
+when brand ='MP Sampling 3 Brands' then 'Others' when brand ='Dove' then 'Dove'
+when brand ='Comfort Sampling' then 'comfort' when brand ='KKDOutbox' then 'KKD'
+when brand ='TopLoad' then 'Others' when brand ='New Combo Offer' then 'Others'
+when brand ='Domex' then 'domex' when brand ='Pureit - Classic' then 'pureit'
+when brand ='SOCIETY' then 'Others'when brand ='SASB H2H' then 'Others'
+when brand ='KKD 7500 RCP' then 'KKD' end "brands", city, best_mobile_number_hash
+from PRM.mindtree_data
+where lower(city) in ('shillong','dhanbad','rohtas','guwahati','mumbai','pune','raipur','gandhidham','moradabad','delhi','kathmandu','fazilka'
+,'barnala','alwar','bengaluru','bangalore','blore','chikmagaluru','belgaum','shimoga'
+,'guntur','secunderabad','palakkad ')) as a group by brands, city;
+
+
+
+----bb
+
+select  city, count(distinct best_mobile_number_hash )
+from PRM.bb_registration
+where lower(city) in ('shillong','dhanbad','rohtas','guwahati','mumbai','pune','raipur','gandhidham','moradabad','delhi','kathmandu','fazilka'
+,'barnala','alwar','bengaluru','bangalore','blore','chikmagaluru','belgaum','shimoga'
+,'guntur','secunderabad','palakkad ')
+group by city
+
+
+select updated_brand_name,'shillong',count(distinct best_mobile_number_hash) from GAIN_THEORY.PRMActiveInactiveSourceFinal where best_mobile_number_hash in (select distinct best_mobile_number_hash from PRM.pi_consumer where lower(city) ='shillong' ) group by updated_brand_name union 
+select updated_brand_name,'dhanbad',count(distinct best_mobile_number_hash) from GAIN_THEORY.PRMActiveInactiveSourceFinal where best_mobile_number_hash in (select distinct best_mobile_number_hash from PRM.pi_consumer where lower(city) ='dhanbad' ) group by updated_brand_name union 
+select updated_brand_name,'rohtas',count(distinct best_mobile_number_hash) from GAIN_THEORY.PRMActiveInactiveSourceFinal where best_mobile_number_hash in (select distinct best_mobile_number_hash from PRM.pi_consumer where lower(city) ='rohtas' ) group by updated_brand_name union 
+select updated_brand_name,'guwahati',count(distinct best_mobile_number_hash) from GAIN_THEORY.PRMActiveInactiveSourceFinal where best_mobile_number_hash in (select distinct best_mobile_number_hash from PRM.pi_consumer where lower(city) ='guwahati' ) group by updated_brand_name union 
+select updated_brand_name,'mumbai',count(distinct best_mobile_number_hash) from GAIN_THEORY.PRMActiveInactiveSourceFinal where best_mobile_number_hash in (select distinct best_mobile_number_hash from PRM.pi_consumer where lower(city) ='mumbai' ) group by updated_brand_name union 
+select updated_brand_name,'mumbai',count(distinct best_mobile_number_hash) from GAIN_THEORY.PRMActiveInactiveSourceFinal where best_mobile_number_hash in (select distinct best_mobile_number_hash from PRM.pi_consumer where lower(city) ='mumbai' ) group by updated_brand_name union 
+select updated_brand_name,'pune',count(distinct best_mobile_number_hash) from GAIN_THEORY.PRMActiveInactiveSourceFinal where best_mobile_number_hash in (select distinct best_mobile_number_hash from PRM.pi_consumer where lower(city) ='pune' ) group by updated_brand_name union 
+select updated_brand_name,'raipur',count(distinct best_mobile_number_hash) from GAIN_THEORY.PRMActiveInactiveSourceFinal where best_mobile_number_hash in (select distinct best_mobile_number_hash from PRM.pi_consumer where lower(city) ='raipur' ) group by updated_brand_name union 
+select updated_brand_name,'gandhidham',count(distinct best_mobile_number_hash) from GAIN_THEORY.PRMActiveInactiveSourceFinal where best_mobile_number_hash in (select distinct best_mobile_number_hash from PRM.pi_consumer where lower(city) ='gandhidham' ) group by updated_brand_name union 
+select updated_brand_name,'moradabad',count(distinct best_mobile_number_hash) from GAIN_THEORY.PRMActiveInactiveSourceFinal where best_mobile_number_hash in (select distinct best_mobile_number_hash from PRM.pi_consumer where lower(city) ='moradabad' ) group by updated_brand_name union 
+select updated_brand_name,'delhi',count(distinct best_mobile_number_hash) from GAIN_THEORY.PRMActiveInactiveSourceFinal where best_mobile_number_hash in (select distinct best_mobile_number_hash from PRM.pi_consumer where lower(city) ='delhi' ) group by updated_brand_name union 
+select updated_brand_name,'kathmandu',count(distinct best_mobile_number_hash) from GAIN_THEORY.PRMActiveInactiveSourceFinal where best_mobile_number_hash in (select distinct best_mobile_number_hash from PRM.pi_consumer where lower(city) ='kathmandu' ) group by updated_brand_name union 
+select updated_brand_name,'fazilka',count(distinct best_mobile_number_hash) from GAIN_THEORY.PRMActiveInactiveSourceFinal where best_mobile_number_hash in (select distinct best_mobile_number_hash from PRM.pi_consumer where lower(city) ='fazilka' ) group by updated_brand_name union 
+select updated_brand_name,'barnala',count(distinct best_mobile_number_hash) from GAIN_THEORY.PRMActiveInactiveSourceFinal where best_mobile_number_hash in (select distinct best_mobile_number_hash from PRM.pi_consumer where lower(city) ='barnala' ) group by updated_brand_name union 
+select updated_brand_name,'alwar',count(distinct best_mobile_number_hash) from GAIN_THEORY.PRMActiveInactiveSourceFinal where best_mobile_number_hash in (select distinct best_mobile_number_hash from PRM.pi_consumer where lower(city) ='alwar' ) group by updated_brand_name union 
+select updated_brand_name,'bengaluru',count(distinct best_mobile_number_hash) from GAIN_THEORY.PRMActiveInactiveSourceFinal where best_mobile_number_hash in (select distinct best_mobile_number_hash from PRM.pi_consumer where lower(city) ='bengaluru' ) group by updated_brand_name union 
+select updated_brand_name,'chikmagaluru',count(distinct best_mobile_number_hash) from GAIN_THEORY.PRMActiveInactiveSourceFinal where best_mobile_number_hash in (select distinct best_mobile_number_hash from PRM.pi_consumer where lower(city) ='chikmagaluru' ) group by updated_brand_name union 
+select updated_brand_name,'bengaluru',count(distinct best_mobile_number_hash) from GAIN_THEORY.PRMActiveInactiveSourceFinal where best_mobile_number_hash in (select distinct best_mobile_number_hash from PRM.pi_consumer where lower(city) ='bengaluru' ) group by updated_brand_name union 
+select updated_brand_name,'belgaum',count(distinct best_mobile_number_hash) from GAIN_THEORY.PRMActiveInactiveSourceFinal where best_mobile_number_hash in (select distinct best_mobile_number_hash from PRM.pi_consumer where lower(city) ='belgaum' ) group by updated_brand_name union 
+select updated_brand_name,'shimoga',count(distinct best_mobile_number_hash) from GAIN_THEORY.PRMActiveInactiveSourceFinal where best_mobile_number_hash in (select distinct best_mobile_number_hash from PRM.pi_consumer where lower(city) ='shimoga' ) group by updated_brand_name union 
+select updated_brand_name,'guntur',count(distinct best_mobile_number_hash) from GAIN_THEORY.PRMActiveInactiveSourceFinal where best_mobile_number_hash in (select distinct best_mobile_number_hash from PRM.pi_consumer where lower(city) ='guntur' ) group by updated_brand_name union 
+select updated_brand_name,'secunderabad',count(distinct best_mobile_number_hash) from GAIN_THEORY.PRMActiveInactiveSourceFinal where best_mobile_number_hash in (select distinct best_mobile_number_hash from PRM.pi_consumer where lower(city) ='secunderabad' ) group by updated_brand_name union 
+select updated_brand_name,'palakkad',count(distinct best_mobile_number_hash) from GAIN_THEORY.PRMActiveInactiveSourceFinal where best_mobile_number_hash in (select distinct best_mobile_number_hash from PRM.pi_consumer where lower(city) ='palakkad' ) group by updated_brand_name union 
+select updated_brand_name,'bangalore',count(distinct best_mobile_number_hash) from GAIN_THEORY.PRMActiveInactiveSourceFinal where best_mobile_number_hash in (select distinct best_mobile_number_hash from PRM.pi_consumer where lower(city) ='bangalore' ) group by updated_brand_name ;
+
+
+---------LSm 7+ non lakme base
+
+
+----pureit
+select  city, count(distinct best_mobile_number_hash)
+from PRM.pi_consumer
+where lower(city) in 
+
+('agra','ahmedabad','aligarh','allahabad','ambala','ambala city','amritsar'
+,'bangalore','bareilly','baroda','batala','bhatinda','bhopal','chandigarh','chennai','coimbatore','dehradun','delhi','faridabad','ghaziabad','gorakhpur'
+,'gurgaon','guwahati','gwalior','hyderabad','indore','jaipur','jalandhar','jammu','jamshedpur','jhansi'
+,'kalyan','kanpur','kochi','cochin','kolkata','lucknow','ludhiana','meerut','moga','mohali','mumbai'
+,'nagpur','navi mumbai','new delhi','noida','panchkula','pathankot','patiala','pondicherry','punchkula'
+,'pune','rajkot','ranchi','secunderabad','siliguri','sri ganganagar','thane','vadodara','varanasi')
+and best_mobile_number_hash not in (
+
+select  distinct best_mobile_number_hash from PRM.lk_transaction a inner join PRM.lk_salon_store_master b on a.store_name=b.store_name
+where lower(store_address4) in ('agra','ahmedabad','aligarh','allahabad','ambala','ambala city','amritsar'
+,'bangalore','bareilly','baroda','batala','bhatinda','bhopal','chandigarh','chennai','coimbatore','dehradun','delhi','faridabad','ghaziabad','gorakhpur'
+,'gurgaon','guwahati','gwalior','hyderabad','indore','jaipur','jalandhar','jammu','jamshedpur','jhansi'
+,'kalyan','kanpur','kochi','cochin','kolkata','lucknow','ludhiana','meerut','moga','mohali','mumbai'
+,'nagpur','navi mumbai','new delhi','noida','panchkula','pathankot','patiala','pondicherry','punchkula'
+,'pune','rajkot','ranchi','secunderabad','siliguri','sri ganganagar','thane','vadodara','varanasi')
+union
+
+select  best_mobile_number_hash from PRM.lk_transaction_all_years a
+inner join PRM.lk_salon_store_master b on a.lk_store_name=b.store_name
+where lower(store_address4) in ('agra','ahmedabad','aligarh','allahabad','ambala','ambala city','amritsar'
+,'bangalore','bareilly','baroda','batala','bhatinda','bhopal','chandigarh','chennai','coimbatore','dehradun','delhi','faridabad','ghaziabad','gorakhpur'
+,'gurgaon','guwahati','gwalior','hyderabad','indore','jaipur','jalandhar','jammu','jamshedpur','jhansi'
+,'kalyan','kanpur','kochi','cochin','kolkata','lucknow','ludhiana','meerut','moga','mohali','mumbai'
+,'nagpur','navi mumbai','new delhi','noida','panchkula','pathankot','patiala','pondicherry','punchkula'
+,'pune','rajkot','ranchi','secunderabad','siliguri','sri ganganagar','thane','vadodara','varanasi')
+
+union
+
+select  best_mobile_number_hash from PRM.lk_transaction_void_cust a
+inner join PRM.lk_salon_store_master b on a.store_name=b.store_name
+where lower(store_address4) in ('agra','ahmedabad','aligarh','allahabad','ambala','ambala city','amritsar'
+,'bangalore','bareilly','baroda','batala','bhatinda','bhopal','chandigarh','chennai','coimbatore','dehradun','delhi','faridabad','ghaziabad','gorakhpur'
+,'gurgaon','guwahati','gwalior','hyderabad','indore','jaipur','jalandhar','jammu','jamshedpur','jhansi'
+,'kalyan','kanpur','kochi','cochin','kolkata','lucknow','ludhiana','meerut','moga','mohali','mumbai'
+,'nagpur','navi mumbai','new delhi','noida','panchkula','pathankot','patiala','pondicherry','punchkula'
+,'pune','rajkot','ranchi','secunderabad','siliguri','sri ganganagar','thane','vadodara','varanasi')
+
+union
+
+select  distinct  best_mobile_number_hash from PRM.lk_transaction_voided a
+inner join PRM.lk_salon_store_master b on a.store_name=b.store_name
+where lower(store_address4) in ('agra','ahmedabad','aligarh','allahabad','ambala','ambala city','amritsar'
+,'bangalore','bareilly','baroda','batala','bhatinda','bhopal','chandigarh','chennai','coimbatore','dehradun','delhi','faridabad','ghaziabad','gorakhpur'
+,'gurgaon','guwahati','gwalior','hyderabad','indore','jaipur','jalandhar','jammu','jamshedpur','jhansi'
+,'kalyan','kanpur','kochi','cochin','kolkata','lucknow','ludhiana','meerut','moga','mohali','mumbai'
+,'nagpur','navi mumbai','new delhi','noida','panchkula','pathankot','patiala','pondicherry','punchkula'
+,'pune','rajkot','ranchi','secunderabad','siliguri','sri ganganagar','thane','vadodara','varanasi')
+
+
+union
+
+select distinct   best_mobile_number_hash from PRM.lk_redeem_transaction a
+inner join PRM.lk_salon_store_master b on a.store_name=b.store_name
+where lower(store_address4) in ('agra','ahmedabad','aligarh','allahabad','ambala','ambala city','amritsar'
+,'bangalore','bareilly','baroda','batala','bhatinda','bhopal','chandigarh','chennai','coimbatore','dehradun','delhi','faridabad','ghaziabad','gorakhpur'
+,'gurgaon','guwahati','gwalior','hyderabad','indore','jaipur','jalandhar','jammu','jamshedpur','jhansi'
+,'kalyan','kanpur','kochi','cochin','kolkata','lucknow','ludhiana','meerut','moga','mohali','mumbai'
+,'nagpur','navi mumbai','new delhi','noida','panchkula','pathankot','patiala','pondicherry','punchkula'
+,'pune','rajkot','ranchi','secunderabad','siliguri','sri ganganagar','thane','vadodara','varanasi')
+union
+
+select distinct best_mobile_number_hash from PRM.lk_redemption_all_years a
+inner join PRM.lk_salon_store_master b on a.lk_store_name=b.store_name
+where lower(store_address4) in ('agra','ahmedabad','aligarh','allahabad','ambala','ambala city','amritsar'
+,'bangalore','bareilly','baroda','batala','bhatinda','bhopal','chandigarh','chennai','coimbatore','dehradun','delhi','faridabad','ghaziabad','gorakhpur'
+,'gurgaon','guwahati','gwalior','hyderabad','indore','jaipur','jalandhar','jammu','jamshedpur','jhansi'
+,'kalyan','kanpur','kochi','cochin','kolkata','lucknow','ludhiana','meerut','moga','mohali','mumbai'
+,'nagpur','navi mumbai','new delhi','noida','panchkula','pathankot','patiala','pondicherry','punchkula'
+,'pune','rajkot','ranchi','secunderabad','siliguri','sri ganganagar','thane','vadodara','varanasi'))
+group by city;
+
+
+
+-bebeautiful
+
+select  city, count(distinct best_mobile_number_hash )
+from PRM.bb_registration
+where lower(city) in 
+
+('agra','ahmedabad','aligarh','allahabad','ambala','ambala city','amritsar'
+,'bangalore','bareilly','baroda','batala','bhatinda','bhopal','chandigarh','chennai','coimbatore','dehradun','delhi','faridabad','ghaziabad','gorakhpur'
+,'gurgaon','guwahati','gwalior','hyderabad','indore','jaipur','jalandhar','jammu','jamshedpur','jhansi'
+,'kalyan','kanpur','kochi','cochin','kolkata','lucknow','ludhiana','meerut','moga','mohali','mumbai'
+,'nagpur','navi mumbai','new delhi','noida','panchkula','pathankot','patiala','pondicherry','punchkula'
+,'pune','rajkot','ranchi','secunderabad','siliguri','sri ganganagar','thane','vadodara','varanasi')
+and best_mobile_number_hash not in (
+
+select  distinct best_mobile_number_hash from PRM.lk_transaction a inner join PRM.lk_salon_store_master b on a.store_name=b.store_name
+where lower(store_address4) in ('agra','ahmedabad','aligarh','allahabad','ambala','ambala city','amritsar'
+,'bangalore','bareilly','baroda','batala','bhatinda','bhopal','chandigarh','chennai','coimbatore','dehradun','delhi','faridabad','ghaziabad','gorakhpur'
+,'gurgaon','guwahati','gwalior','hyderabad','indore','jaipur','jalandhar','jammu','jamshedpur','jhansi'
+,'kalyan','kanpur','kochi','cochin','kolkata','lucknow','ludhiana','meerut','moga','mohali','mumbai'
+,'nagpur','navi mumbai','new delhi','noida','panchkula','pathankot','patiala','pondicherry','punchkula'
+,'pune','rajkot','ranchi','secunderabad','siliguri','sri ganganagar','thane','vadodara','varanasi')
+union
+
+select  best_mobile_number_hash from PRM.lk_transaction_all_years a
+inner join PRM.lk_salon_store_master b on a.lk_store_name=b.store_name
+where lower(store_address4) in ('agra','ahmedabad','aligarh','allahabad','ambala','ambala city','amritsar'
+,'bangalore','bareilly','baroda','batala','bhatinda','bhopal','chandigarh','chennai','coimbatore','dehradun','delhi','faridabad','ghaziabad','gorakhpur'
+,'gurgaon','guwahati','gwalior','hyderabad','indore','jaipur','jalandhar','jammu','jamshedpur','jhansi'
+,'kalyan','kanpur','kochi','cochin','kolkata','lucknow','ludhiana','meerut','moga','mohali','mumbai'
+,'nagpur','navi mumbai','new delhi','noida','panchkula','pathankot','patiala','pondicherry','punchkula'
+,'pune','rajkot','ranchi','secunderabad','siliguri','sri ganganagar','thane','vadodara','varanasi')
+
+union
+
+select  best_mobile_number_hash from PRM.lk_transaction_void_cust a
+inner join PRM.lk_salon_store_master b on a.store_name=b.store_name
+where lower(store_address4) in ('agra','ahmedabad','aligarh','allahabad','ambala','ambala city','amritsar'
+,'bangalore','bareilly','baroda','batala','bhatinda','bhopal','chandigarh','chennai','coimbatore','dehradun','delhi','faridabad','ghaziabad','gorakhpur'
+,'gurgaon','guwahati','gwalior','hyderabad','indore','jaipur','jalandhar','jammu','jamshedpur','jhansi'
+,'kalyan','kanpur','kochi','cochin','kolkata','lucknow','ludhiana','meerut','moga','mohali','mumbai'
+,'nagpur','navi mumbai','new delhi','noida','panchkula','pathankot','patiala','pondicherry','punchkula'
+,'pune','rajkot','ranchi','secunderabad','siliguri','sri ganganagar','thane','vadodara','varanasi')
+
+union
+
+select  distinct  best_mobile_number_hash from PRM.lk_transaction_voided a
+inner join PRM.lk_salon_store_master b on a.store_name=b.store_name
+where lower(store_address4) in ('agra','ahmedabad','aligarh','allahabad','ambala','ambala city','amritsar'
+,'bangalore','bareilly','baroda','batala','bhatinda','bhopal','chandigarh','chennai','coimbatore','dehradun','delhi','faridabad','ghaziabad','gorakhpur'
+,'gurgaon','guwahati','gwalior','hyderabad','indore','jaipur','jalandhar','jammu','jamshedpur','jhansi'
+,'kalyan','kanpur','kochi','cochin','kolkata','lucknow','ludhiana','meerut','moga','mohali','mumbai'
+,'nagpur','navi mumbai','new delhi','noida','panchkula','pathankot','patiala','pondicherry','punchkula'
+,'pune','rajkot','ranchi','secunderabad','siliguri','sri ganganagar','thane','vadodara','varanasi')
+
+
+union
+
+select distinct   best_mobile_number_hash from PRM.lk_redeem_transaction a
+inner join PRM.lk_salon_store_master b on a.store_name=b.store_name
+where lower(store_address4) in ('agra','ahmedabad','aligarh','allahabad','ambala','ambala city','amritsar'
+,'bangalore','bareilly','baroda','batala','bhatinda','bhopal','chandigarh','chennai','coimbatore','dehradun','delhi','faridabad','ghaziabad','gorakhpur'
+,'gurgaon','guwahati','gwalior','hyderabad','indore','jaipur','jalandhar','jammu','jamshedpur','jhansi'
+,'kalyan','kanpur','kochi','cochin','kolkata','lucknow','ludhiana','meerut','moga','mohali','mumbai'
+,'nagpur','navi mumbai','new delhi','noida','panchkula','pathankot','patiala','pondicherry','punchkula'
+,'pune','rajkot','ranchi','secunderabad','siliguri','sri ganganagar','thane','vadodara','varanasi')
+union
+
+select distinct best_mobile_number_hash from PRM.lk_redemption_all_years a
+inner join PRM.lk_salon_store_master b on a.lk_store_name=b.store_name
+where lower(store_address4) in ('agra','ahmedabad','aligarh','allahabad','ambala','ambala city','amritsar'
+,'bangalore','bareilly','baroda','batala','bhatinda','bhopal','chandigarh','chennai','coimbatore','dehradun','delhi','faridabad','ghaziabad','gorakhpur'
+,'gurgaon','guwahati','gwalior','hyderabad','indore','jaipur','jalandhar','jammu','jamshedpur','jhansi'
+,'kalyan','kanpur','kochi','cochin','kolkata','lucknow','ludhiana','meerut','moga','mohali','mumbai'
+,'nagpur','navi mumbai','new delhi','noida','panchkula','pathankot','patiala','pondicherry','punchkula'
+,'pune','rajkot','ranchi','secunderabad','siliguri','sri ganganagar','thane','vadodara','varanasi'))
+group by city;
+
+
+
+
+-H2h
+
+ select brands, city,count(distinct best_mobile_number_hash )
+ from ( 
+select distinct case
+when brand ='VIM bar' then 'vim' when brand ='sampbrand2' then 'Others'when brand ='KKD 7500' then 'Others'when brand ='MDM Mandi 500' then 'Others'
+when brand ='KKD 7500 Mohalla' then 'Others'when brand ='Santoor' then 'Santoor'
+when brand ='KKDMilestone' then 'Others'when brand ='KKD JWT RCP' then 'Others'
+when brand ='MDM H2H Sample' then 'Others'when brand ='Ponds BB' then 'Ponds'
+when brand ='Wheel Sampling' then 'Wheel'when brand ='ATTENDANCE TRACKER' then 'Others'
+when brand ='SASB H2H Group' then 'Others'when brand ='Taj' then 'Taj'when brand ='Surf Excel' then 'surf'when brand ='KKD 7500 H2H' then 'Others' when brand ='SASB Mohalla' then 'Others'when brand ='CORPORATE' then 'Others'
+when brand ='FrontLoad' then 'Others'when brand ='Vaseline' then 'Vaseline'when brand ='RIN Trader' then 'Rin'when brand ='KKD JWT' then 'Others'
+when brand ='Godown Audit' then 'Others'when brand ='7thPayH2H' then 'Others'
+when brand ='Rin Mandi' then 'Rin'when brand ='VIM liquid' then 'vim'when brand ='Dove conditioner' then 'Dove'
+when brand ='Training' then 'Others'when brand ='Comfort' then 'comfort'when brand ='VIM Gel' then 'vim'when brand ='Surf Excel Matic' then 'surf'
+when brand ='1 Rinse' then 'Magic Rinse'when brand ='Recce' then 'Others'when brand ='Incentive' then 'Others'
+when brand ='SASB SCP' then 'Others'when brand ='UP Ready Stock Model' then 'Others'when brand ='Wheel' then 'Wheel'
+when brand ='Rin' then 'Rin'when brand ='KKD MILESTONE RCP' then 'Others'when brand ='Lipton' then 'lipton'when brand ='MP Sampling 3 Brands' then 'Others'
+when brand ='Shakthi MMD' then 'Shakti'when brand ='Dove' then 'Dove'when brand ='Comfort Sampling' then 'comfort'
+when brand ='KKDOutbox' then 'Others'when brand ='RIN TRADER FRIENDZ' then 'Rin'when brand ='TopLoad' then 'Others'when brand ='Surf Excel Matic Liquid' then 'Surf'
+when brand ='Distribution channel' then 'Others'when brand ='New Combo Offer' then 'Others'when brand ='Slum' then 'Others'when brand ='comfortinstore' then 'Comfort'
+when brand ='Pureit - Classic' then 'Others'when brand ='SOCIETY' then 'Others'when brand ='SASB H2H' then 'Others'
+when brand ='PB Wheel sampling' then 'Wheel'when brand ='MDM Mandi 1000' then 'Others'when brand ='Domex' then 'domex'
+when brand ='Wheel Sample' then 'Wheel'when brand ='KKD 7500 RCP' then 'Others'when brand ='Dove' then 'Dove'
+when brand ='Taj' then 'Taj'when brand ='Surf Excel' then 'surf'when brand ='Lifebuoy' then 'Lifebuoy'
+when brand ='Comfort' then 'comfort'when brand ='Surf Excel Matic' then 'surf'when brand ='1 Rinse' then 'Magic Rinse'when brand ='KKD' then 'Others'
+ end "brands" ,city, best_mobile_number_hash
+from PRM.h2h_transaction
+where lower(city) in ('agra','ahmedabad','aligarh','allahabad','ambala','ambala city','amritsar'
+,'bangalore','bareilly','baroda','batala','bhatinda','bhopal','chandigarh','chennai','coimbatore','dehradun','delhi','faridabad','ghaziabad'
+,'gorakhpur','gurgaon','guwahati','gwalior','hyderabad','indore','jaipur','jalandhar','jammu','jamshedpur','jhansi'
+,'kalyan','kanpur','kochi','cochin','kolkata','lucknow','ludhiana','meerut','moga','mohali','mumbai'
+,'nagpur','navi mumbai','new delhi','noida','panchkula','pathankot','patiala','pondicherry','punchkula'
+,'pune','rajkot','ranchi','secunderabad','siliguri','sri ganganagar','thane','vadodara','varanasi')
+and best_mobile_number_hash not in (
+
+select  distinct best_mobile_number_hash from PRM.lk_transaction a inner join PRM.lk_salon_store_master b on a.store_name=b.store_name
+where lower(store_address4) in ('agra','ahmedabad','aligarh','allahabad','ambala','ambala city','amritsar'
+,'bangalore','bareilly','baroda','batala','bhatinda','bhopal','chandigarh','chennai','coimbatore','dehradun','delhi','faridabad','ghaziabad'
+,'gorakhpur','gurgaon','guwahati','gwalior','hyderabad','indore','jaipur','jalandhar','jammu','jamshedpur','jhansi'
+,'kalyan','kanpur','kochi','cochin','kolkata','lucknow','ludhiana','meerut','moga','mohali','mumbai'
+,'nagpur','navi mumbai','new delhi','noida','panchkula','pathankot','patiala','pondicherry','punchkula'
+,'pune','rajkot','ranchi','secunderabad','siliguri','sri ganganagar','thane','vadodara','varanasi')
+union
+
+select  best_mobile_number_hash from PRM.lk_transaction_all_years a
+inner join PRM.lk_salon_store_master b on a.lk_store_name=b.store_name
+where lower(store_address4) in ('agra','ahmedabad','aligarh','allahabad','ambala','ambala city','amritsar'
+,'bangalore','bareilly','baroda','batala','bhatinda','bhopal','chandigarh','chennai','coimbatore','dehradun','delhi','faridabad','ghaziabad'
+,'gorakhpur','gurgaon','guwahati','gwalior','hyderabad','indore','jaipur','jalandhar','jammu','jamshedpur','jhansi'
+,'kalyan','kanpur','kochi','cochin','kolkata','lucknow','ludhiana','meerut','moga','mohali','mumbai'
+,'nagpur','navi mumbai','new delhi','noida','panchkula','pathankot','patiala','pondicherry','punchkula'
+,'pune','rajkot','ranchi','secunderabad','siliguri','sri ganganagar','thane','vadodara','varanasi')
+
+union
+
+select  best_mobile_number_hash from PRM.lk_transaction_void_cust a
+inner join PRM.lk_salon_store_master b on a.store_name=b.store_name
+where lower(store_address4) in ('agra','ahmedabad','aligarh','allahabad','ambala','ambala city','amritsar'
+,'bangalore','bareilly','baroda','batala','bhatinda','bhopal','chandigarh','chennai','coimbatore','dehradun','delhi','faridabad','ghaziabad'
+,'gorakhpur','gurgaon','guwahati','gwalior','hyderabad','indore','jaipur','jalandhar','jammu','jamshedpur','jhansi'
+,'kalyan','kanpur','kochi','cochin','kolkata','lucknow','ludhiana','meerut','moga','mohali','mumbai'
+,'nagpur','navi mumbai','new delhi','noida','panchkula','pathankot','patiala','pondicherry','punchkula'
+,'pune','rajkot','ranchi','secunderabad','siliguri','sri ganganagar','thane','vadodara','varanasi')
+
+union
+
+select  distinct  best_mobile_number_hash from PRM.lk_transaction_voided a
+inner join PRM.lk_salon_store_master b on a.store_name=b.store_name
+where lower(store_address4) in ('agra','ahmedabad','aligarh','allahabad','ambala','ambala city','amritsar'
+,'bangalore','bareilly','baroda','batala','bhatinda','bhopal','chandigarh','chennai','coimbatore','dehradun','delhi','faridabad','ghaziabad'
+,'gorakhpur','gurgaon','guwahati','gwalior','hyderabad','indore','jaipur','jalandhar','jammu','jamshedpur','jhansi'
+,'kalyan','kanpur','kochi','cochin','kolkata','lucknow','ludhiana','meerut','moga','mohali','mumbai'
+,'nagpur','navi mumbai','new delhi','noida','panchkula','pathankot','patiala','pondicherry','punchkula'
+,'pune','rajkot','ranchi','secunderabad','siliguri','sri ganganagar','thane','vadodara','varanasi')
+
+
+union
+
+select distinct   best_mobile_number_hash from PRM.lk_redeem_transaction a
+inner join PRM.lk_salon_store_master b on a.store_name=b.store_name
+where lower(store_address4) in ('agra','ahmedabad','aligarh','allahabad','ambala','ambala city','amritsar'
+,'bangalore','bareilly','baroda','batala','bhatinda','bhopal','chandigarh','chennai','coimbatore','dehradun','delhi','faridabad','ghaziabad'
+,'gorakhpur','gurgaon','guwahati','gwalior','hyderabad','indore','jaipur','jalandhar','jammu','jamshedpur','jhansi'
+,'kalyan','kanpur','kochi','cochin','kolkata','lucknow','ludhiana','meerut','moga','mohali','mumbai'
+,'nagpur','navi mumbai','new delhi','noida','panchkula','pathankot','patiala','pondicherry','punchkula'
+,'pune','rajkot','ranchi','secunderabad','siliguri','sri ganganagar','thane','vadodara','varanasi')
+union
+
+select distinct best_mobile_number_hash from PRM.lk_redemption_all_years a
+inner join PRM.lk_salon_store_master b on a.lk_store_name=b.store_name
+where lower(store_address4) in ('agra','ahmedabad','aligarh','allahabad','ambala','ambala city','amritsar'
+,'bangalore','bareilly','baroda','batala','bhatinda','bhopal','chandigarh','chennai','coimbatore','dehradun','delhi','faridabad','ghaziabad'
+,'gorakhpur','gurgaon','guwahati','gwalior','hyderabad','indore','jaipur','jalandhar','jammu','jamshedpur','jhansi'
+,'kalyan','kanpur','kochi','cochin','kolkata','lucknow','ludhiana','meerut','moga','mohali','mumbai'
+,'nagpur','navi mumbai','new delhi','noida','panchkula','pathankot','patiala','pondicherry','punchkula'
+,'pune','rajkot','ranchi','secunderabad','siliguri','sri ganganagar','thane','vadodara','varanasi')
+)
+
+
+union
+
+select distinct case
+when brand ='VIM bar' then 'vim' when brand ='sampbrand2' then 'Others'when brand ='KKD 7500' then 'Others'when brand ='MDM Mandi 500' then 'Others'
+when brand ='KKD 7500 Mohalla' then 'Others'when brand ='Santoor' then 'Santoor'
+when brand ='KKDMilestone' then 'Others'when brand ='KKD JWT RCP' then 'Others'
+when brand ='MDM H2H Sample' then 'Others'when brand ='Ponds BB' then 'Ponds'
+when brand ='Wheel Sampling' then 'Wheel'when brand ='ATTENDANCE TRACKER' then 'Others'
+when brand ='SASB H2H Group' then 'Others'when brand ='Taj' then 'Taj'when brand ='Surf Excel' then 'surf'when brand ='KKD 7500 H2H' then 'Others' when brand ='SASB Mohalla' then 'Others'when brand ='CORPORATE' then 'Others'
+when brand ='FrontLoad' then 'Others'when brand ='Vaseline' then 'Vaseline'when brand ='RIN Trader' then 'Rin'when brand ='KKD JWT' then 'Others'
+when brand ='Godown Audit' then 'Others'when brand ='7thPayH2H' then 'Others'
+when brand ='Rin Mandi' then 'Rin'when brand ='VIM liquid' then 'vim'when brand ='Dove conditioner' then 'Dove'
+when brand ='Training' then 'Others'when brand ='Comfort' then 'comfort'when brand ='VIM Gel' then 'vim'when brand ='Surf Excel Matic' then 'surf'
+when brand ='1 Rinse' then 'Magic Rinse'when brand ='Recce' then 'Others'when brand ='Incentive' then 'Others'
+when brand ='SASB SCP' then 'Others'when brand ='UP Ready Stock Model' then 'Others'when brand ='Wheel' then 'Wheel'
+when brand ='Rin' then 'Rin'when brand ='KKD MILESTONE RCP' then 'Others'when brand ='Lipton' then 'lipton'when brand ='MP Sampling 3 Brands' then 'Others'
+when brand ='Shakthi MMD' then 'Shakti'when brand ='Dove' then 'Dove'when brand ='Comfort Sampling' then 'comfort'
+when brand ='KKDOutbox' then 'Others'when brand ='RIN TRADER FRIENDZ' then 'Rin'when brand ='TopLoad' then 'Others'when brand ='Surf Excel Matic Liquid' then 'Surf'
+when brand ='Distribution channel' then 'Others'when brand ='New Combo Offer' then 'Others'when brand ='Slum' then 'Others'when brand ='comfortinstore' then 'Comfort'
+when brand ='Pureit - Classic' then 'Others'when brand ='SOCIETY' then 'Others'when brand ='SASB H2H' then 'Others'
+when brand ='PB Wheel sampling' then 'Wheel'when brand ='MDM Mandi 1000' then 'Others'when brand ='Domex' then 'domex'
+when brand ='Wheel Sample' then 'Wheel'when brand ='KKD 7500 RCP' then 'Others'when brand ='Dove' then 'Dove'
+when brand ='Taj' then 'Taj'when brand ='Surf Excel' then 'surf'when brand ='Lifebuoy' then 'Lifebuoy'
+when brand ='Comfort' then 'comfort'when brand ='Surf Excel Matic' then 'surf'when brand ='1 Rinse' then 'Magic Rinse'when brand ='KKD' then 'Others'
+ end "brands", city, best_mobile_number_hash
+from PRM.mindtree_data
+where lower(city) in 
+('agra','ahmedabad','aligarh','allahabad','ambala','ambala city','amritsar'
+,'bangalore','bareilly','baroda','batala','bhatinda','bhopal','chandigarh','chennai','coimbatore','dehradun','delhi','faridabad','ghaziabad'
+,'gorakhpur','gurgaon','guwahati','gwalior','hyderabad','indore','jaipur','jalandhar','jammu','jamshedpur','jhansi'
+,'kalyan','kanpur','kochi','cochin','kolkata','lucknow','ludhiana','meerut','moga','mohali','mumbai'
+,'nagpur','navi mumbai','new delhi','noida','panchkula','pathankot','patiala','pondicherry','punchkula'
+,'pune','rajkot','ranchi','secunderabad','siliguri','sri ganganagar','thane','vadodara','varanasi')
+and best_mobile_number_hash not in (
+
+select  distinct best_mobile_number_hash from PRM.lk_transaction a inner join PRM.lk_salon_store_master b on a.store_name=b.store_name
+where lower(store_address4) in ('agra','ahmedabad','aligarh','allahabad','ambala','ambala city','amritsar'
+,'bangalore','bareilly','baroda','batala','bhatinda','bhopal','chandigarh','chennai','coimbatore','dehradun','delhi','faridabad','ghaziabad'
+,'gorakhpur','gurgaon','guwahati','gwalior','hyderabad','indore','jaipur','jalandhar','jammu','jamshedpur','jhansi'
+,'kalyan','kanpur','kochi','cochin','kolkata','lucknow','ludhiana','meerut','moga','mohali','mumbai'
+,'nagpur','navi mumbai','new delhi','noida','panchkula','pathankot','patiala','pondicherry','punchkula'
+,'pune','rajkot','ranchi','secunderabad','siliguri','sri ganganagar','thane','vadodara','varanasi')
+union
+
+select  best_mobile_number_hash from PRM.lk_transaction_all_years a
+inner join PRM.lk_salon_store_master b on a.lk_store_name=b.store_name
+where lower(store_address4) in ('agra','ahmedabad','aligarh','allahabad','ambala','ambala city','amritsar'
+,'bangalore','bareilly','baroda','batala','bhatinda','bhopal','chandigarh','chennai','coimbatore','dehradun','delhi','faridabad','ghaziabad'
+,'gorakhpur','gurgaon','guwahati','gwalior','hyderabad','indore','jaipur','jalandhar','jammu','jamshedpur','jhansi'
+,'kalyan','kanpur','kochi','cochin','kolkata','lucknow','ludhiana','meerut','moga','mohali','mumbai'
+,'nagpur','navi mumbai','new delhi','noida','panchkula','pathankot','patiala','pondicherry','punchkula'
+,'pune','rajkot','ranchi','secunderabad','siliguri','sri ganganagar','thane','vadodara','varanasi')
+
+union
+
+select  best_mobile_number_hash from PRM.lk_transaction_void_cust a
+inner join PRM.lk_salon_store_master b on a.store_name=b.store_name
+where lower(store_address4) in ('agra','ahmedabad','aligarh','allahabad','ambala','ambala city','amritsar'
+,'bangalore','bareilly','baroda','batala','bhatinda','bhopal','chandigarh','chennai','coimbatore','dehradun','delhi','faridabad','ghaziabad'
+,'gorakhpur','gurgaon','guwahati','gwalior','hyderabad','indore','jaipur','jalandhar','jammu','jamshedpur','jhansi'
+,'kalyan','kanpur','kochi','cochin','kolkata','lucknow','ludhiana','meerut','moga','mohali','mumbai'
+,'nagpur','navi mumbai','new delhi','noida','panchkula','pathankot','patiala','pondicherry','punchkula'
+,'pune','rajkot','ranchi','secunderabad','siliguri','sri ganganagar','thane','vadodara','varanasi')
+
+union
+
+select  distinct  best_mobile_number_hash from PRM.lk_transaction_voided a
+inner join PRM.lk_salon_store_master b on a.store_name=b.store_name
+where lower(store_address4) in ('agra','ahmedabad','aligarh','allahabad','ambala','ambala city','amritsar'
+,'bangalore','bareilly','baroda','batala','bhatinda','bhopal','chandigarh','chennai','coimbatore','dehradun','delhi','faridabad','ghaziabad'
+,'gorakhpur','gurgaon','guwahati','gwalior','hyderabad','indore','jaipur','jalandhar','jammu','jamshedpur','jhansi'
+,'kalyan','kanpur','kochi','cochin','kolkata','lucknow','ludhiana','meerut','moga','mohali','mumbai'
+,'nagpur','navi mumbai','new delhi','noida','panchkula','pathankot','patiala','pondicherry','punchkula'
+,'pune','rajkot','ranchi','secunderabad','siliguri','sri ganganagar','thane','vadodara','varanasi')
+
+
+union
+
+select distinct   best_mobile_number_hash from PRM.lk_redeem_transaction a
+inner join PRM.lk_salon_store_master b on a.store_name=b.store_name
+where lower(store_address4) in ('agra','ahmedabad','aligarh','allahabad','ambala','ambala city','amritsar'
+,'bangalore','bareilly','baroda','batala','bhatinda','bhopal','chandigarh','chennai','coimbatore','dehradun','delhi','faridabad','ghaziabad'
+,'gorakhpur','gurgaon','guwahati','gwalior','hyderabad','indore','jaipur','jalandhar','jammu','jamshedpur','jhansi'
+,'kalyan','kanpur','kochi','cochin','kolkata','lucknow','ludhiana','meerut','moga','mohali','mumbai'
+,'nagpur','navi mumbai','new delhi','noida','panchkula','pathankot','patiala','pondicherry','punchkula'
+,'pune','rajkot','ranchi','secunderabad','siliguri','sri ganganagar','thane','vadodara','varanasi')
+union
+
+select distinct best_mobile_number_hash from PRM.lk_redemption_all_years a
+inner join PRM.lk_salon_store_master b on a.lk_store_name=b.store_name
+where lower(store_address4) in ('agra','ahmedabad','aligarh','allahabad','ambala','ambala city','amritsar'
+,'bangalore','bareilly','baroda','batala','bhatinda','bhopal','chandigarh','chennai','coimbatore','dehradun','delhi','faridabad','ghaziabad'
+,'gorakhpur','gurgaon','guwahati','gwalior','hyderabad','indore','jaipur','jalandhar','jammu','jamshedpur','jhansi'
+,'kalyan','kanpur','kochi','cochin','kolkata','lucknow','ludhiana','meerut','moga','mohali','mumbai'
+,'nagpur','navi mumbai','new delhi','noida','panchkula','pathankot','patiala','pondicherry','punchkula'
+,'pune','rajkot','ranchi','secunderabad','siliguri','sri ganganagar','thane','vadodara','varanasi'))
+) as a group by brands, city;
+
+
+
+
+--Year wise interaction count
+
+select b.store_address4,EXTRACT(Year from lastinteractiondate)
+, count(distinct a.best_mobile_number_hash) 
+
+from GAIN_THEORY.PRMActiveInactiveSourceFinalDistinct a
+inner join "GAIN_THeory".LakmeYear b
+on a.best_mobile_number_hash=b.best_mobile_number_hash
+where source='LK'
+group by b.store_address4,EXTRACT(Year from lastinteractiondate)
+
+
+create multiset table "GAIN_THeory".LakmeYear(store_address4 varchar(100)
+,best_mobile_number_hash varchar(300))
+
+
+insert into "GAIN_THeory".LakmeYear(store_address4,best_mobile_number_hash)
+select distinct store_address4,best_mobile_number_hash
+from (
+select  distinct store_address4,best_mobile_number_hash from PRM.lk_transaction a inner join PRM.lk_salon_store_master b on a.store_name=b.store_name
+where lower(store_address4) in ('shillong','dhanbad','rohtas','guwahati','mumbai','pune','raipur','gandhidham','moradabad','delhi','kathmandu','fazilka'
+,'barnala','alwar','bengaluru','bangalore','blore','chikmagaluru','belgaum','shimoga'
+,'guntur','secunderabad','palakkad ')
+
+
+union
+
+select distinct  store_address4, best_mobile_number_hash
+from PRM.lk_transaction_all_years a
+inner join PRM.lk_salon_store_master b on a.lk_store_name=b.store_name
+where lower(store_address4) in ('shillong','dhanbad','rohtas','guwahati','mumbai','pune','raipur','gandhidham','moradabad','delhi','kathmandu','fazilka'
+,'barnala','alwar','bengaluru','bangalore','blore','chikmagaluru','belgaum','shimoga'
+,'guntur','secunderabad','palakkad ')
+
+union
+
+select  distinct  store_address4, best_mobile_number_hash from PRM.lk_transaction_voided a
+inner join PRM.lk_salon_store_master b on a.store_name=b.store_name
+where lower(store_address4) in ('shillong','dhanbad','rohtas','guwahati','mumbai','pune','raipur','gandhidham','moradabad','delhi','kathmandu','fazilka'
+,'barnala','alwar','bengaluru','bangalore','blore','chikmagaluru','belgaum','shimoga'
+,'guntur','secunderabad','palakkad ')
+
+
+union
+
+select distinct  store_address4,  best_mobile_number_hash from PRM.lk_redeem_transaction a
+inner join PRM.lk_salon_store_master b on a.store_name=b.store_name
+where lower(store_address4) in ('shillong','dhanbad','rohtas','guwahati','mumbai','pune','raipur','gandhidham','moradabad','delhi','kathmandu','fazilka'
+,'barnala','alwar','bengaluru','bangalore','blore','chikmagaluru','belgaum','shimoga'
+,'guntur','secunderabad','palakkad ')
+union
+
+select distinct  store_address4,best_mobile_number_hash from PRM.lk_redemption_all_years a
+inner join PRM.lk_salon_store_master b on a.lk_store_name=b.store_name
+where lower(store_address4) in ('shillong','dhanbad','rohtas','guwahati','mumbai','pune','raipur','gandhidham','moradabad','delhi','kathmandu','fazilka'
+,'barnala','alwar','bengaluru','bangalore','blore','chikmagaluru','belgaum','shimoga'
+,'guntur','secunderabad','palakkad '))as a;

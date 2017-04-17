@@ -1,0 +1,121 @@
+---bhubaneshwar
+
+select distinct best_mobile_number_hash
+from PRM.h2h_transaction where city like 'BHUBHANESHWAR'
+
+union
+
+select distinct best_mobile_number_hash
+from PRM.mindtree_data where city like 'BHUBHANESHWAR'
+
+union
+
+select distinct best_mobile_number_hash
+from PRM.bb_registration where city  in ('Bhubaneswar','bhubneswar')
+
+--chandigarh
+
+create multiset table "GAIN_THEORY"."IN0371"
+(
+market varchar(10),source varchar(10),
+mobileno  varchar(300),Optin_Hierarchy_level varchar(50),
+Optin_Hierarchy_value varchar(50),city  varchar(50))
+
+insert into "GAIN_THEORY"."IN0371"
+select * from (
+select distinct 'IN' market,'H2H' source,best_mobile_number_hash,
+'1' Optin_Hierarchy_level,'Unilever' Optin_Hierarchy_value ,'Chandigarh' city
+from PRM.h2h_transaction where city like 'Chandigarh'
+
+union
+
+select distinct 'IN','H2H',best_mobile_number_hash,
+'1','Unilever','Chandigarh'
+from PRM.mindtree_data where city like 'Chandigarh'
+
+union
+
+select distinct 'IN','H2H',best_mobile_number_hash,
+'1','Unilever','Chandigarh'
+from PRM.bb_registration where city like 'Chandigarh' 
+
+union
+
+select distinct 'IN','H2H',best_mobile_number_hash,
+'1','Unilever','Chandigarh'
+from PRM.pi_consumer where city like 'Chandigarh') as a
+
+---Jammu
+
+
+
+insert into "GAIN_THEORY"."IN0371"
+select * from (
+select distinct 'IN' market,'H2H' source,best_mobile_number_hash,
+'1' Optin_Hierarchy_level,'Unilever' Optin_Hierarchy_value ,'Jammu' city
+from PRM.h2h_transaction where city like 'Jammu%'
+
+union
+
+select distinct 'IN','H2H',best_mobile_number_hash,
+'1','Unilever','Jammu'
+from PRM.mindtree_data where city like 'Jammu%'
+
+union
+
+select distinct 'IN','BB',best_mobile_number_hash,
+'1','Unilever','Jammu'
+from PRM.bb_registration where city like 'Jammu%'
+
+union
+
+select distinct 'IN','PI',best_mobile_number_hash,
+'1','Unilever','Jammu'
+from PRM.pi_consumer where city like 'Jammu%') as a
+
+
+---bhatinda
+
+
+insert into "GAIN_THEORY"."IN0371"
+select * from (
+select distinct 'IN' market,'H2H' source,best_mobile_number_hash,
+'1' Optin_Hierarchy_level,'Unilever' Optin_Hierarchy_value ,'Bhatinda' city
+from PRM.h2h_transaction where city like 'Bhatinda%'
+
+union
+
+select distinct 'IN','H2H',best_mobile_number_hash,
+'1','Unilever','Bhatinda'
+from PRM.mindtree_data where city like 'Bhatinda%'
+
+union
+
+select distinct 'IN','BB',best_mobile_number_hash,
+'1','Unilever','Bhatinda'
+from PRM.bb_registration where city like 'Bhatinda%'
+
+union
+
+select distinct 'IN','PI',best_mobile_number_hash,
+'1','Unilever','Bhatinda'
+from PRM.pi_consumer where city like 'Bhatinda%') as a
+
+
+---------kolkata
+
+create multiset table "GAIN_THEORY"."IN0371_Kolkata"
+(
+source varchar(10),mobileno  varchar(300))
+
+insert into "GAIN_THEORY"."IN0371_Kolkata"
+select * from (
+select distinct 'BB' Source,  best_mobile_number_hash
+from PRM.bb_registration where lower(city) like '%kolkata%'
+
+union
+
+select distinct 'PI' Source,   best_mobile_number_hash
+from PRM.pi_consumer where lower(city) like 'kolkata%')as a
+
+

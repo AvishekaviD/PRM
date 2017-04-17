@@ -1,0 +1,10 @@
+create multiset table "GAIN_THEORY".IN0380(
+best_mobile_number_hash varchar(300),brand varchar(100),
+geo_timestamp varchar(100))
+
+insert into "GAIN_THEORY".IN0380
+select distinct best_mobile_number_hash,brand,geo_timestamp
+from PRM.mindtree_data
+where best_mobile_number_hash in (select best_mobile_number_hash from GAIN_THEORY.LSM3_CombinedSourceSKU_20170206
+where FinalLsm ='7+' and finalconfidence='90'and lower(region) like '%mumbai%')
+and lower(city) like '%mumbai%'

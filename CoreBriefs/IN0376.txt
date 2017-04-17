@@ -1,0 +1,242 @@
+create table "GAIN_THEORY".IN0376_KKTAcquistion_Bihar
+(
+market varchar(10),source varchar(50),mobileno varchar(300),Optin_Hierarchy_level varchar(50),
+Optin_Hierarchy_value varchar(50))
+
+insert into "GAIN_THEORY".IN0376_KKTAcquistion_Bihar
+select 'IN',Updatedsource,best_mobile_number_hash,'1','Unilever'
+from GAIN_THEORY.PRMActiveInactiveOriginal a
+inner join PRM.ref_mobile_lookup b on a.region_lookup_number = b.lookup_prefix5
+where best_mobile_number_hash in 
+(select distinct best_mobile_number_hash from GAIN_THEORY.LSM3_CombinedSourceSKU_20170206 
+where FinalLSM = '4-7' and finalconfidence = '30') and (lower(b.region) like '%bihar%')
+and b.region <> 'Mumbai' 
+and best_mobile_number_hash not in (select distinct best_mobile_number_hash from GAIN_THEORY.IN0329_tmp)
+and best_mobile_number_hash not in (select distinct best_mobile_number_hash 
+from GAIN_THEORY.PRMActiveInactiveOriginal where Updatedsource = 'KKT') ;
+
+
+insert into "GAIN_THEORY".IN0376_KKTAcquistion_Bihar
+select 'IN',Updatedsource,best_mobile_number_hash,'1','Unilever'
+from GAIN_THEORY.PRMActiveInactiveOriginal a
+inner join PRM.ref_mobile_lookup b on a.region_lookup_number = b.lookup_prefix5
+where best_mobile_number_hash in 
+(select distinct best_mobile_number_hash from GAIN_THEORY.LSM3_CombinedSourceSKU_20170206 
+where FinalLSM = '0-3' ) and (lower(b.region) like '%bihar%' )
+and b.region <> 'Mumbai' 
+and best_mobile_number_hash not in (select distinct best_mobile_number_hash from GAIN_THEORY.IN0329_tmp)
+and best_mobile_number_hash not in (select distinct best_mobile_number_hash 
+from GAIN_THEORY.PRMActiveInactiveOriginal where Updatedsource = 'KKT') ;
+
+
+
+create table "GAIN_THEORY".IN0376_KKTAcquistion_maha
+(
+market varchar(10),source varchar(50),mobileno varchar(300),Optin_Hierarchy_level varchar(50),
+Optin_Hierarchy_value varchar(50))
+
+insert into "GAIN_THEORY".IN0376_KKTAcquistion_maha
+select 'IN',Updatedsource,best_mobile_number_hash,'1','Unilever'
+from GAIN_THEORY.PRMActiveInactiveOriginal a
+inner join PRM.ref_mobile_lookup b on a.region_lookup_number = b.lookup_prefix5
+where best_mobile_number_hash in 
+(select distinct best_mobile_number_hash from GAIN_THEORY.LSM3_CombinedSourceSKU_20170206 
+where FinalLSM = '4-7' and finalconfidence = '30') and (lower(b.region) like '%maha%')
+and b.region <> 'Mumbai' 
+and best_mobile_number_hash not in (select distinct best_mobile_number_hash from GAIN_THEORY.IN0329_tmp)
+and best_mobile_number_hash not in (select distinct best_mobile_number_hash 
+from GAIN_THEORY.PRMActiveInactiveOriginal where Updatedsource = 'KKT') ;
+
+
+insert into "GAIN_THEORY".IN0376_KKTAcquistion_maha
+select 'IN',Updatedsource,best_mobile_number_hash,'1','Unilever'
+from GAIN_THEORY.PRMActiveInactiveOriginal a
+inner join PRM.ref_mobile_lookup b on a.region_lookup_number = b.lookup_prefix5
+where best_mobile_number_hash in 
+(select distinct best_mobile_number_hash from GAIN_THEORY.LSM3_CombinedSourceSKU_20170206 
+where FinalLSM = '0-3' ) and (lower(b.region) like '%maha%' )
+and b.region <> 'Mumbai' 
+and best_mobile_number_hash not in (select distinct best_mobile_number_hash from GAIN_THEORY.IN0329_tmp)
+and best_mobile_number_hash not in (select distinct best_mobile_number_hash 
+from GAIN_THEORY.PRMActiveInactiveOriginal where Updatedsource = 'KKT') ;
+
+
+
+create table "GAIN_THEORY".IN0376_KKTAcquistion_raja
+(
+market varchar(10),source varchar(50),mobileno varchar(300),Optin_Hierarchy_level varchar(50),
+Optin_Hierarchy_value varchar(50))
+
+insert into "GAIN_THEORY".IN0376_KKTAcquistion_raja
+select 'IN',Updatedsource,best_mobile_number_hash,'1','Unilever'
+from GAIN_THEORY.PRMActiveInactiveOriginal a
+inner join PRM.ref_mobile_lookup b on a.region_lookup_number = b.lookup_prefix5
+where best_mobile_number_hash in 
+(select distinct best_mobile_number_hash from GAIN_THEORY.LSM3_CombinedSourceSKU_20170206 
+where FinalLSM = '4-7' and finalconfidence = '30') and (lower(b.region) like '%raja%')
+and b.region <> 'Mumbai' 
+and best_mobile_number_hash not in (select distinct best_mobile_number_hash from GAIN_THEORY.IN0329_tmp)
+and best_mobile_number_hash not in (select distinct best_mobile_number_hash 
+from GAIN_THEORY.PRMActiveInactiveOriginal where Updatedsource = 'KKT') ;
+
+
+insert into "GAIN_THEORY".IN0376_KKTAcquistion_raja
+select 'IN',Updatedsource,best_mobile_number_hash,'1','Unilever'
+from GAIN_THEORY.PRMActiveInactiveOriginal a
+inner join PRM.ref_mobile_lookup b on a.region_lookup_number = b.lookup_prefix5
+where best_mobile_number_hash in 
+(select distinct best_mobile_number_hash from GAIN_THEORY.LSM3_CombinedSourceSKU_20170206 
+where FinalLSM = '0-3' ) and (lower(b.region) like '%raja%' )
+and b.region <> 'Mumbai' 
+and best_mobile_number_hash not in (select distinct best_mobile_number_hash from GAIN_THEORY.IN0329_tmp)
+and best_mobile_number_hash not in (select distinct best_mobile_number_hash 
+from GAIN_THEORY.PRMActiveInactiveOriginal where Updatedsource = 'KKT') ;
+
+
+
+
+
+
+
+
+create table "GAIN_THEORY".IN0376_KKTAcquistion_madhya
+(
+market varchar(10),source varchar(50),mobileno varchar(300),Optin_Hierarchy_level varchar(50),
+Optin_Hierarchy_value varchar(50))
+
+insert into "GAIN_THEORY".IN0376_KKTAcquistion_madhya
+select 'IN',Updatedsource,best_mobile_number_hash,'1','Unilever'
+from GAIN_THEORY.PRMActiveInactiveOriginal a
+inner join PRM.ref_mobile_lookup b on a.region_lookup_number = b.lookup_prefix5
+where best_mobile_number_hash in 
+(select distinct best_mobile_number_hash from GAIN_THEORY.LSM3_CombinedSourceSKU_20170206 
+where FinalLSM = '4-7' and finalconfidence = '30') and (lower(b.region) like '%madhya%')
+and b.region <> 'Mumbai' 
+and best_mobile_number_hash not in (select distinct best_mobile_number_hash from GAIN_THEORY.IN0329_tmp)
+and best_mobile_number_hash not in (select distinct best_mobile_number_hash 
+from GAIN_THEORY.PRMActiveInactiveOriginal where Updatedsource = 'KKT') ;
+
+
+insert into "GAIN_THEORY".IN0376_KKTAcquistion_madhya
+select 'IN',Updatedsource,best_mobile_number_hash,'1','Unilever'
+from GAIN_THEORY.PRMActiveInactiveOriginal a
+inner join PRM.ref_mobile_lookup b on a.region_lookup_number = b.lookup_prefix5
+where best_mobile_number_hash in 
+(select distinct best_mobile_number_hash from GAIN_THEORY.LSM3_CombinedSourceSKU_20170206 
+where FinalLSM = '0-3' ) and (lower(b.region) like '%madhya%' )
+and b.region <> 'Mumbai' 
+and best_mobile_number_hash not in (select distinct best_mobile_number_hash from GAIN_THEORY.IN0329_tmp)
+and best_mobile_number_hash not in (select distinct best_mobile_number_hash 
+from GAIN_THEORY.PRMActiveInactiveOriginal where Updatedsource = 'KKT') ;
+
+
+
+
+
+
+
+create table "GAIN_THEORY".IN0376_KKTAcquistion_uttare
+(
+market varchar(10),source varchar(50),mobileno varchar(300),Optin_Hierarchy_level varchar(50),
+Optin_Hierarchy_value varchar(50))
+
+insert into "GAIN_THEORY".IN0376_KKTAcquistion_uttare
+select 'IN',Updatedsource,best_mobile_number_hash,'1','Unilever'
+from GAIN_THEORY.PRMActiveInactiveOriginal a
+inner join PRM.ref_mobile_lookup b on a.region_lookup_number = b.lookup_prefix5
+where best_mobile_number_hash in 
+(select distinct best_mobile_number_hash from GAIN_THEORY.LSM3_CombinedSourceSKU_20170206 
+where FinalLSM = '4-7' and finalconfidence = '30') and (lower(b.region) like '%uttar%east%')
+and b.region <> 'Mumbai' 
+and best_mobile_number_hash not in (select distinct best_mobile_number_hash from GAIN_THEORY.IN0329_tmp)
+and best_mobile_number_hash not in (select distinct best_mobile_number_hash 
+from GAIN_THEORY.PRMActiveInactiveOriginal where Updatedsource = 'KKT') ;
+
+
+insert into "GAIN_THEORY".IN0376_KKTAcquistion_uttare
+select 'IN',Updatedsource,best_mobile_number_hash,'1','Unilever'
+from GAIN_THEORY.PRMActiveInactiveOriginal a
+inner join PRM.ref_mobile_lookup b on a.region_lookup_number = b.lookup_prefix5
+where best_mobile_number_hash in 
+(select distinct best_mobile_number_hash from GAIN_THEORY.LSM3_CombinedSourceSKU_20170206 
+where FinalLSM = '0-3' ) and (lower(b.region) like '%uttar%east%' )
+and b.region <> 'Mumbai' 
+and best_mobile_number_hash not in (select distinct best_mobile_number_hash from GAIN_THEORY.IN0329_tmp)
+and best_mobile_number_hash not in (select distinct best_mobile_number_hash 
+from GAIN_THEORY.PRMActiveInactiveOriginal where Updatedsource = 'KKT') ;
+
+
+
+create table "GAIN_THEORY".IN0376_KKTAcquistion_uttarw
+(
+market varchar(10),source varchar(50),mobileno varchar(300),Optin_Hierarchy_level varchar(50),
+Optin_Hierarchy_value varchar(50))
+
+insert into "GAIN_THEORY".IN0376_KKTAcquistion_uttarw
+select 'IN',Updatedsource,best_mobile_number_hash,'1','Unilever'
+from GAIN_THEORY.PRMActiveInactiveOriginal a
+inner join PRM.ref_mobile_lookup b on a.region_lookup_number = b.lookup_prefix5
+where best_mobile_number_hash in 
+(select distinct best_mobile_number_hash from GAIN_THEORY.LSM3_CombinedSourceSKU_20170206 
+where FinalLSM = '4-7' and finalconfidence = '30') and (lower(b.region) like '%uttar%west%')
+and b.region <> 'Mumbai' 
+and best_mobile_number_hash not in (select distinct best_mobile_number_hash from GAIN_THEORY.IN0329_tmp)
+and best_mobile_number_hash not in (select distinct best_mobile_number_hash 
+from GAIN_THEORY.PRMActiveInactiveOriginal where Updatedsource = 'KKT') ;
+
+
+insert into "GAIN_THEORY".IN0376_KKTAcquistion_uttarw
+select 'IN',Updatedsource,best_mobile_number_hash,'1','Unilever'
+from GAIN_THEORY.PRMActiveInactiveOriginal a
+inner join PRM.ref_mobile_lookup b on a.region_lookup_number = b.lookup_prefix5
+where best_mobile_number_hash in 
+(select distinct best_mobile_number_hash from GAIN_THEORY.LSM3_CombinedSourceSKU_20170206 
+where FinalLSM = '0-3' ) and (lower(b.region) like '%uttar%west%' )
+and b.region <> 'Mumbai' 
+and best_mobile_number_hash not in (select distinct best_mobile_number_hash from GAIN_THEORY.IN0329_tmp)
+and best_mobile_number_hash not in (select distinct best_mobile_number_hash 
+from GAIN_THEORY.PRMActiveInactiveOriginal where Updatedsource = 'KKT') ;
+
+
+
+create table "GAIN_THEORY".IN0376_KKTAcquistion_Histori
+(
+market varchar(10),source varchar(50),mobileno varchar(300),Optin_Hierarchy_level varchar(50),
+Optin_Hierarchy_value varchar(50))
+
+
+insert into "GAIN_THEORY".IN0376_KKTAcquistion_Histori
+select top 3000000 'IN',source,best_mobile_number_hash,'1','Unilever'
+from GAIN_THEORY.PRMActiveInactiveSourceFinal 
+where source='KKT'  
+and best_mobile_number_hash not in (
+select distinct best_mobile_number_hash from GAIN_THEORY.IN0329_tmp
+union all
+select distinct mobileno from GAIN_THEORY.IN0376_KKTAcquistion_Bihar
+union all
+select distinct mobileno from GAIN_THEORY.IN0376_KKTAcquistion_madhya
+union all
+select distinct mobileno from GAIN_THEORY.IN0376_KKTAcquistion_maha
+union all
+select distinct mobileno from GAIN_THEORY.IN0376_KKTAcquistion_raja
+union all
+select distinct mobileno from GAIN_THEORY.IN0376_KKTAcquistion_uttare
+union all
+select distinct mobileno from GAIN_THEORY.IN0376_KKTAcquistion_uttarw);
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+

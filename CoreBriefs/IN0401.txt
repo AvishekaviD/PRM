@@ -1,0 +1,8 @@
+
+select *  into [Unilever_CampaignDashboard].[dbo].[SVOC_Dataforcampaign] from (
+select  distinct [unhashed_mobile],   [email]
+FROM [Unilever_CampaignDashboard].[dbo].[SVOC_microsoft_twitter_user_data]
+where ltrim(rtrim([unhashed_mobile])) in (select distinct [unhashed_mobile] 
+from [Unilever_CampaignDashboard].[dbo].[SVOC_after_etl_data]
+where [personality_attributes]='Make-up Junkies'))as a
+

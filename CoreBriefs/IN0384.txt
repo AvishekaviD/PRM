@@ -1,0 +1,119 @@
+create multiset table "GAIN_THEORY".IN0384Delhi
+(market	varchar(10),source	varchar(30),mobileno varchar(300),Optin_Hierarchy_level varchar(300)
+,Optin_Hierarchy_value varchar(300)	);
+
+create multiset table "GAIN_THEORY".IN0384Hyderabad
+(market	varchar(10),source	varchar(30),mobileno varchar(300),Optin_Hierarchy_level varchar(300)
+,Optin_Hierarchy_value varchar(300)	);
+
+create multiset table "GAIN_THEORY".IN0384Bangalore
+(market	varchar(10),source	varchar(30),mobileno varchar(300),Optin_Hierarchy_level varchar(300)
+,Optin_Hierarchy_value varchar(300)	);
+
+create multiset table "GAIN_THEORY".IN0384Chennai
+(market	varchar(10),source	varchar(30),mobileno varchar(300),Optin_Hierarchy_level varchar(300)
+,Optin_Hierarchy_value varchar(300)	);
+
+create multiset table "GAIN_THEORY".IN0384Visakhapatnam
+(market	varchar(10),source	varchar(30),mobileno varchar(300),Optin_Hierarchy_level varchar(300)
+,Optin_Hierarchy_value varchar(300)	);
+
+create multiset table "GAIN_THEORY".IN0384Asansol
+(market	varchar(10),source	varchar(30),mobileno varchar(300),Optin_Hierarchy_level varchar(300)
+,Optin_Hierarchy_value varchar(300)	);
+
+create multiset table "GAIN_THEORY".IN0384Patna
+(market	varchar(10),source	varchar(30),mobileno varchar(300),Optin_Hierarchy_level varchar(300)
+,Optin_Hierarchy_value varchar(300)	);
+
+create multiset table "GAIN_THEORY".IN0384Lucknow
+(market	varchar(10),source	varchar(30),mobileno varchar(300),Optin_Hierarchy_level varchar(300)
+,Optin_Hierarchy_value varchar(300)	);
+
+create multiset table "GAIN_THEORY".IN0384Pune
+(market	varchar(10),source	varchar(30),mobileno varchar(300),Optin_Hierarchy_level varchar(300)
+,Optin_Hierarchy_value varchar(300)	);
+
+create multiset table "GAIN_THEORY".IN0384Comfort
+(market	varchar(10),source	varchar(30),mobileno varchar(300),Optin_Hierarchy_level varchar(300)
+,Optin_Hierarchy_value varchar(300)	);
+
+create multiset table "GAIN_THEORY".IN0384Surf
+(market	varchar(10),source	varchar(30),mobileno varchar(300),Optin_Hierarchy_level varchar(300)
+,Optin_Hierarchy_value varchar(300)	);
+
+
+
+insert into "GAIN_THEORY".IN0384Surf
+select distinct 'IN','H2H',best_mobile_number_hash,'1','Unilever'from(
+select best_mobile_number_hash from PRM.h2h_transaction where lower(brand) like '%surf%'
+or lower(brand) like '%front%load%'or lower(brand) like '%top%load%'
+union
+select best_mobile_number_hash from PRM.mindtree_data where lower(brand) like '%surf%'
+or lower(brand) like '%front%load%'or lower(brand) like '%top%load%') as a;
+
+insert into "GAIN_THEORY".IN0384Comfort
+select distinct 'IN','H2H',best_mobile_number_hash,'1','Unilever'from(
+select best_mobile_number_hash from PRM.h2h_transaction where lower(brand) like '%comfort%'
+union
+select best_mobile_number_hash from PRM.mindtree_data where lower(brand) like '%comfort%') as a;
+
+
+insert into "GAIN_THEORY".IN0384Pune
+select distinct 'IN','H2H',best_mobile_number_hash,'1','Unilever'from(
+select best_mobile_number_hash from PRM.h2h_transaction where lower(city) like '%pune%'
+union
+select best_mobile_number_hash from PRM.mindtree_data where lower(city) like '%pune%') as a;
+
+
+insert into "GAIN_THEORY".IN0384Lucknow
+select distinct 'IN','H2H',best_mobile_number_hash,'1','Unilever'from(
+select best_mobile_number_hash from PRM.h2h_transaction where lower(city) like '%lucknow%'
+union
+select best_mobile_number_hash from PRM.mindtree_data where lower(city) like '%lucknow%') as a;
+
+
+insert into "GAIN_THEORY".IN0384Patna
+select distinct 'IN','H2H',best_mobile_number_hash,'1','Unilever'from(
+select best_mobile_number_hash from PRM.h2h_transaction where lower(city) like '%patna%'
+union
+select best_mobile_number_hash from PRM.mindtree_data where lower(city) like '%patna%') as a;
+
+
+insert into "GAIN_THEORY".IN0384Asansol
+select distinct 'IN','H2H',best_mobile_number_hash,'1','Unilever'from(
+select best_mobile_number_hash from PRM.h2h_transaction where lower(city) like '%asansol%'
+union
+select best_mobile_number_hash from PRM.mindtree_data where lower(city) like '%asansol%') as a;
+
+
+insert into "GAIN_THEORY".IN0384Visakhapatnam
+select distinct 'IN','H2H',best_mobile_number_hash,'1','Unilever'from(
+select best_mobile_number_hash from PRM.h2h_transaction where lower(city) like '%visakhapatnam%'
+union
+select best_mobile_number_hash from PRM.mindtree_data where lower(city) like '%visakhapatnam%') as a;
+
+insert into "GAIN_THEORY".IN0384Chennai
+select distinct 'IN','H2H',best_mobile_number_hash,'1','Unilever'from(
+select best_mobile_number_hash from PRM.h2h_transaction where lower(city) like '%chennai%'
+union
+select best_mobile_number_hash from PRM.mindtree_data where lower(city) like '%chennai%') as a;
+
+
+insert into "GAIN_THEORY".IN0384Bangalore
+select distinct 'IN','H2H',best_mobile_number_hash,'1','Unilever'from(
+select best_mobile_number_hash from PRM.h2h_transaction where lower(city) like '%bangalore%'
+union
+select best_mobile_number_hash from PRM.mindtree_data where lower(city) like '%bangalore%') as a;
+
+insert into "GAIN_THEORY".IN0384Hyderabad
+select distinct 'IN','H2H',best_mobile_number_hash,'1','Unilever'from(
+select best_mobile_number_hash from PRM.h2h_transaction where lower(city) like '%hyderabad%'
+union
+select best_mobile_number_hash from PRM.mindtree_data where lower(city) like '%hyderabad%') as a;
+
+insert into "GAIN_THEORY".IN0384Delhi
+select distinct 'IN','H2H',best_mobile_number_hash,'1','Unilever'from(
+select best_mobile_number_hash from PRM.h2h_transaction where lower(city) like '%delhi%'
+union
+select best_mobile_number_hash from PRM.mindtree_data where lower(city) like '%delhi%') as a;

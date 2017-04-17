@@ -1,0 +1,5 @@
+CREATE TABLE  "GAIN_THEORY"."IN0397PIKrispy" AS 
+(select distinct 'IN' "market",'PI' "source","mobile_number",
+'1' "Optin_Hierarchy_level",'Unilever' "Optin_Hierarchy_value",region,lsm,confidence
+FROM GAIN_THEORY.PRMDashboard_data_backup2
+where lower(region) like '%uttar%' and lower(provider) like '%pi%' ) WITH data;
