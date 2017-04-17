@@ -1,0 +1,6 @@
+create table "GAIN_THEORY".LakmeRFM as
+(select * from  PRM.lk_transaction) WITH DATA;
+
+
+create table "GAIN_THEORY".LakmeRFM1 as
+(select * from PRM.lk_transaction_all_years ) WITH DATA;

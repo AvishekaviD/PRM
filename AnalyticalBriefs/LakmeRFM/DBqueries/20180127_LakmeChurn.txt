@@ -1,0 +1,75 @@
+create multiset table "GAIN_THEORY".LakmeChurnFinal(
+best_mobile_number_hash varchar(300),Amounts float,Visit int,Bucketing varchar(100))
+
+
+insert into "GAIN_THEORY".LakmeChurn (best_mobile_number_hash ,Amounts )
+select best_mobile_number_hash,sum(cast(Amounts as float )) from (
+
+select best_mobile_number_hash
+,cast( cast(trans_date as TIMESTAMP(0) format 'mm-dd-yyyy') AS DATE FORMAT 'YYYY-MM-DD')"dates"
+,sum(cast(amount as float )) "Amounts"
+from PRM.lk_transaction group by best_mobile_number_hash
+,cast( cast(trans_date as TIMESTAMP(0) format 'mm-dd-yyyy') AS DATE FORMAT 'YYYY-MM-DD')
+
+union 
+
+select best_mobile_number_hash,cast(transaction_date as date)
+,sum(cast(amount as float )) "Amounts"
+from PRM.lk_transaction_all_years
+group by best_mobile_number_hash,cast(transaction_date as date) 
+) as a group by best_mobile_number_hash;
+
+
+
+
+create multiset table "GAIN_THEORY".LakmeChurnVisit(
+best_mobile_number_hash varchar(300),Visit int)
+
+
+
+insert into "GAIN_THEORY".LakmeChurnVisit (best_mobile_number_hash ,Visit  )
+select best_mobile_number_hash,count(distinct amount ) "Visit"
+from (
+
+select distinct best_mobile_number_hash,cast( cast(trans_date as TIMESTAMP(0) format 'mm-dd-yyyy') AS DATE FORMAT 'YYYY-MM-DD')"Amount"
+from PRM.lk_transaction
+
+union 
+
+select distinct best_mobile_number_hash,cast(transaction_date as date)
+from PRM.lk_transaction_all_years
+) as a 
+group by best_mobile_number_hash;
+
+select top 10 * from "GAIN_THEORY".LakmeChurnVisit
+
+
+---------
+
+
+update "GAIN_THEORY".LakmeChurn
+from "GAIN_THEORY".LakmeChurnVisit b 
+set "Visit"=b."Visit"
+where "GAIN_THEORY".LakmeChurn.best_mobile_number_hash=b.best_mobile_number_hash;
+
+
+---------------
+
+update "GAIN_THEORY".LakmeChurn
+set "Bucketing"=
+case when Amounts>=0  and Amounts<=1000 then '0-1000'
+when Amounts>=0  and Amounts<=1000 then '0-1000'
+when Amounts>1000  and Amounts<=2500 then '1001-2500'
+when Amounts>2500  and Amounts<=5000 then '2501-5000'
+when Amounts>5000  and Amounts<=7500 then '5001-7500'
+when Amounts>75000  and Amounts<=10000 then '7501-10000'
+when Amounts>10000  then '>10000' end ;
+
+
+-----------
+
+select Bucketing,Visit,count(distinct best_mobile_number_hash ) from "GAIN_THEORY".LakmeChurn
+group by Bucketing,Visit;
+
+
+
