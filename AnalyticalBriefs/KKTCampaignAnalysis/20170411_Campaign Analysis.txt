@@ -1,0 +1,127 @@
+/*---------------------reached to response ----------------*/
+
+---people who responded
+create table "GAIN_THEORY"."KKTCampaign_OBDDaystorespond" as
+(
+select best_mobile_number_hash,min(call_start_time )call_start_time 
+from PRM.kkt_cdrlobd
+where best_mobile_number_hash in (select distinct cast(mobilehash as varchar(300)) 
+from GAIN_THEORY.KKTCampaign_OBD) and cast(call_start_time as date)>='2017-03-01'
+group by 1 ) WITH DATA;
+
+
+----people who responded when they were first reched
+create table "GAIN_THEORY"."KKTCampaign_OBDFirstreached" as
+(
+select mobilehash best_mobile_number_hash,min(cast(Call_Date_And_Time as timestamp) )call_start_time 
+from GAIN_THEORY.KKTCampaign_OBD
+where best_mobile_number_hash in (select distinct best_mobile_number_hash
+from GAIN_THEORY.KKTCampaign_OBDDaystorespond) 
+group by 1 ) WITH DATA;
+
+
+----updating first time user was reached
+alter table "GAIN_THEORY"."KKTCampaign_OBDDaystorespond" add reachedtime timestamp;
+
+update "GAIN_THEORY"."KKTCampaign_OBDDaystorespond"
+from "GAIN_THEORY"."KKTCampaign_OBDFirstreached" b
+set reachedtime=b.call_start_time
+where "GAIN_THEORY"."KKTCampaign_OBDDaystorespond".best_mobile_number_hash=b.best_mobile_number_hash
+
+
+---calculating the value
+select "diff",count(distinct best_mobile_number_hash ) from (
+select 
+distinct best_mobile_number_hash,
+case when cast(call_start_time as date)-cast(reachedtime as date) < 0 then '0-1 days'
+when cast(call_start_time as date)-cast(reachedtime as date)  >=0 and cast(call_start_time as date)-cast(reachedtime as date)  <=1 then '0-1 days'
+when cast(call_start_time as date)-cast(reachedtime as date)  >=2 and cast(call_start_time as date)-cast(reachedtime as date)  <=3 then '2-3 days'
+when cast(call_start_time as date)-cast(reachedtime as date)  >=4 and cast(call_start_time as date)-cast(reachedtime as date)  <=7 then '4-7 days'
+when cast(call_start_time as date)-cast(reachedtime as date)  >=8 and cast(call_start_time as date)-cast(reachedtime as date)  <=15 then '8-15 days'
+when cast(call_start_time as date)-cast(reachedtime as date)  >=16 then '>15 days' end "diff"
+from"GAIN_THEORY"."KKTCampaign_OBDDaystorespond")
+
+as a group by 1;
+
+
+-----answered time
+
+ select substr(Call_Date_and_time,9,2)"Day",substr(Call_Date_and_time,12,2)"Hour" ,
+ count(distinct mobilehash)
+ from GAIN_THEORY.KKTCampaign_OBD
+ where TelcoStatus='answered'
+ group by substr(Call_Date_and_time,9,2),substr(Call_Date_and_time,12,2) 
+
+
+
+
+
+
+
+
+
+
+
+
+/*------------------SMS------------------------------*/
+
+
+
+create table "GAIN_THEORY"."KKTCampaign_SMSDaystorespond" as
+(
+select best_mobile_number_hash,min(call_start_time )call_start_time 
+from PRM.kkt_cdrlobd
+where best_mobile_number_hash in (select distinct cast(mobilehash as varchar(300)) 
+from GAIN_THEORY.KKTCampaign_SMS) and cast(call_start_time as date)>='2017-02-22'
+group by 1 ) WITH DATA;
+
+select count(*) from "GAIN_THEORY"."KKTCampaign_SMSFirstreached"
+
+
+create table "GAIN_THEORY"."KKTCampaign_SMSFirstreached" as
+(
+select mobilehash best_mobile_number_hash,min(cast(Call_Date_And_Time as timestamp) )call_start_time 
+from GAIN_THEORY.KKTCampaign_SMS
+where best_mobile_number_hash in (select distinct best_mobile_number_hash
+from GAIN_THEORY.KKTCampaign_SMSDaystorespond) 
+group by 1 ) WITH DATA;
+
+
+
+select top 10 * from "GAIN_THEORY"."KKTCampaign_SMSDaystorespond"
+
+alter table "GAIN_THEORY"."KKTCampaign_SMSDaystorespond" add reachedtime timestamp;
+
+update "GAIN_THEORY"."KKTCampaign_SMSDaystorespond"
+from "GAIN_THEORY"."KKTCampaign_SMSFirstreached" b
+set reachedtime=b.call_start_time
+where "GAIN_THEORY"."KKTCampaign_SMSDaystorespond".best_mobile_number_hash=b.best_mobile_number_hash
+
+
+select "diff",count(distinct best_mobile_number_hash ) from (
+select 
+distinct best_mobile_number_hash,
+case when cast(call_start_time as date)-cast(reachedtime as date) < 0 then '0-1 days'
+when cast(call_start_time as date)-cast(reachedtime as date)  >=0 and cast(call_start_time as date)-cast(reachedtime as date)  <=1 then '0-1 days'
+when cast(call_start_time as date)-cast(reachedtime as date)  >=2 and cast(call_start_time as date)-cast(reachedtime as date)  <=3 then '2-3 days'
+when cast(call_start_time as date)-cast(reachedtime as date)  >=4 and cast(call_start_time as date)-cast(reachedtime as date)  <=7 then '4-7 days'
+when cast(call_start_time as date)-cast(reachedtime as date)  >=8 and cast(call_start_time as date)-cast(reachedtime as date)  <=15 then '8-15 days'
+when cast(call_start_time as date)-cast(reachedtime as date)  >=16 then '>15 days' end "diff"
+from"GAIN_THEORY"."KKTCampaign_SMSDaystorespond")
+
+as a group by 1;
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+

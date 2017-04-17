@@ -1,0 +1,89 @@
+------------------following execution in 54.169.9.66 server 
+
+---mapping hashed value to obd data
+
+alter table [Unilever_CampaignDashboard].[dbo].[KKTCampaign_OBD] add [mobilehash] varchar(300)
+alter table [Unilever_CampaignDashboard].[dbo].[KKTCampaign_SMS] add [mobilehash] varchar(300)
+
+
+update [Unilever_CampaignDashboard].[dbo].[KKTCampaign_OBD]
+set [mobilehash]=[mobile_hash]
+from [Unilever_CampaignDashboard].[dbo].[KKTCampaign_OBD] a
+inner join [Unilever_CampaignDashboard].[dbo].[KKTCampaign_PRM] b
+on right(a.[callerno],10)=right(b.[unhashed_mobile],10)
+
+
+update [Unilever_CampaignDashboard].[dbo].[KKTCampaign_OBD]
+set [mobilehash]=[mobile_hash]
+from [Unilever_CampaignDashboard].[dbo].[KKTCampaign_OBD] a
+inner join [Unilever_CampaignDashboard].[dbo].[KKTCampaign_PRM_704] b
+on right(a.[callerno],10)=right(b.[unhashed_mobile],10)
+
+
+update [Unilever_CampaignDashboard].[dbo].[KKTCampaign_SMS]
+set [mobilehash]=[mobile_hash]
+from [Unilever_CampaignDashboard].[dbo].[KKTCampaign_SMS] a
+inner join [Unilever_CampaignDashboard].[dbo].[KKTCampaign_PRM] b
+on right(a.[MOBILE_NUMBER],10)=right(b.[unhashed_mobile],10)
+
+
+update [Unilever_CampaignDashboard].[dbo].[KKTCampaign_SMS]
+set [mobilehash]=[mobile_hash]
+from [Unilever_CampaignDashboard].[dbo].[KKTCampaign_SMS] a
+inner join [Unilever_CampaignDashboard].[dbo].[KKTCampaign_PRM_704] b
+on right(a.[MOBILE_NUMBER],10)=right(b.[unhashed_mobile],10)
+
+
+
+---teradata table name
+CREATE TABLE GAIN_THEORY.KKTCampaign_OBD(
+callerno varchar(150) ,	Call_Date_And_Time varchar(1000) ,TelcoStatus varchar(80) ,	CampaignName varchar(520) ,
+FileName varchar(100) ,	mobilehash varchar(300) ) ;
+	
+	
+CREATE TABLE GAIN_THEORY.KKTCampaign_SMS(
+MOBILE_NUMBER varchar(100) ,	MASK varchar(100) ,
+TRANSACTION_ID varchar(100) ,	MESSAGE_ID varchar(100) ,MESSAGE_TEXTS varchar(100) ,	TIMESTAMPS varchar(100) ,
+STATUS varchar(100) ,	CAUSE varchar(100) ,LATENCY varchar(100) ,	SMSTYPE varchar(100) ,
+NUMBER_MESSAGES varchar(100) ,	DELIVERY_CODE varchar(100) ,
+RETRY_STATUS varchar(100) ,	mobilehash varchar(300) );
+
+
+
+---------------20170406
+alter table [Unilever_CampaignDashboard].[dbo].[KKTCampaign_SMS] add [mobilehash] varchar(300),cohortname varchar(500)
+
+update [Unilever_CampaignDashboard].[dbo].[KKTCampaign_SMS]
+set [mobilehash]=[mobile_hash],cohortname=b.[Filename]
+from [Unilever_CampaignDashboard].[dbo].[KKTCampaign_SMS] a
+inner join [Unilever_CampaignDashboard].[dbo].[KKTCampaign_PRM] b
+on right(a.[MOBILE_NUMBER],10)=right(b.[unhashed_mobile],10)
+
+
+update [Unilever_CampaignDashboard].[dbo].[KKTCampaign_SMS]
+set [mobilehash]=[mobile_hash],cohortname=b.[Filename]
+from [Unilever_CampaignDashboard].[dbo].[KKTCampaign_SMS] a
+inner join [Unilever_CampaignDashboard].[dbo].[KKTCampaign_PRM_704] b
+on right(a.[MOBILE_NUMBER],10)=right(b.[unhashed_mobile],10)
+
+
+
+----------------20170411
+
+  alter table [Unilever_CampaignDashboard].[dbo].[SMS] add [mobilehash] varchar(300),cohortname varchar(500)
+
+update [Unilever_CampaignDashboard].[dbo].[SMS]
+set [mobilehash]=[mobile_hash],cohortname=b.[Filename]
+from [Unilever_CampaignDashboard].[dbo].[SMS] a
+inner join [Unilever_CampaignDashboard].[dbo].[KKTCampaign_PRM] b
+on right(a.[MOBILE_NUMBER],10)=right(b.[unhashed_mobile],10)
+
+
+update [Unilever_CampaignDashboard].[dbo].[SMS]
+set [mobilehash]=[mobile_hash],cohortname=b.[Filename]
+from [Unilever_CampaignDashboard].[dbo].[SMS] a
+inner join [Unilever_CampaignDashboard].[dbo].[KKTCampaign_PRM_704] b
+on right(a.[MOBILE_NUMBER],10)=right(b.[unhashed_mobile],10)
+
+
+

@@ -1,0 +1,124 @@
+------users
+
+
+------unique users reached
+select count(distinct cast(mobilehash as varchar(300))) from GAIN_THEORY.KKTCampaign_SMS
+
+---unique users responded
+
+select count(distinct best_mobile_number_hash )"#unqiueusers"
+from PRM.kkt_cdrlobd
+where best_mobile_number_hash in (select distinct cast(mobilehash as varchar(300)) 
+from GAIN_THEORY.KKTCampaign_SMS) and cast(call_start_time as date)>='2017-02-22'
+
+
+------unique users reached by cohorts
+select cohortname,count(distinct cast(mobilehash as varchar(300)))
+from GAIN_THEORY.KKTCampaign_SMS group by 1
+
+
+----cohort wise response
+
+select cohortname,count(distinct cast(best_mobile_number_hash as varchar(300)))
+from PRM.kkt_cdrlobd a
+inner join GAIN_THEORY.KKTCampaign_SMS  b on a.best_mobile_number_hash=b.mobilehash
+where a.best_mobile_number_hash in (select distinct cast(mobilehash as varchar(300)) 
+from GAIN_THEORY.KKTCampaign_SMS) and cast(call_start_time as date)>='2017-02-22'
+group by 1
+
+
+
+/*-------------------------OBD campaign data ---------------------------*/
+
+--unique users reached by date
+select substr(TIMESTAMPs,1,10),count(distinct mobilehash) 
+from GAIN_THEORY.KKTCampaign_SMS group by 1
+
+
+---unique users reached by date and chort
+
+select cohortname,substr(TIMESTAMPs,1,10),count(distinct mobilehash) 
+from GAIN_THEORY.KKTCampaign_SMS group by 1,2
+
+
+---unique users reached by cohort,date and telcostatus
+
+select cohortname,substr(TIMESTAMPs,1,10),status,count(distinct mobilehash) 
+from GAIN_THEORY.KKTCampaign_SMS group by 1,2,3
+
+
+
+/*-------avg engagement of people reached out to-----------------------------*/
+
+--overall
+select cast(call_start_time as date),count(distinct best_mobile_number_hash )"#unqiueusers",avg(duration)"AvgDuration"
+from PRM.kkt_cdrlobd
+where best_mobile_number_hash in (select distinct cast(mobilehash as varchar(300)) from GAIN_THEORY.KKTCampaign_SMS)
+group by  1
+
+
+
+-----by cohort
+select cohortname,cast(call_start_time as date),count(distinct best_mobile_number_hash )"#unqiueusers",avg(duration)"AvgDuration"
+from PRM.kkt_cdrlobd a inner join GAIN_THEORY.KKTCampaign_SMS b
+on a.best_mobile_number_hash=b.mobilehash
+where a.best_mobile_number_hash in (select distinct cast(mobilehash as varchar(300)) from GAIN_THEORY.KKTCampaign_SMS)
+group by  1,2
+
+
+
+
+
+
+
+
+
+------------getting last engaged date for responded consumers
+
+
+select "recency",count(distinct best_mobile_number_hash )"#unqiueusers" from (
+select  case
+when CURRENT_DATE - cast(call_start_time as date)  <'0' then '0-90 Days'
+when CURRENT_DATE - cast(call_start_time as date)  >='0' and CURRENT_DATE - cast(call_start_time as date)  <='90' then '0-90 Days'
+when CURRENT_DATE - cast(call_start_time as date)  >='91' and CURRENT_DATE - cast(call_start_time as date)  <='180' then '91-180 Days'
+when CURRENT_DATE - cast(call_start_time as date)  >='181' and CURRENT_DATE - cast(call_start_time as date)  <='270' then '181-270 Days'
+when CURRENT_DATE - cast(call_start_time as date)  >='271' and CURRENT_DATE - cast(call_start_time as date)  <='360' then '271-360 Days'
+when CURRENT_DATE - cast(call_start_time as date)  >='361' and CURRENT_DATE - cast(call_start_time as date)  <='450' then '361-450 Days'
+when CURRENT_DATE - cast(call_start_time as date)  >='451' and CURRENT_DATE - cast(call_start_time as date)  <='540' then '451-540 Days'
+when CURRENT_DATE - cast(call_start_time as date)  >='541' and CURRENT_DATE - cast(call_start_time as date)  <='630' then '541-630 Days'
+when CURRENT_DATE - cast(call_start_time as date)  >='631' and CURRENT_DATE - cast(call_start_time as date)  <='720' then '631-720 Days'
+when CURRENT_DATE - cast(call_start_time as date)  >='721'  then '>720 Days' end "recency"
+, best_mobile_number_hash  from (
+select best_mobile_number_hash ,max(call_start_time)call_start_time
+from PRM.kkt_cdrlobd where best_mobile_number_hash in 
+(
+select distinct best_mobile_number_hash from PRM.kkt_cdrlobd
+where best_mobile_number_hash in (select distinct cast(mobilehash as varchar(300)) 
+from GAIN_THEORY.KKTCampaign_SMS) and cast(call_start_time as date) >'2017-02-21')
+
+and cast(call_start_time as date) <='2017-02-21'
+group by best_mobile_number_hash) as a
+
+) as b group by 1;
+
+
+
+
+
+
+select best_mobile_number_hash ,max(call_start_time)call_start_time
+from PRM.kkt_cdrlobd where best_mobile_number_hash in 
+(
+select distinct best_mobile_number_hash from PRM.kkt_cdrlobd
+where best_mobile_number_hash in (
+select distinct cast(mobilehash as varchar(300))  from GAIN_THEORY.KKTCampaign_SMS) and cast(call_start_time as date) >'2017-02-28')
+group by best_mobile_number_hash;
+
+
+
+
+
+
+
+
+
