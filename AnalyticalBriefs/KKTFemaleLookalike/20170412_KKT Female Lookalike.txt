@@ -1,0 +1,89 @@
+----creating audio content
+
+create table "GAIN_THEORY"."KKTfemaleLookalike_AudioMapping" as
+(
+select distinct audio_id,audio_name,audio_type from PRM.kkt_cdr_audio_reference
+union
+select distinct audio_file_id,audio_file_name,audio_type from PRM.kkt_audio_file) WITH DATA;
+
+
+alter table GAIN_THEORY.KKTFemaleLookalike_SplitData add audio_name varchar(200);
+alter table GAIN_THEORY.KKTFemaleLookalike_SplitData add audio_type varchar(200);
+
+update GAIN_THEORY.KKTFemaleLookalike_SplitData
+from GAIN_THEORY.KKTfemaleLookalike_AudioMapping a
+set audio_name=a.audio_name,audio_type=a.audio_type
+where GAIN_THEORY.KKTFemaleLookalike_SplitData.audio=a.audio_id;
+
+
+
+
+
+---------kkT female lookalike aggregate queries
+
+
+---total distinct listeners
+select region,count(distinct customer)"Total Calls",
+count(distinct best_mobile_number_hash)"Total Unique Callers"
+from GAIN_THEORY.KKTFemaleLookalike_SplitData
+group by 1;
+
+
+
+---total listening time
+select extract(year from "call_start_time")"year",region,CAST(CAST("call_start_time" AS FORMAT 'E4') AS CHAR(9)) WeekDay
+,extract(hour from "call_start_time")"hour",sum(duration)"duration"
+from (
+select customer,region,best_mobile_number_hash,"call_start_time",avg(duration)"duration"
+from GAIN_THEORY.KKTFemaleLookalike_SplitData
+group by 1,2,3,4) as a group by 1,2,3,4; 
+
+
+---total listening customers
+
+select extract(year from "call_start_time")"year"
+,region,CAST(CAST("call_start_time" AS FORMAT 'E4') AS CHAR(9)) WeekDay
+,extract(hour from "call_start_time")"hour",count(distinct best_mobile_number_hash)"unique callers"
+from  GAIN_THEORY.KKTFemaleLookalike_SplitData
+group by 1,2,3,4; 
+
+--------content
+select region,audio_name,audio_type,count(distinct customer ) "frequency"
+,count(distinct best_mobile_number_hash)"unique callers"
+from  GAIN_THEORY.KKTFemaleLookalike_SplitData
+group by 1,2,3; 
+
+
+
+create TABLE "GAIn_THEORY".KKTFemaleLookaliketemp as (
+select extract(year from "call_start_time")"year",region,CAST(CAST("call_start_time" AS FORMAT 'E4') AS CHAR(9)) WeekDay
+,extract(hour from "call_start_time")"hour",avg(duration)"duration"
+from (
+select customer,region,best_mobile_number_hash,"call_start_time",avg(duration)"duration"
+from GAIN_THEORY.KKTFemaleLookalike_SplitData
+group by 1,2,3,4) as a group by 1,2,3,4) WITH DATA; 
+
+
+---total listening customers
+create TABLE "GAIn_THEORY".KKTFemaleLookaliketemp1 as (
+select extract(year from "call_start_time")"year"
+,region,CAST(CAST("call_start_time" AS FORMAT 'E4') AS CHAR(9)) WeekDay
+,extract(hour from "call_start_time")"hour",count(distinct best_mobile_number_hash)"unique callers"
+from  GAIN_THEORY.KKTFemaleLookalike_SplitData
+group by 1,2,3,4) WITH DATA;  
+
+
+create table "GAIn_THEORY".KKTFemaleLookalikeAvgTime as (
+select b."year",b.region,b.WeekDay,b."hour","duration"/"unique callers" "Avg Duration"
+from "GAIn_THEORY".KKTFemaleLookaliketemp1 a
+inner join "GAIn_THEORY".KKTFemaleLookaliketemp  b
+on a."year"=b."year" and a.region=b.region and a."hour"=b."hour"
+and a.WeekDay=b.WeekDay) WITH DATA;
+
+
+
+
+
+
+
+
