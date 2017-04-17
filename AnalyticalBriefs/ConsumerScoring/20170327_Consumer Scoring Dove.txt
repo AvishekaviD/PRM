@@ -1,0 +1,343 @@
+-----inserting sample data
+insert into "GAIN_THEORY"."ConsumerScoring_BrandCatedata"
+SELECT  "mobile_number" "mobile_number", "lastinetractiondate","region", "lsm", "confidence", "provider", "brand", "category"
+FROM "GAIN_THEORY"."ConsumerScoring_data"
+where lower(brand) like   '%dove%'
+ and "region" is not null and "lsm" is not null and "confidence" is not null and "provider" is not null and "brand" is not null and 
+"category" is not null;
+
+
+insert into "GAIN_THEORY"."ConsumerScoring_BrandCatedata"
+SELECT  "mobile_number" "mobile_number", "lastinetractiondate","region", "lsm", "confidence", "provider", "brand", "category"
+FROM "GAIN_THEORY"."ConsumerScoring_data"
+where (lower(brand) like   '%vim%' or lower(brand) like '%surf%'or lower(brand) like '%kissan%'
+or lower(brand) like '%lifeb%' or lower(brand) like '%lux%' or lower(brand) like '%sunsilk%') 
+ and "region" is not null and "lsm" is not null and "confidence" is not null and "provider" is not null and "brand" is not null and 
+"category" is not null;
+
+
+----creating brand scoring table
+CREATE TABLE  "GAIN_THEORY"."ConsumerScoring_BrandScoring" AS 
+(
+select "mobile_number","region", "lsm", "confidence", "provider", "brand", "category"
+,count(*) "Frequency",max(lastinetractiondate) "Recency" 
+FROM "GAIN_THEORY"."ConsumerScoring_BrandCatedata"
+group by "mobile_number","region", "lsm", "confidence", "provider", "brand", "category") WITH data;
+
+
+
+----creating additonal variables
+alter table "GAIN_THEORY"."ConsumerScoring_BrandScoring" add Freqscore float;
+alter table "GAIN_THEORY"."ConsumerScoring_BrandScoring" add recencyscore float;
+alter table "GAIN_THEORY"."ConsumerScoring_BrandScoring" add brandscore float;
+alter table "GAIN_THEORY"."ConsumerScoring_BrandScoring" add brandbuckettype varchar(100);
+alter table "GAIN_THEORY"."ConsumerScoring_BrandScoring" add catscore float;
+alter table "GAIN_THEORY"."ConsumerScoring_BrandScoring" add catbuckettype varchar(100);
+alter table "GAIN_THEORY"."ConsumerScoring_BrandScoring" add demoscore float;
+alter table "GAIN_THEORY"."ConsumerScoring_BrandScoring" add demobuckettype  varchar(100);
+alter table "GAIN_THEORY"."ConsumerScoring_BrandScoring" add catfreq int;
+alter table "GAIN_THEORY"."ConsumerScoring_BrandScoring" add catrece varchar(100);
+alter table "GAIN_THEORY"."ConsumerScoring_BrandScoring" add age varchar(50);
+alter table "GAIN_THEORY"."ConsumerScoring_BrandScoring" add gender varchar(50);
+alter table "GAIN_THEORY"."ConsumerScoring_BrandScoring" add city varchar(100);
+alter table "GAIN_THEORY"."ConsumerScoring_BrandScoring" add name varchar(150);
+alter table "GAIN_THEORY"."ConsumerScoring_BrandScoring" add email varchar(350);
+alter table "GAIN_THEORY"."ConsumerScoring_BrandScoring" add pincode varchar(50);
+alter table "GAIN_THEORY"."ConsumerScoring_BrandScoring" add Marketshare float;
+alter table "GAIN_THEORY"."ConsumerScoring_BrandScoring" add Penetration float;
+
+
+
+---mapping the receny score
+
+update "GAIN_THEORY"."ConsumerScoring_BrandScoring"
+set recencyscore= case 
+when CURRENT_DATE - "Recency"   >='0' and CURRENT_DATE - "Recency"   <='90' then 1
+when CURRENT_DATE - "Recency"   >='91' and CURRENT_DATE - "Recency"   <='180' then 0.90
+when CURRENT_DATE - "Recency"   >='181' and CURRENT_DATE - "Recency"   <='270' then 0.80
+when CURRENT_DATE - "Recency"   >='271' and CURRENT_DATE - "Recency"   <='360' then 0.70
+when CURRENT_DATE - "Recency"   >='361' and CURRENT_DATE - "Recency"   <='450' then 0.60
+when CURRENT_DATE - "Recency"   >='451' and CURRENT_DATE - "Recency"   <='540' then 0.50
+when CURRENT_DATE - "Recency"   >='541' and CURRENT_DATE - "Recency"   <='630' then 0.40
+when CURRENT_DATE - "Recency"   >='631' and CURRENT_DATE - "Recency"   <='720' then 0.30
+when CURRENT_DATE - "Recency"   >='721'  then 0.20 end;
+
+
+
+-------identifying the highest freq
+select max(Frequency ) from  "GAIN_THEORY"."ConsumerScoring_BrandScoring"
+
+update "GAIN_THEORY"."ConsumerScoring_BrandScoring"
+set Freqscore= case 
+when cast(cast(Frequency as float)/2.0  AS DECIMAL (5,2)) >=0.80 then 1
+when cast(cast(Frequency as float)/2.0  AS DECIMAL (5,2)) between 0.60 and 0.79 then 0.80
+when cast(cast(Frequency as float)/2.0  AS DECIMAL (5,2)) between 0.40 and 0.59 then 0.60
+when cast(cast(Frequency as float)/2.0  AS DECIMAL (5,2)) between 0.20 and 0.39 then 0.40
+when cast(cast(Frequency as float)/2.0  AS DECIMAL (5,2)) between 0 and 0.19 then 0.20
+end;
+
+----calculating brandscore
+
+update "GAIN_THEORY"."ConsumerScoring_BrandScoring"
+set brandscore=cast((Freqscore+recencyscore)/2.0 AS DECIMAL (5,2));
+
+update "GAIN_THEORY"."ConsumerScoring_BrandScoring"
+set brandbuckettype=case
+when brandscore >=0.80 then 'Engaged'
+when brandscore between 0.60 and 0.79 then 'High Engag'
+when brandscore between 0.40 and 0.59 then 'Med Engag'
+when brandscore between 0.20 and 0.39 then 'Low Engag'
+when brandscore between 0 and 0.19 then 'Disengaged'
+end;
+
+
+
+/*------------------category scoring--------------------*/
+
+CREATE TABLE  "GAIN_THEORY"."ConsumerScoring_CategoryScoring" AS 
+(select "mobile_number","region", "lsm", "confidence", "category",count(*) "Frequency",max(lastinetractiondate) "Recency" 
+FROM "GAIN_THEORY"."ConsumerScoring_BrandCatedata"
+group by "mobile_number","region", "lsm", "confidence",  "category") WITH data;
+
+----creating additonal variables
+alter table "GAIN_THEORY"."ConsumerScoring_CategoryScoring" add Freqscore float;
+alter table "GAIN_THEORY"."ConsumerScoring_CategoryScoring" add recencyscore float;
+alter table "GAIN_THEORY"."ConsumerScoring_CategoryScoring"  add catscore float;
+alter table "GAIN_THEORY"."ConsumerScoring_CategoryScoring"  add catbuckettype varchar(100);
+
+---mapping the receny score
+
+update "GAIN_THEORY"."ConsumerScoring_CategoryScoring"
+set recencyscore= case 
+when CURRENT_DATE - "Recency"   >='0' and CURRENT_DATE - "Recency"   <='90' then 1
+when CURRENT_DATE - "Recency"   >='91' and CURRENT_DATE - "Recency"   <='180' then 0.90
+when CURRENT_DATE - "Recency"   >='181' and CURRENT_DATE - "Recency"   <='270' then 0.80
+when CURRENT_DATE - "Recency"   >='271' and CURRENT_DATE - "Recency"   <='360' then 0.70
+when CURRENT_DATE - "Recency"   >='361' and CURRENT_DATE - "Recency"   <='450' then 0.60
+when CURRENT_DATE - "Recency"   >='451' and CURRENT_DATE - "Recency"   <='540' then 0.50
+when CURRENT_DATE - "Recency"   >='541' and CURRENT_DATE - "Recency"   <='630' then 0.40
+when CURRENT_DATE - "Recency"   >='631' and CURRENT_DATE - "Recency"   <='720' then 0.30
+when CURRENT_DATE - "Recency"   >='721'  then 0.20 end;
+
+
+-------identifying the highest freq
+
+select max(Frequency) from "GAIN_THEORY"."ConsumerScoring_CategoryScoring"
+
+update "GAIN_THEORY"."ConsumerScoring_CategoryScoring"
+set Freqscore= case 
+when cast(cast(Frequency as float)/4.0  AS DECIMAL (5,2)) >=0.80 then 1
+when cast(cast(Frequency as float)/4.0  AS DECIMAL (5,2)) between 0.60 and 0.79 then 0.80
+when cast(cast(Frequency as float)/4.0  AS DECIMAL (5,2)) between 0.40 and 0.59 then 0.60
+when cast(cast(Frequency as float)/4.0 AS DECIMAL (5,2)) between 0.20 and 0.39 then 0.40
+when cast(cast(Frequency as float)/4.0  AS DECIMAL (5,2)) between 0 and 0.19 then 0.20
+end;
+
+----calculating catscore
+
+update "GAIN_THEORY"."ConsumerScoring_CategoryScoring"
+set catscore=cast((Freqscore+recencyscore)/2.0 AS DECIMAL (5,2));
+
+update "GAIN_THEORY"."ConsumerScoring_CategoryScoring"
+set catbuckettype=case
+when catscore >=0.80 then 'Engaged'
+when catscore between 0.60 and 0.79 then 'High Engag'
+when catscore between 0.40 and 0.59 then 'Med Engag'
+when catscore between 0.20 and 0.39 then 'Low Engag'
+when catscore between 0 and 0.19 then 'Disengaged' end;
+
+
+----Mapping cat scoring to brand scoring
+
+update "GAIN_THEORY"."ConsumerScoring_BrandScoring"
+from "GAIN_THEORY"."ConsumerScoring_CategoryScoring" b 
+set "catscore"=b."catscore","catbuckettype"=b."catbuckettype"
+where "GAIN_THEORY"."ConsumerScoring_BrandScoring"."mobile_number"=b."mobile_number"
+and  "GAIN_THEORY"."ConsumerScoring_BrandScoring"."category"=b."category";
+
+update "GAIN_THEORY"."ConsumerScoring_BrandScoring"
+from "GAIN_THEORY"."ConsumerScoring_CategoryScoring" b 
+set "catfreq"=b."Frequency","catrece"=case 
+when CURRENT_DATE - b."Recency"   >='0' and CURRENT_DATE - b."Recency"   <='90' then '0-90'
+when CURRENT_DATE - b."Recency"   >='91' and CURRENT_DATE - b."Recency"   <='180' then '91-180'
+when CURRENT_DATE - b."Recency"   >='181' and CURRENT_DATE - b."Recency"   <='270' then '180-270'
+when CURRENT_DATE - b."Recency"   >='271' and CURRENT_DATE - b."Recency"   <='360' then '271-360'
+when CURRENT_DATE - b."Recency"   >='361' and CURRENT_DATE - b."Recency"   <='450' then '361-450'
+when CURRENT_DATE - b."Recency"   >='451' and CURRENT_DATE - b."Recency"   <='540' then '451-540'
+when CURRENT_DATE - b."Recency"   >='541' and CURRENT_DATE - b."Recency"   <='630' then '541-630'
+when CURRENT_DATE - b."Recency"   >='631' and CURRENT_DATE - b."Recency"   <='720' then '631-720'
+when CURRENT_DATE - b."Recency"   >='721'  then '>720' end
+where "GAIN_THEORY"."ConsumerScoring_BrandScoring"."mobile_number"=b."mobile_number"
+and  "GAIN_THEORY"."ConsumerScoring_BrandScoring"."category"=b."category";
+
+
+
+
+-------identifying the highest freq
+
+select max(Frequency) from "GAIN_THEORY"."ConsumerScoring_CategoryScoring"
+
+update "GAIN_THEORY"."ConsumerScoring_CategoryScoring"
+set Freqscore= case 
+when cast(cast(Frequency as float)/4.0  AS DECIMAL (5,2)) >=0.80 then 1
+when cast(cast(Frequency as float)/4.0  AS DECIMAL (5,2)) between 0.60 and 0.79 then 0.80
+when cast(cast(Frequency as float)/4.0  AS DECIMAL (5,2)) between 0.40 and 0.59 then 0.60
+when cast(cast(Frequency as float)/4.0 AS DECIMAL (5,2)) between 0.20 and 0.39 then 0.40
+when cast(cast(Frequency as float)/4.0  AS DECIMAL (5,2)) between 0 and 0.19 then 0.20
+end;
+
+----calculating catscore
+
+update "GAIN_THEORY"."ConsumerScoring_CategoryScoring"
+set catscore=cast((Freqscore+recencyscore)/2.0 AS DECIMAL (5,2));
+
+update "GAIN_THEORY"."ConsumerScoring_CategoryScoring"
+set catbuckettype=case
+when catscore >=0.80 then 'Engaged'
+when catscore between 0.60 and 0.79 then 'High Engag'
+when catscore between 0.40 and 0.59 then 'Med Engag'
+when catscore between 0.20 and 0.39 then 'Low Engag'
+when catscore between 0 and 0.19 then 'Disengaged' end;
+
+
+----Mapping cat scoring to brand scoring
+
+update "GAIN_THEORY"."ConsumerScoring_BrandScoring"
+from "GAIN_THEORY"."ConsumerScoring_CategoryScoring" b 
+set "catscore"=b."catscore","catbuckettype"=b."catbuckettype"
+where "GAIN_THEORY"."ConsumerScoring_BrandScoring"."mobile_number"=b."mobile_number"
+and  "GAIN_THEORY"."ConsumerScoring_BrandScoring"."category"=b."category";
+
+update "GAIN_THEORY"."ConsumerScoring_BrandScoring"
+from "GAIN_THEORY"."ConsumerScoring_CategoryScoring" b 
+set "catfreq"=b."Frequency","catrece"=case 
+when CURRENT_DATE - b."Recency"   >='0' and CURRENT_DATE - b."Recency"   <='90' then '0-90'
+when CURRENT_DATE - b."Recency"   >='91' and CURRENT_DATE - b."Recency"   <='180' then '91-180'
+when CURRENT_DATE - b."Recency"   >='181' and CURRENT_DATE - b."Recency"   <='270' then '180-270'
+when CURRENT_DATE - b."Recency"   >='271' and CURRENT_DATE - b."Recency"   <='360' then '271-360'
+when CURRENT_DATE - b."Recency"   >='361' and CURRENT_DATE - b."Recency"   <='450' then '361-450'
+when CURRENT_DATE - b."Recency"   >='451' and CURRENT_DATE - b."Recency"   <='540' then '451-540'
+when CURRENT_DATE - b."Recency"   >='541' and CURRENT_DATE - b."Recency"   <='630' then '541-630'
+when CURRENT_DATE - b."Recency"   >='631' and CURRENT_DATE - b."Recency"   <='720' then '631-720'
+when CURRENT_DATE - b."Recency"   >='721'  then '>720' end
+where "GAIN_THEORY"."ConsumerScoring_BrandScoring"."mobile_number"=b."mobile_number"
+and  "GAIN_THEORY"."ConsumerScoring_BrandScoring"."category"=b."category";
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+---demo scoring aggregate
+
+CREATE TABLE  "GAIN_THEORY"."ConsumerScoring_Demoscoring" AS 
+(select distinct "mobile_number",demoscore FROM GAIN_THEORY.ConsumerScoring_data
+where mobile_number in (select distinct mobile_number 
+from "GAIN_THEORY"."ConsumerScoring_BrandCatedata")) WITH data;
+
+CREATE TABLE  "GAIN_THEORY"."ConsumerScoring_Demoscoringdetail" AS 
+(select distinct "mobile_number",age,gender,city,name,email,pincode
+FROM GAIN_THEORY.ConsumerScoring_data where mobile_number in (select distinct mobile_number 
+from "GAIN_THEORY"."ConsumerScoring_BrandCatedata")) WITH data;
+
+
+update "GAIN_THEORY"."ConsumerScoring_BrandScoring"
+from "GAIN_THEORY"."ConsumerScoring_Demoscoring" b 
+set "demoscore"=b."demoscore",
+"demobuckettype"=case when b.demoscore >=0.80 then 'Engaged'
+when b.demoscore between 0.60 and 0.79 then 'High Engag'when b.demoscore between 0.40 and 0.59 then 'Med Engag'
+when b.demoscore between 0.20 and 0.39 then 'Low Engag' when b.demoscore between 0 and 0.19 then 'Disengaged' end
+where "GAIN_THEORY"."ConsumerScoring_BrandScoring"."mobile_number"=b."mobile_number";
+
+
+update "GAIN_THEORY"."ConsumerScoring_BrandScoring"
+from "GAIN_THEORY"."ConsumerScoring_Demoscoringdetail" b 
+set "age"=b."age","gender"=b."gender","city"=b."city",
+"name"=b."name","email"=b."email","pincode"=b."pincode"
+where "GAIN_THEORY"."ConsumerScoring_BrandScoring"."mobile_number"=b."mobile_number";
+
+
+
+
+--------marketshare and penetration update
+ update "GAIN_THEORY"."ConsumerScoring_BrandScoring"
+from GAIN_THEORY.ConsumerScoring_MktPenMapping b 
+set "Marketshare"=b."Marketshare","Penetration"=b."Penetration"
+where "GAIN_THEORY"."ConsumerScoring_BrandScoring"."region"=b."region"
+and  "GAIN_THEORY"."ConsumerScoring_BrandScoring"."brand"=b."brand";
+
+-----------------------final scoring
+alter table "GAIN_THEORY"."ConsumerScoring_BrandScoring" add Finalscore float;
+alter table "GAIN_THEORY"."ConsumerScoring_BrandScoring" add Finalbuckettype  varchar(100);
+
+update "GAIN_THEORY"."ConsumerScoring_BrandScoring"
+set Finalscore=(demoscore+catscore+brandscore)/3.0;
+
+
+update "GAIN_THEORY"."ConsumerScoring_BrandScoring"
+set Finalbuckettype=case
+when Finalscore >=0.80 then 'Engaged'
+when Finalscore between 0.60 and 0.79 then 'High Engag'
+when Finalscore between 0.40 and 0.59 then 'Med Engag'
+when Finalscore between 0.20 and 0.39 then 'Low Engag'
+when Finalscore between 0 and 0.19 then 'Disengaged' end;
+
+
+---------------calculating lookalike
+insert into GAIN_THEORY.ConsumerScoring_lookalikeAgg(region ,brand ,Lookalikebrand,category ,catscore ,brandscore,demoscore,Finalbuckettype,Marketshare ,Penetration ,Counts )
+select region ,'Dove' ,brand,'Personal Care',catscore ,brandscore,demoscore
+,Finalbuckettype,Marketshare 
+,Penetration,count(distinct mobile_number) 
+from GAIN_THEORY.ConsumerScoring_BrandScoring 
+where lower(Brand) not like '%dove%'  
+group by region ,brand,catscore ,brandscore,demoscore,Finalbuckettype,Marketshare ,Penetration;
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+

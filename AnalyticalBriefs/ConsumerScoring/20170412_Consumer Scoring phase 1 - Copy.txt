@@ -1,0 +1,988 @@
+-------creating temp table
+--CREATE table "GAIN_THEORY".ConsumerScoringTemp(tablename varchar(100),updateddate timestamp);
+delete from "GAIN_THEORY".ConsumerScoringTemp;
+
+
+
+------creating demo data
+
+--insert into"GAIN_THEORY".ConsumerScoringTemp select 'creating demo data',current_timestamp;
+
+--create table "GAIN_THEORY".ConsumerScoringDemomapping as 
+--(
+--select distinct mobile_number,lsm,confidence,age,gender,city
+--from GAIN_THEORY.PRMDashboard_data
+--where (lower(brand) like '%dove%' or lower(brand) like '%sunsilk%' or lower(brand) like '%pep%dent%' or lower(brand) like '%lakme%'
+--or lower(brand) like '%ayush%'or lower(brand) like '%red%label%'or lower(brand) like '%pure%it%'or lower(brand) like '%bru%'
+--or lower(brand) like '%3%rose%' or lower(brand) like '%taaza%'or lower(brand) like '%taj%' or lower(brand) like '%fair%love%' or lower(brand) like '%fal%'
+--or lower(brand) like '%lifebu%') ) WITH DATA ;
+
+
+
+
+----creating table to hold data
+insert into"GAIN_THEORY".ConsumerScoringTemp select 'deleteing source data',current_timestamp;
+
+delete from "GAIN_THEORY".ConsumerScoringPhase1Data;
+
+--create multiset table "GAIN_THEORY".ConsumerScoringPhase1Data
+--(source varchar(100),Category varchar(100),Brand_Name varchar(100),updated_Brand_Name varchar(100)
+--,interactiondate date,best_mobile_number_hash  varchar(300) ,region_lookup_number varchar(50) );
+
+
+-----
+---------------Brandtone data
+-----
+insert into"GAIN_THEORY".ConsumerScoringTemp select 'inserting bru bt data',current_timestamp;
+
+insert into "GAIN_THEORY".ConsumerScoringPhase1Data(best_mobile_number_hash 
+,region_lookup_number ,source,Brand_Name,interactiondate)
+select distinct best_mobile_number_hash ,region_lookup_number ,'bt_entry','Bru',cast(entry_date as date)
+from PRM.bt_entry where campaign_id in ('2120','2038','2123','2213','2305','2136','2042','2629','2195'
+,'2039','2200','2176','2152','2628','2632','2040','2041','2135','2528');
+
+
+insert into"GAIN_THEORY".ConsumerScoringTemp select 'inserting fal bt data',current_timestamp;
+insert into "GAIN_THEORY".ConsumerScoringPhase1Data(best_mobile_number_hash 
+,region_lookup_number ,source,Brand_Name,interactiondate)
+select distinct best_mobile_number_hash ,region_lookup_number ,'bt_entry','Fair and Lovely',cast(entry_date as date)
+from PRM.bt_entry where campaign_id in ('2264','2551','2296');
+
+
+insert into"GAIN_THEORY".ConsumerScoringTemp select 'inserting pep bt data',current_timestamp;
+insert into "GAIN_THEORY".ConsumerScoringPhase1Data(best_mobile_number_hash 
+,region_lookup_number ,source,Brand_Name,interactiondate)
+select distinct best_mobile_number_hash ,region_lookup_number ,'bt_entry','Pepsodent',cast(entry_date as date)
+from PRM.bt_entry where campaign_id in ('2601','2568','2567');
+
+
+insert into"GAIN_THEORY".ConsumerScoringTemp select 'inserting taaza bt data',current_timestamp;
+insert into "GAIN_THEORY".ConsumerScoringPhase1Data(best_mobile_number_hash 
+,region_lookup_number ,source,Brand_Name,interactiondate)
+select distinct best_mobile_number_hash ,region_lookup_number ,'bt_entry','Taaza',cast(entry_date as date)
+from PRM.bt_entry where campaign_id in ('2111');
+
+insert into"GAIN_THEORY".ConsumerScoringTemp select 'inserting taj bt data',current_timestamp;
+insert into "GAIN_THEORY".ConsumerScoringPhase1Data(best_mobile_number_hash 
+,region_lookup_number ,source,Brand_Name,interactiondate)
+select distinct best_mobile_number_hash ,region_lookup_number ,'bt_entry','Taj tea',cast(entry_date as date)
+from PRM.bt_entry where campaign_id in ('2626','2517','2543');
+
+
+insert into"GAIN_THEORY".ConsumerScoringTemp select 'inserting dm obd data',current_timestamp;
+insert into "GAIN_THEORY".ConsumerScoringPhase1Data(best_mobile_number_hash ,region_lookup_number 
+,source,Brand_Name,interactiondate)
+select distinct msisdn_hash ,substr(msisdn,3,5) ,'bt_DM_vp_OBD_master',b.campaign_brand,(cast(create_date as date))
+from PRM.bt_DM_vp_OBD_master a inner join PRM.bt_campaign b on a.campaign_id=b.campaign_id
+where b.country_code='IN' and length(msisdn)='12'
+and (lower(b.campaign_brand) like '%dove%' or lower(b.campaign_brand) like '%sunsilk%' 
+or lower(b.campaign_brand) like '%pepsoden%' or lower(b.campaign_brand) like '%lakme%'
+or lower(b.campaign_brand) like '%ayush%'or lower(b.campaign_brand) like '%red%label%'
+or lower(b.campaign_brand) like '%pure%it%'or lower(b.campaign_brand) like '%bru%'
+or lower(b.campaign_brand) like '%3%rose%' or lower(b.campaign_brand) like '%taaza%'
+or lower(b.campaign_brand) like '%taj%' or lower(b.campaign_brand) like '%fair%love%'
+or lower(b.campaign_brand) like '%lifebu%');
+
+
+
+insert into"GAIN_THEORY".ConsumerScoringTemp select 'inserting dm sms data',current_timestamp;
+insert into "GAIN_THEORY".ConsumerScoringPhase1Data(best_mobile_number_hash ,region_lookup_number,source,Brand_Name,interactiondate)
+select distinct msisdn_hash ,substr(msisdn,3,5) ,'bt_DM_sms_master','bru',(cast(create_date as date))
+from PRM.bt_DM_sms_master 
+where campaign_id in ('2120','2038','2123','2213','2305','2136','2042','2629','2195'
+,'2039','2200','2176','2152','2628','2632','2040','2041','2135','2528') ;
+
+insert into "GAIN_THEORY".ConsumerScoringPhase1Data(best_mobile_number_hash ,region_lookup_number,source,Brand_Name,interactiondate)
+select distinct msisdn_hash ,substr(msisdn,3,5) ,'bt_DM_sms_master','Fair and Lovely',(cast(create_date as date))
+from PRM.bt_DM_sms_master 
+where campaign_id in ('2264','2551','2296');
+
+insert into "GAIN_THEORY".ConsumerScoringPhase1Data(best_mobile_number_hash ,region_lookup_number,source,Brand_Name,interactiondate)
+select distinct msisdn_hash ,substr(msisdn,3,5) ,'bt_DM_sms_master','Pepsodent',(cast(create_date as date))
+from PRM.bt_DM_sms_master 
+where campaign_id in ('2601','2568','2567');
+
+insert into "GAIN_THEORY".ConsumerScoringPhase1Data(best_mobile_number_hash ,region_lookup_number,source,Brand_Name,interactiondate)
+select distinct msisdn_hash ,substr(msisdn,3,5) ,'bt_DM_sms_master','Taaza',(cast(create_date as date))
+from PRM.bt_DM_sms_master 
+where campaign_id in ('2111');
+
+insert into "GAIN_THEORY".ConsumerScoringPhase1Data(best_mobile_number_hash ,region_lookup_number,source,Brand_Name,interactiondate)
+select distinct msisdn_hash ,substr(msisdn,3,5) ,'bt_DM_sms_master','Taj Tea',(cast(create_date as date))
+from PRM.bt_DM_sms_master 
+where campaign_id in ('2626','2517','2543');
+
+
+
+
+-----
+---------------Careline data
+-----
+
+
+insert into "GAIN_THEORY".ConsumerScoringPhase1Data(best_mobile_number_hash ,region_lookup_number 
+,source,Brand_Name,interactiondate)
+select distinct best_mobile_number_hash ,region_lookup_number ,'cl_call',brand
+,(cast(SUBSTR(posting_date,7,4)||'-'||SUBSTR(posting_date,4,2)||'-'||SUBSTR(posting_date,1,2) as date))
+from PRM.cl_call
+where (lower(brand) like '%dove%' or lower(brand) like '%sunsilk%' or lower(brand) like '%pepsoden%' or lower(brand) like '%lakme%'
+or lower(brand) like '%ayush%'or lower(brand) like '%red%label%'or lower(brand) like '%pure%it%'or lower(brand) like '%bru%'
+or lower(brand) like '%3%rose%' or lower(brand) like '%taaza%'or lower(brand) like '%taj%' or lower(brand) like '%fair%love%'
+or lower(brand) like '%lifebu%');
+
+insert into "GAIN_THEORY".ConsumerScoringPhase1Data(best_mobile_number_hash ,region_lookup_number 
+,source,Brand_Name,interactiondate)
+select distinct best_mobile_number_hash ,region_lookup_number ,'cl_call_pti748',brand
+,(cast(SUBSTR(posting_date,7,4)||'-'||SUBSTR(posting_date,4,2)||'-'||SUBSTR(posting_date,1,2) as date))
+from PRM.cl_call_pti748
+where (lower(brand) like '%dove%' or lower(brand) like '%sunsilk%' or lower(brand) like '%pepsoden%' or lower(brand) like '%lakme%'
+or lower(brand) like '%ayush%'or lower(brand) like '%red%label%'or lower(brand) like '%pure%it%'or lower(brand) like '%bru%'
+or lower(brand) like '%3%rose%' or lower(brand) like '%taaza%'or lower(brand) like '%taj%' or lower(brand) like '%fair%love%'
+or lower(brand) like '%lifebu%');
+
+insert into "GAIN_THEORY".ConsumerScoringPhase1Data(best_mobile_number_hash ,region_lookup_number 
+,source,Brand_Name,interactiondate)
+select distinct best_mobile_number_hash ,region_lookup_number ,'cl_call_till_dec2015',brand
+,(cast(SUBSTR(posting_date,7,4)||'-'||SUBSTR(posting_date,4,2)||'-'||SUBSTR(posting_date,1,2) as date))
+from PRM.cl_call_till_dec2015
+where (lower(brand) like '%dove%' or lower(brand) like '%sunsilk%' or lower(brand) like '%pepsoden%' or lower(brand) like '%lakme%'
+or lower(brand) like '%ayush%'or lower(brand) like '%red%label%'or lower(brand) like '%pure%it%'or lower(brand) like '%bru%'
+or lower(brand) like '%3%rose%' or lower(brand) like '%taaza%'or lower(brand) like '%taj%' or lower(brand) like '%fair%love%'
+or lower(brand) like '%lifebu%');
+
+
+insert into "GAIN_THEORY".ConsumerScoringPhase1Data(best_mobile_number_hash ,region_lookup_number 
+,source,Brand_Name,interactiondate)
+select distinct best_mobile_number_hash ,region_lookup_number ,'cl_calls_aug_sep_2014',brand
+,(cast(SUBSTR(posting_date,7,4)||'-'||SUBSTR(posting_date,4,2)||'-'||SUBSTR(posting_date,1,2) as date))
+from PRM.cl_calls_aug_sep_2014
+where (lower(brand) like '%dove%' or lower(brand) like '%sunsilk%' or lower(brand) like '%pepsoden%' or lower(brand) like '%lakme%'
+or lower(brand) like '%ayush%'or lower(brand) like '%red%label%'or lower(brand) like '%pure%it%'or lower(brand) like '%bru%'
+or lower(brand) like '%3%rose%' or lower(brand) like '%taaza%'or lower(brand) like '%taj%' or lower(brand) like '%fair%love%'
+or lower(brand) like '%lifebu%');
+
+
+
+insert into "GAIN_THEORY".ConsumerScoringPhase1Data(best_mobile_number_hash ,region_lookup_number 
+,source,Brand_Name,interactiondate)
+select distinct best_mobile_number_hash ,region_lookup_number,'cl_calls_01Mar2014_30jun2014',brand
+,(cast(posting_date as date))
+from PRM.cl_calls_01Mar2014_30jun2014
+where (lower(brand) like '%dove%' or lower(brand) like '%sunsilk%' or lower(brand) like '%pepsoden%' or lower(brand) like '%lakme%'
+or lower(brand) like '%ayush%'or lower(brand) like '%red%label%'or lower(brand) like '%pure%it%'or lower(brand) like '%bru%'
+or lower(brand) like '%3%rose%' or lower(brand) like '%taaza%'or lower(brand) like '%taj%' or lower(brand) like '%fair%love%'
+or lower(brand) like '%lifebu%');
+
+insert into "GAIN_THEORY".ConsumerScoringPhase1Data(best_mobile_number_hash ,region_lookup_number 
+,source,Brand_Name,interactiondate)
+select distinct best_mobile_number_hash ,region_lookup_number,'cl_calls_2012_2013',cl_brand,(cast(cl_call_date as date))
+from PRM.cl_calls_2012_2013
+where (lower(cl_brand) like '%dove%' or lower(cl_brand) like '%sunsilk%' or lower(cl_brand) like '%pepsoden%' or lower(cl_brand) like '%lakme%'
+or lower(cl_brand) like '%ayush%'or lower(cl_brand) like '%red%label%'or lower(cl_brand) like '%pure%it%'or lower(cl_brand) like '%bru%'
+or lower(cl_brand) like '%3%rose%' or lower(cl_brand) like '%taaza%'or lower(cl_brand) like '%taj%' or lower(cl_brand) like '%fair%love%'
+or lower(cl_brand) like '%lifebu%');
+
+
+insert into "GAIN_THEORY".ConsumerScoringPhase1Data(best_mobile_number_hash ,region_lookup_number 
+,source,Brand_Name,interactiondate)
+select distinct best_mobile_number_hash ,region_lookup_number,'cl_calls_2013_2014',brand,(cast(posting_date as date))
+from PRM.cl_calls_2013_2014
+where (lower(brand) like '%dove%' or lower(brand) like '%sunsilk%' or lower(brand) like '%pepsoden%' or lower(brand) like '%lakme%'
+or lower(brand) like '%ayush%'or lower(brand) like '%red%label%'or lower(brand) like '%pure%it%'or lower(brand) like '%bru%'
+or lower(brand) like '%3%rose%' or lower(brand) like '%taaza%'or lower(brand) like '%taj%' or lower(brand) like '%fair%love%'
+or lower(brand) like '%lifebu%');
+
+-----
+---------------h2h data
+-----
+
+
+insert into "GAIN_THEORY".ConsumerScoringPhase1Data(best_mobile_number_hash ,region_lookup_number 
+,source,Brand_Name,interactiondate)
+select distinct best_mobile_number_hash ,region_lookup_number ,'h2h_transaction',brand
+,(cast(SUBSTR(interaction_date,1,10) as date))
+from PRM.h2h_transaction 
+where interaction_date  NOT LIKE ALL ('%Jan%','%Feb%','%Mar%','%Apr%','%May%'
+,'%Jun%','%Jul%','%Aug%','%Sep%','%Oct%','%Nov%','%Dec%','%/%')and LENGTH(interaction_date)>0
+and  (lower(brand) like '%dove%' or lower(brand) like '%sunsilk%' or lower(brand) like '%pepsoden%' or lower(brand) like '%lakme%'
+or lower(brand) like '%ayush%'or lower(brand) like '%red%label%'or lower(brand) like '%pure%it%'or lower(brand) like '%bru%'
+or lower(brand) like '%3%rose%' or lower(brand) like '%taaza%'or lower(brand) like '%taj%' or lower(brand) like '%fair%love%'
+or lower(brand) like '%lifebu%');
+
+
+insert into "GAIN_THEORY".ConsumerScoringPhase1Data(best_mobile_number_hash ,region_lookup_number 
+,source,Brand_Name,interactiondate)
+select distinct best_mobile_number_hash ,region_lookup_number ,'mindtree_data',brand
+,(cast(SUBSTR(geo_timestamp,1,10) as date))
+from PRM.mindtree_data 
+where geo_timestamp  NOT LIKE ALL ('%Jan%','%Feb%','%Mar%','%Apr%','%May%'
+,'%Jun%','%Jul%','%Aug%','%Sep%','%Oct%','%Nov%','%Dec%','%/%')
+and LENGTH(geo_timestamp)>0
+and (lower(brand) like '%dove%' or lower(brand) like '%sunsilk%' or lower(brand) like '%pepsoden%' or lower(brand) like '%lakme%'
+or lower(brand) like '%ayush%'or lower(brand) like '%red%label%'or lower(brand) like '%pure%it%'or lower(brand) like '%bru%'
+or lower(brand) like '%3%rose%' or lower(brand) like '%taaza%'or lower(brand) like '%taj%' or lower(brand) like '%fair%love%'
+or lower(brand) like '%lifebu%');
+
+
+insert into "GAIN_THEORY".ConsumerScoringPhase1Data(best_mobile_number_hash ,region_lookup_number 
+,source,Brand_Name,interactiondate)
+select distinct best_mobile_number_hash ,region_lookup_number ,'h2h_transaction',brand
+,(cast(SUBSTR(interaction_date,7,4)||'-'||SUBSTR(interaction_date,4,2)||'-'||SUBSTR(interaction_date,1,2) as date))
+from PRM.h2h_transaction
+where interaction_date  NOT LIKE ALL ('%Jan%','%Feb%','%Mar%','%Apr%','%May%'
+,'%Jun%','%Jul%','%Aug%','%Sep%','%Oct%','%Nov%','%Dec%')
+and  interaction_date LIKE ANY ('%/%') and LENGTH(interaction_date)>0
+and  (lower(brand) like '%dove%' or lower(brand) like '%sunsilk%' or lower(brand) like '%pepsoden%' or lower(brand) like '%lakme%'
+or lower(brand) like '%ayush%'or lower(brand) like '%red%label%'or lower(brand) like '%pure%it%'or lower(brand) like '%bru%'
+or lower(brand) like '%3%rose%' or lower(brand) like '%taaza%'or lower(brand) like '%taj%' or lower(brand) like '%fair%love%'
+or lower(brand) like '%lifebu%');
+
+insert into "GAIN_THEORY".ConsumerScoringPhase1Data(best_mobile_number_hash ,region_lookup_number 
+,source,Brand_Name,interactiondate)
+select distinct best_mobile_number_hash ,region_lookup_number ,'mindtree_data',brand
+,(cast(SUBSTR(geo_timestamp,7,4)||'-'||SUBSTR(geo_timestamp,4,2)||'-'||SUBSTR(geo_timestamp,1,2) as date))
+from PRM.mindtree_data
+where geo_timestamp  NOT LIKE ALL ('%Jan%','%Feb%','%Mar%','%Apr%','%May%','%Jun%','%Jul%','%Aug%','%Sep%','%Oct%','%Nov%','%Dec%')
+and  geo_timestamp LIKE ANY ('%/%') and LENGTH(geo_timestamp)>0
+and (lower(brand) like '%dove%' or lower(brand) like '%sunsilk%' or lower(brand) like '%pepsoden%' or lower(brand) like '%lakme%'
+or lower(brand) like '%ayush%'or lower(brand) like '%red%label%'or lower(brand) like '%pure%it%'or lower(brand) like '%bru%'
+or lower(brand) like '%3%rose%' or lower(brand) like '%taaza%'or lower(brand) like '%taj%' or lower(brand) like '%fair%love%'
+or lower(brand) like '%lifebu%');
+
+insert into "GAIN_THEORY".ConsumerScoringPhase1Data(best_mobile_number_hash ,region_lookup_number 
+,source,Brand_Name,interactiondate)
+select distinct  best_mobile_number_hash ,region_lookup_number ,'mindtree_data',brand,(cast
+(("year"||'-'||"Month"||'-'||"Day") as date))
+from (
+select distinct  best_mobile_number_hash ,region_lookup_number ,c.brand,updatedbrand_name,
+Case
+when substr(geo_timestamp,8,2)='12' then '2012' when substr(geo_timestamp,8,2)='13' then '2013'
+when substr(geo_timestamp,8,2)='14' then '2014' when substr(geo_timestamp,8,3)='15' then '2015'
+when substr(geo_timestamp,8,3)='16' then '2016' when substr(geo_timestamp,8,3)='17' then '2017'
+when substr(geo_timestamp,8,3)='18' then '2018'when substr(geo_timestamp,8,3)='19' then '2019' end "Year",
+case 
+when substr(geo_timestamp,4,3)='Jan' then '01' when substr(geo_timestamp,4,3)='Feb' then '02'
+when substr(geo_timestamp,4,3)='Mar' then '03' when substr(geo_timestamp,4,3)='Apr' then '04'
+when substr(geo_timestamp,4,3)='May' then '05' when substr(geo_timestamp,4,3)='Jun' then '06'
+when substr(geo_timestamp,4,3)='Jul' then '07' when substr(geo_timestamp,4,3)='Aug' then '08'
+when substr(geo_timestamp,4,3)='Sep' then '09' when substr(geo_timestamp,4,3)='Oct' then '10'
+when substr(geo_timestamp,4,3)='Nov' then '11'when substr(geo_timestamp,4,3)='Dec' then '12' end "Month"
+,substr(geo_timestamp,1,2) "Day"
+from PRM.mindtree_data c
+inner join GAIN_THEORY.PRMActiveInactiveBrandMapping b on c.Brand=b.Brand_name
+where  geo_timestamp   LIKE ANY ('%Jan%','%Feb%','%Mar%','%Apr%','%May%'
+,'%Jun%','%Jul%','%Aug%','%Sep%','%Oct%','%Nov%','%Dec%')
+and LENGTH(geo_timestamp)>0
+and (lower(brand) like '%dove%' or lower(brand) like '%sunsilk%' or lower(brand) like '%pepsoden%' or lower(brand) like '%lakme%'
+or lower(brand) like '%ayush%'or lower(brand) like '%red%label%'or lower(brand) like '%pure%it%'or lower(brand) like '%bru%'
+or lower(brand) like '%3%rose%' or lower(brand) like '%taaza%'or lower(brand) like '%taj%' or lower(brand) like '%fair%love%'
+or lower(brand) like '%lifebu%'))as a;
+
+insert into "GAIN_THEORY".ConsumerScoringPhase1Data(best_mobile_number_hash ,region_lookup_number 
+,source,Brand_Name,interactiondate)
+select distinct best_mobile_number_hash ,region_lookup_number ,'h2h_transaction',brand,(cast
+(("year"||'-'||"Month"||'-'||"Day") as date))
+from (
+select distinct  best_mobile_number_hash ,region_lookup_number ,c.brand,updatedbrand_name,
+Case
+when substr(interaction_date,8,2)='12' then '2012' when substr(interaction_date,8,2)='13' then '2013'
+when substr(interaction_date,8,2)='14' then '2014' when substr(interaction_date,8,3)='15' then '2015'
+when substr(interaction_date,8,3)='16' then '2016' when substr(interaction_date,8,3)='17' then '2017'
+when substr(interaction_date,8,3)='18' then '2018'when substr(interaction_date,8,3)='19' then '2019' end "Year",
+case 
+when substr(interaction_date,4,3)='Jan' then '01' when substr(interaction_date,4,3)='Feb' then '02'
+when substr(interaction_date,4,3)='Mar' then '03' when substr(interaction_date,4,3)='Apr' then '04'
+when substr(interaction_date,4,3)='May' then '05' when substr(interaction_date,4,3)='Jun' then '06'
+when substr(interaction_date,4,3)='Jul' then '07' when substr(interaction_date,4,3)='Aug' then '08'
+when substr(interaction_date,4,3)='Sep' then '09' when substr(interaction_date,4,3)='Oct' then '10'
+when substr(interaction_date,4,3)='Nov' then '11'when substr(interaction_date,4,3)='Dec' then '12' end "Month"
+,substr(interaction_date,1,2) "Day"
+from PRM.h2h_transaction c
+inner join GAIN_THEORY.PRMActiveInactiveBrandMapping b on c.Brand=b.Brand_name
+where  interaction_date   LIKE ANY ('%Jan%','%Feb%','%Mar%','%Apr%','%May%'
+,'%Jun%','%Jul%','%Aug%','%Sep%','%Oct%','%Nov%','%Dec%')
+and LENGTH(interaction_date)>0 
+and (lower(brand) like '%dove%' or lower(brand) like '%sunsilk%' or lower(brand) like '%pepsoden%' or lower(brand) like '%lakme%'
+or lower(brand) like '%ayush%'or lower(brand) like '%red%label%'or lower(brand) like '%pure%it%'or lower(brand) like '%bru%'
+or lower(brand) like '%3%rose%' or lower(brand) like '%taaza%'or lower(brand) like '%taj%' or lower(brand) like '%fair%love%'
+or lower(brand) like '%lifebu%'))as a;
+
+
+-----
+--------------- pure it data
+-----
+insert into "GAIN_THEORY".ConsumerScoringPhase1Data(best_mobile_number_hash ,region_lookup_number 
+,source,Brand_Name,interactiondate)
+select distinct best_mobile_number_hash ,region_lookup_number ,'pi_consumer','Pure IT'
+,(cast(date_created as date))
+from PRM.pi_consumer;
+
+--complaint
+insert into "GAIN_THEORY".ConsumerScoringPhase1Data(best_mobile_number_hash ,region_lookup_number 
+,source,Brand_Name,interactiondate)
+select distinct a.best_mobile_number_hash ,a.region_lookup_number ,'pi_complaint','Pure IT'
+,(cast(SUBSTR(b.create_date,1,10) as date))
+from PRM.pi_consumer a
+inner join PRM.pi_complaint b on a.customer_number=b.customer_number
+where LENGTH(b.create_date)>1;
+
+insert into "GAIN_THEORY".ConsumerScoringPhase1Data(best_mobile_number_hash ,region_lookup_number 
+,source,Brand_Name,interactiondate)
+select distinct a.best_mobile_number_hash ,a.region_lookup_number ,'pi_complaint','Pure IT'
+,(cast(b.date_created as date))
+from PRM.pi_consumer a
+inner join PRM.pi_complaint b on a.customer_number=b.customer_number
+where LENGTH(b.create_date)<1;
+
+--rfs
+
+insert into "GAIN_THEORY".ConsumerScoringPhase1Data(best_mobile_number_hash ,region_lookup_number 
+,source,Brand_Name,interactiondate)
+select distinct a.best_mobile_number_hash ,a.region_lookup_number ,'pi_rfs','Pure IT'
+,(cast(SUBSTR(b.order_date,1,10) as date))
+from PRM.pi_consumer a
+inner join PRM.pi_rfs b on a.customer_number=b.customer_number
+where LENGTH(b.order_date)>1;
+
+insert into "GAIN_THEORY".ConsumerScoringPhase1Data(best_mobile_number_hash ,region_lookup_number 
+,source,Brand_Name,interactiondate)
+select distinct a.best_mobile_number_hash ,a.region_lookup_number ,'pi_rfs','Pure IT'
+,(cast(b.date_created as date))
+from PRM.pi_consumer a
+inner join PRM.pi_rfs b on a.customer_number=b.customer_number
+where LENGTH(b.order_date)<1;
+
+--backup
+
+insert into "GAIN_THEORY".ConsumerScoringPhase1Data(best_mobile_number_hash ,region_lookup_number 
+,source,Brand_Name,interactiondate)
+select distinct best_mobile_number_hash ,region_lookup_number ,'pi_consumer','Pure IT'
+,(cast(date_created as date))
+from PRM.pi_consumer_BKP_15mar2017;
+
+--complaint
+insert into "GAIN_THEORY".ConsumerScoringPhase1Data(best_mobile_number_hash ,region_lookup_number 
+,source,Brand_Name,interactiondate)
+select distinct a.best_mobile_number_hash ,a.region_lookup_number ,'pi_complaint','Pure IT'
+,(cast(SUBSTR(b.create_date,1,10) as date))
+from PRM.pi_consumer_BKP_15mar2017 a
+inner join PRM.pi_complaint b on a.customer_number=b.customer_number
+where LENGTH(b.create_date)>1;
+
+insert into "GAIN_THEORY".ConsumerScoringPhase1Data(best_mobile_number_hash ,region_lookup_number 
+,source,Brand_Name,interactiondate)
+select distinct a.best_mobile_number_hash ,a.region_lookup_number ,'pi_complaint','Pure IT'
+,(cast(b.date_created as date))
+from PRM.pi_consumer_BKP_15mar2017 a
+inner join PRM.pi_complaint b on a.customer_number=b.customer_number
+where LENGTH(b.create_date)<1;
+
+--rfs
+
+insert into "GAIN_THEORY".ConsumerScoringPhase1Data(best_mobile_number_hash ,region_lookup_number 
+,source,Brand_Name,interactiondate)
+select distinct a.best_mobile_number_hash ,a.region_lookup_number ,'pi_rfs','Pure IT'
+,(cast(SUBSTR(b.order_date,1,10) as date))
+from PRM.pi_consumer_BKP_15mar2017 a
+inner join PRM.pi_rfs b on a.customer_number=b.customer_number
+where LENGTH(b.order_date)>1;
+
+insert into "GAIN_THEORY".ConsumerScoringPhase1Data(best_mobile_number_hash ,region_lookup_number 
+,source,Brand_Name,interactiondate)
+select distinct a.best_mobile_number_hash ,a.region_lookup_number ,'pi_rfs','Pure IT',(cast(b.date_created as date))
+from PRM.pi_consumer_BKP_15mar2017 a
+inner join PRM.pi_rfs b on a.customer_number=b.customer_number
+where LENGTH(b.order_date)<1;
+
+-----
+--------------- lakme data
+-----
+
+insert into "GAIN_THEORY".ConsumerScoringPhase1Data(best_mobile_number_hash ,region_lookup_number 
+,source,Brand_Name,interactiondate)
+select distinct best_mobile_number_hash ,region_lookup_number ,'lk_customer','lakme',(cast(date_created as date))
+from  PRM.lk_customer;
+
+insert into "GAIN_THEORY".ConsumerScoringPhase1Data(best_mobile_number_hash ,region_lookup_number 
+,source,Brand_Name,interactiondate)
+select distinct best_mobile_number_hash ,region_lookup_number ,'lk_redeem_transaction','lakme'
+,(cast(SUBSTR(lk_date,7,4)||'-'||SUBSTR(lk_date,1,2)||'-'||SUBSTR(lk_date,4,2) as date))
+from PRM.lk_redeem_transaction;
+
+insert into "GAIN_THEORY".ConsumerScoringPhase1Data(best_mobile_number_hash ,region_lookup_number 
+,source,Brand_Name,interactiondate)
+select distinct best_mobile_number_hash ,region_lookup_number ,'lk_redemption_all_years','lakme'
+,(cast(SUBSTR(transaction_date,7,4)||'-'||SUBSTR(transaction_date,1,2)||'-'||SUBSTR(transaction_date,4,2) as date))
+from PRM.lk_redemption_all_years;
+
+insert into "GAIN_THEORY".ConsumerScoringPhase1Data(best_mobile_number_hash ,region_lookup_number 
+,source,Brand_Name,interactiondate)
+select distinct best_mobile_number_hash ,region_lookup_number ,'lk_transaction','lakme'
+,(cast(SUBSTR(trans_date,7,4)||'-'||SUBSTR(trans_date,1,2)||'-'||SUBSTR(trans_date,4,2) as date))
+from PRM.lk_transaction;
+
+insert into "GAIN_THEORY".ConsumerScoringPhase1Data(best_mobile_number_hash ,region_lookup_number 
+,source,Brand_Name,interactiondate)
+select distinct best_mobile_number_hash ,region_lookup_number ,'lk_transaction_all_years','lakme'
+,(cast(transaction_date as date))
+from PRM.lk_transaction_all_years;
+
+
+
+
+
+-----
+---------------Digital data
+-----
+
+insert into "GAIN_THEORY".ConsumerScoringTemp select 'dl all',current_timestamp;
+
+insert into "GAIN_THEORY".ConsumerScoringPhase1Data(best_mobile_number_hash ,region_lookup_number 
+,source,Brand_Name,interactiondate)
+select distinct best_mobile_number_hash ,region_lookup_number ,'dl_all_campaigns',Brand_name
+,(cast(entry_date as date))
+from PRM.dl_all_campaigns  
+where entry_date is not null
+and  (lower(Brand_name) like '%dove%' or lower(Brand_name) like '%sunsilk%' or lower(Brand_name) like '%pep%dent%' or lower(Brand_name) like '%lakme%'
+or lower(Brand_name) like '%ayush%'or lower(Brand_name) like '%red%label%'or lower(Brand_name) like '%pure%it%'or lower(Brand_name) like '%bru%'
+or lower(Brand_name) like '%3%rose%' or lower(Brand_name) like '%taaza%'or lower(Brand_name) like '%taj%' or lower(Brand_name) like '%fair%love%' or lower(Brand_name) like '%fal%'
+or lower(Brand_name) like '%lifebu%');
+
+---one97 tier 3
+insert into "GAIN_THEORY".ConsumerScoringTemp select '197',current_timestamp;
+
+insert into "GAIN_THEORY".ConsumerScoringPhase1Data(best_mobile_number_hash ,region_lookup_number 
+,source,Brand_Name,interactiondate)
+select distinct best_mobile_number_hash ,region_lookup_number ,'dl197_transaction',Brand_name
+,(cast(SUBSTR(date_of_interaction,7,4)||'-'||SUBSTR(date_of_interaction,4,2)||'-'||SUBSTR(date_of_interaction,1,2) as date))
+from PRM.dl197_transaction
+where date_of_interaction like '%/%' and LENGTH(date_of_interaction)>='10'
+and  (lower(Brand_name) like '%dove%' or lower(Brand_name) like '%sunsilk%' or lower(Brand_name) like '%pep%dent%' or lower(Brand_name) like '%lakme%'
+or lower(Brand_name) like '%ayush%'or lower(Brand_name) like '%red%label%'or lower(Brand_name) like '%pure%it%'or lower(Brand_name) like '%bru%'
+or lower(Brand_name) like '%3%rose%' or lower(Brand_name) like '%taaza%'or lower(Brand_name) like '%taj%' or lower(Brand_name) like '%fair%love%' or lower(Brand_name) like '%fal%'
+or lower(Brand_name) like '%lifebu%');
+
+insert into "GAIN_THEORY".ConsumerScoringPhase1Data(best_mobile_number_hash ,region_lookup_number 
+,source,Brand_Name,interactiondate)
+select distinct best_mobile_number_hash ,region_lookup_number ,'dl197_transaction',Brand_name
+,(cast(SUBSTR(date_of_interaction,7,4)||'-'||SUBSTR(date_of_interaction,4,2)||'-'||SUBSTR(date_of_interaction,1,2) as date))
+from PRM.dl197_transaction 
+where date_of_interaction like '%-%' and LENGTH(date_of_interaction)>='10'
+and  (lower(Brand_name) like '%dove%' or lower(Brand_name) like '%sunsilk%' or lower(Brand_name) like '%pep%dent%' or lower(Brand_name) like '%lakme%'
+or lower(Brand_name) like '%ayush%'or lower(Brand_name) like '%red%label%'or lower(Brand_name) like '%pure%it%'or lower(Brand_name) like '%bru%'
+or lower(Brand_name) like '%3%rose%' or lower(Brand_name) like '%taaza%'or lower(Brand_name) like '%taj%' or lower(Brand_name) like '%fair%love%' or lower(Brand_name) like '%fal%'
+or lower(Brand_name) like '%lifebu%');
+
+insert into "GAIN_THEORY".ConsumerScoringPhase1Data(best_mobile_number_hash ,region_lookup_number 
+,source,Brand_Name,interactiondate)
+select distinct best_mobile_number_hash ,region_lookup_number ,'dl197_transaction',Brand_name
+,(cast(b.date_of_interaction1 as date))
+from PRM.dl197_transaction a inner join GAIN_THEORY.PRMActiveInactiveDateMapping b
+on a.date_of_interaction=b.date_of_interaction
+where LENGTH(a.date_of_interaction)<'10'
+and  (lower(Brand_name) like '%dove%' or lower(Brand_name) like '%sunsilk%' or lower(Brand_name) like '%pep%dent%' or lower(Brand_name) like '%lakme%'
+or lower(Brand_name) like '%ayush%'or lower(Brand_name) like '%red%label%'or lower(Brand_name) like '%pure%it%'or lower(Brand_name) like '%bru%'
+or lower(Brand_name) like '%3%rose%' or lower(Brand_name) like '%taaza%'or lower(Brand_name) like '%taj%' or lower(Brand_name) like '%fair%love%' or lower(Brand_name) like '%fal%'
+or lower(Brand_name) like '%lifebu%');
+
+---ozonetel tier 3
+
+insert into "GAIN_THEORY".ConsumerScoringTemp select 'oz',current_timestamp;
+
+insert into "GAIN_THEORY".ConsumerScoringPhase1Data(best_mobile_number_hash ,region_lookup_number 
+,source,Brand_Name,interactiondate)
+select distinct best_mobile_number_hash ,region_lookup_number ,'dloz_tier3',Brand_name
+,(cast(date_of_interaction as date))
+from PRM.dloz_tier3 a
+where  (lower(Brand_name) like '%dove%' or lower(Brand_name) like '%sunsilk%' or lower(Brand_name) like '%pep%dent%' or lower(Brand_name) like '%lakme%'
+or lower(Brand_name) like '%ayush%'or lower(Brand_name) like '%red%label%'or lower(Brand_name) like '%pure%it%'or lower(Brand_name) like '%bru%'
+or lower(Brand_name) like '%3%rose%' or lower(Brand_name) like '%taaza%'or lower(Brand_name) like '%taj%' or lower(Brand_name) like '%fair%love%' or lower(Brand_name) like '%fal%'
+or lower(Brand_name) like '%lifebu%');
+
+---dlts tier 3
+insert into "GAIN_THEORY".ConsumerScoringTemp select 'ts',current_timestamp;
+
+insert into "GAIN_THEORY".ConsumerScoringPhase1Data(best_mobile_number_hash ,region_lookup_number 
+,source,Brand_Name,interactiondate)
+select distinct best_mobile_number_hash ,region_lookup_number ,'dlts_transaction',Brand_name
+,(cast(substr(datetime_of_interaction ,1,10) as date))
+from PRM.dlts_transaction 
+where datetime_of_interaction like '%-%'
+and  (lower(Brand_name) like '%dove%' or lower(Brand_name) like '%sunsilk%' or lower(Brand_name) like '%pep%dent%' or lower(Brand_name) like '%lakme%'
+or lower(Brand_name) like '%ayush%'or lower(Brand_name) like '%red%label%'or lower(Brand_name) like '%pure%it%'or lower(Brand_name) like '%bru%'
+or lower(Brand_name) like '%3%rose%' or lower(Brand_name) like '%taaza%'or lower(Brand_name) like '%taj%' or lower(Brand_name) like '%fair%love%' or lower(Brand_name) like '%fal%'
+or lower(Brand_name) like '%lifebu%');
+
+insert into "GAIN_THEORY".ConsumerScoringPhase1Data(best_mobile_number_hash ,region_lookup_number 
+,source,Brand_Name,interactiondate)
+select distinct best_mobile_number_hash ,region_lookup_number ,'dlts_transaction',Brand_name
+,(cast(SUBSTR(datetime_of_interaction,7,4)||'-'||SUBSTR(datetime_of_interaction,4,2)||'-'||SUBSTR(datetime_of_interaction,1,2) as date))
+from PRM.dlts_transaction 
+where datetime_of_interaction like '%/%' and datetime_of_interaction not like '%Date/Time%'
+and   (lower(Brand_name) like '%dove%' or lower(Brand_name) like '%sunsilk%' or lower(Brand_name) like '%pep%dent%' or lower(Brand_name) like '%lakme%'
+or lower(Brand_name) like '%ayush%'or lower(Brand_name) like '%red%label%'or lower(Brand_name) like '%pure%it%'or lower(Brand_name) like '%bru%'
+or lower(Brand_name) like '%3%rose%' or lower(Brand_name) like '%taaza%'or lower(Brand_name) like '%taj%' or lower(Brand_name) like '%fair%love%' or lower(Brand_name) like '%fal%'
+or lower(Brand_name) like '%lifebu%');
+
+--dlzd tier 3
+
+insert into "GAIN_THEORY".ConsumerScoringTemp select 'zd',current_timestamp;
+
+insert into "GAIN_THEORY".ConsumerScoringPhase1Data(best_mobile_number_hash ,region_lookup_number 
+,source,Brand_Name,interactiondate)
+select distinct best_mobile_number_hash ,region_lookup_number ,'dlzd_transaction',Brand,
+(cast(SUBSTR(datetime_of_interaction,7,4)||'-'||SUBSTR(datetime_of_interaction,4,2)||'-'||SUBSTR(datetime_of_interaction,1,2) as date))
+from PRM.dlzd_transaction
+where datetime_of_interaction like '%/%' and datetime_of_interaction not like '%Date/Time%'
+and   (lower(brand) like '%dove%' or lower(brand) like '%sunsilk%' or lower(brand) like '%pep%dent%' or lower(brand) like '%lakme%'
+or lower(brand) like '%ayush%'or lower(brand) like '%red%label%'or lower(brand) like '%pure%it%'or lower(brand) like '%bru%'
+or lower(brand) like '%3%rose%' or lower(brand) like '%taaza%'or lower(brand) like '%taj%' or lower(brand) like '%fair%love%' or lower(brand) like '%fal%'
+or lower(brand) like '%lifebu%');
+
+insert into "GAIN_THEORY".ConsumerScoringPhase1Data(best_mobile_number_hash ,region_lookup_number 
+,source,Brand_Name,interactiondate)
+select distinct best_mobile_number_hash ,region_lookup_number ,'dlzd_transaction',Brand
+,(cast(substr(datetime_of_interaction ,1,10) as date))
+from PRM.dlzd_transaction 
+where datetime_of_interaction like '%-%'
+and   (lower(brand) like '%dove%' or lower(brand) like '%sunsilk%' or lower(brand) like '%pep%dent%' or lower(brand) like '%lakme%'
+or lower(brand) like '%ayush%'or lower(brand) like '%red%label%'or lower(brand) like '%pure%it%'or lower(brand) like '%bru%'
+or lower(brand) like '%3%rose%' or lower(brand) like '%taaza%'or lower(brand) like '%taj%' or lower(brand) like '%fair%love%' or lower(brand) like '%fal%'
+or lower(brand) like '%lifebu%');
+
+-----imi tier 3
+insert into "GAIN_THEORY".ConsumerScoringTemp select 'imi',current_timestamp;
+
+insert into "GAIN_THEORY".ConsumerScoringPhase1Data(best_mobile_number_hash ,region_lookup_number 
+,source,Brand_Name,interactiondate)
+select distinct best_mobile_number_hash ,region_lookup_number ,'imimobile_tier3',Brand_name
+,(cast(date_of_interaction as date))
+from PRM.imimobile_tier3 a
+where  (lower(Brand_name) like '%dove%' or lower(Brand_name) like '%sunsilk%' or lower(Brand_name) like '%pep%dent%' or lower(Brand_name) like '%lakme%'
+or lower(Brand_name) like '%ayush%'or lower(Brand_name) like '%red%label%'or lower(Brand_name) like '%pure%it%'or lower(Brand_name) like '%bru%'
+or lower(Brand_name) like '%3%rose%' or lower(Brand_name) like '%taaza%'or lower(Brand_name) like '%taj%' or lower(Brand_name) like '%fair%love%' or lower(Brand_name) like '%fal%'
+or lower(Brand_name) like '%lifebu%');
+
+---mgage tier 3
+
+insert into "GAIN_THEORY".ConsumerScoringTemp select 'mgage',current_timestamp;
+
+insert into "GAIN_THEORY".ConsumerScoringPhase1Data(best_mobile_number_hash ,region_lookup_number 
+,source,Brand_Name,interactiondate)
+select distinct best_mobile_number_hash ,region_lookup_number ,'mgage_tier3',Brand_name
+,(cast(SUBSTR(date_of_interaction,7,4)||'-'||SUBSTR(date_of_interaction,4,2)||'-'||SUBSTR(date_of_interaction,1,2) as date))
+from PRM.mgage_tier3 
+where LENGTH(date_of_interaction)>='10' 
+and  (lower(Brand_name) like '%dove%' or lower(Brand_name) like '%sunsilk%' or lower(Brand_name) like '%pep%dent%' or lower(Brand_name) like '%lakme%'
+or lower(Brand_name) like '%ayush%'or lower(Brand_name) like '%red%label%'or lower(Brand_name) like '%pure%it%'or lower(Brand_name) like '%bru%'
+or lower(Brand_name) like '%3%rose%' or lower(Brand_name) like '%taaza%'or lower(Brand_name) like '%taj%' or lower(Brand_name) like '%fair%love%' or lower(Brand_name) like '%fal%'
+or lower(Brand_name) like '%lifebu%');
+
+insert into "GAIN_THEORY".ConsumerScoringPhase1Data(best_mobile_number_hash ,region_lookup_number 
+,source,Brand_Name,interactiondate)
+select distinct best_mobile_number_hash ,region_lookup_number ,'mgage_tier3',Brand_name,(cast(b.date_of_interaction1 as date))
+from PRM.mgage_tier3 a inner join GAIN_THEORY.PRMActiveInactiveDateMapping b
+on a.date_of_interaction=b.date_of_interaction
+where LENGTH(a.date_of_interaction)<'10'
+and  (lower(Brand_name) like '%dove%' or lower(Brand_name) like '%sunsilk%' or lower(Brand_name) like '%pep%dent%' or lower(Brand_name) like '%lakme%'
+or lower(Brand_name) like '%ayush%'or lower(Brand_name) like '%red%label%'or lower(Brand_name) like '%pure%it%'or lower(Brand_name) like '%bru%'
+or lower(Brand_name) like '%3%rose%' or lower(Brand_name) like '%taaza%'or lower(Brand_name) like '%taj%' or lower(Brand_name) like '%fair%love%' or lower(Brand_name) like '%fal%'
+or lower(Brand_name) like '%lifebu%');
+
+----thinkwalnut tier 3
+insert into "GAIN_THEORY".ConsumerScoringTemp select 'think',current_timestamp;
+
+
+insert into "GAIN_THEORY".ConsumerScoringPhase1Data(best_mobile_number_hash ,region_lookup_number 
+,source,Brand_Name,interactiondate)
+select distinct best_mobile_number_hash ,region_lookup_number ,'thinkwalnut_tier3',Brand_name
+,(cast(SUBSTR(date_of_interaction,7,4)||'-'||SUBSTR(date_of_interaction,4,2)||'-'||SUBSTR(date_of_interaction,1,2) as date))
+from PRM.thinkwalnut_tier3 
+where date_of_interaction like '%-%' and LENGTH(date_of_interaction)>='10'
+and date_of_interaction not like '%0000-00-00%'
+and  (lower(Brand_name) like '%dove%' or lower(Brand_name) like '%sunsilk%' or lower(Brand_name) like '%pep%dent%' or lower(Brand_name) like '%lakme%'
+or lower(Brand_name) like '%ayush%'or lower(Brand_name) like '%red%label%'or lower(Brand_name) like '%pure%it%'or lower(Brand_name) like '%bru%'
+or lower(Brand_name) like '%3%rose%' or lower(Brand_name) like '%taaza%'or lower(Brand_name) like '%taj%' or lower(Brand_name) like '%fair%love%' or lower(Brand_name) like '%fal%'
+or lower(Brand_name) like '%lifebu%');
+
+insert into "GAIN_THEORY".ConsumerScoringPhase1Data(best_mobile_number_hash ,region_lookup_number 
+,source,Brand_Name,interactiondate)
+select distinct best_mobile_number_hash ,region_lookup_number ,'thinkwalnut_tier3',Brand_name
+,(cast(SUBSTR(date_of_interaction,7,4)||'-'||SUBSTR(date_of_interaction,4,2)||'-'||SUBSTR(date_of_interaction,1,2) as date))
+from PRM.thinkwalnut_tier3
+where date_of_interaction like '%/%' and LENGTH(date_of_interaction)>='10'
+and  (lower(Brand_name) like '%dove%' or lower(Brand_name) like '%sunsilk%' or lower(Brand_name) like '%pep%dent%' or lower(Brand_name) like '%lakme%'
+or lower(Brand_name) like '%ayush%'or lower(Brand_name) like '%red%label%'or lower(Brand_name) like '%pure%it%'or lower(Brand_name) like '%bru%'
+or lower(Brand_name) like '%3%rose%' or lower(Brand_name) like '%taaza%'or lower(Brand_name) like '%taj%' or lower(Brand_name) like '%fair%love%' or lower(Brand_name) like '%fal%'
+or lower(Brand_name) like '%lifebu%');
+
+-----***********************************************************************************
+--------------- dl tier 4 data
+-----***********************************************************************************
+
+insert into "GAIN_THEORY".ConsumerScoringTemp select 'imi tier4',current_timestamp;
+
+--imi tier 4
+insert into "GAIN_THEORY".ConsumerScoringPhase1Data(best_mobile_number_hash ,region_lookup_number 
+,source,Brand_Name,interactiondate)
+select distinct best_mobile_number_hash ,circle ,'imimobile_tier4_obd_master',b.brand
+,(cast(a.Date_Time_Interaction as date))
+from PRM.imimobile_tier4_obd_master a 
+inner join PRM.imimobile_tier4_campaign_master b on a.campaign_id=b.campaign_id
+where (lower(b.brand) like '%dove%' or lower(b.brand) like '%sunsilk%' or lower(b.brand) like '%pep%dent%' or lower(b.brand) like '%lakme%'
+or lower(b.brand) like '%ayush%'or lower(b.brand) like '%red%label%'or lower(b.brand) like '%pure%it%'or lower(b.brand) like '%bru%'
+or lower(b.brand) like '%3%rose%' or lower(b.brand) like '%taaza%'or lower(b.brand) like '%taj%' or lower(b.brand) like '%fair%love%' or lower(brand) like '%fal%'
+or lower(b.brand) like '%lifebu%') ;
+
+insert into "GAIN_THEORY".ConsumerScoringPhase1Data(best_mobile_number_hash ,region_lookup_number 
+,source,Brand_Name,interactiondate)
+select distinct best_mobile_number_hash ,circle ,'imimobile_tier4_sms_master',b.brand
+,(cast(date_and_time_of_interaction as date))
+from PRM.imimobile_tier4_sms_master  a 
+inner join PRM.imimobile_tier4_campaign_master b on a.campaign_id=b.campaign_id
+where (lower(b.brand) like '%dove%' or lower(b.brand) like '%sunsilk%' or lower(b.brand) like '%pep%dent%' or lower(b.brand) like '%lakme%'
+or lower(b.brand) like '%ayush%'or lower(b.brand) like '%red%label%'or lower(b.brand) like '%pure%it%'or lower(b.brand) like '%bru%'
+or lower(b.brand) like '%3%rose%' or lower(b.brand) like '%taaza%'or lower(b.brand) like '%taj%' or lower(b.brand) like '%fair%love%' or lower(brand) like '%fal%'
+or lower(b.brand) like '%lifebu%') ;
+
+
+
+-----
+--------------- end of data load
+-----
+-----
+--------------- Update the brands
+-----
+
+update "GAIN_THEORY".ConsumerScoringPhase1Data
+from GAIN_THEORY.ConsumerScoringBrandMapping b 
+set updated_Brand_Name=b.Updated_Brand_name,Category=b.Category
+where "GAIN_THEORY".ConsumerScoringPhase1Data."Brand_Name"=b.Brand_name
+and "GAIN_THEORY".ConsumerScoringPhase1Data."updated_Brand_Name" is null;
+
+
+-----***********************************************************************************
+--------------- Brand scoring
+-----***********************************************************************************
+
+insert into "GAIN_THEORY".ConsumerScoringTemp select 'updating taj tea',current_timestamp;
+
+update "GAIN_THEORY".ConsumerScoringPhase1Data
+set updated_Brand_Name='taj tea',Category='F&R' where Brand_Name='Taj tea';
+
+insert into "GAIN_THEORY".ConsumerScoringTemp select 'pepsodent',current_timestamp;
+
+update "GAIN_THEORY".ConsumerScoringPhase1Data
+set updated_Brand_Name='pepsodent',Category='PC' where Brand_Name='Toothbrush  Pepsodent';
+
+insert into "GAIN_THEORY".ConsumerScoringTemp select 'bru',current_timestamp;
+
+update "GAIN_THEORY".ConsumerScoringPhase1Data
+set updated_Brand_Name='bru',Category='F&R' where Brand_Name in ('bru','BRU  SS');
+
+insert into "GAIN_THEORY".ConsumerScoringTemp select 'taaza',current_timestamp;
+
+
+update "GAIN_THEORY".ConsumerScoringPhase1Data
+set updated_Brand_Name='taaza',Category='F&R' where Brand_Name in ('Taaza');
+
+insert into "GAIN_THEORY".ConsumerScoringTemp select 'lakme',current_timestamp;
+
+
+update "GAIN_THEORY".ConsumerScoringPhase1Data
+set updated_Brand_Name='lakme',Category='PC' where Brand_Name in ('LAKME  FACE MAGIC CO','LAKME  FACE MAGIC CONCEA');
+
+
+
+
+
+
+
+
+
+insert into "GAIN_THEORY".ConsumerScoringTemp select 'creatign brand scor table',current_timestamp;
+
+
+----creating brand scoring table
+DROP TABLE  "GAIN_THEORY"."ConsumerScoring_BrandScoring" ;
+CREATE TABLE  "GAIN_THEORY"."ConsumerScoring_BrandScoring"
+(
+"mobile_number" varchar(300) ,"region" varchar(100), "lsm" varchar(30), "confidence" varchar(30)
+, "provider" varchar(30), "brand" varchar(100), "category" varchar(300),"Frequency" integer
+,"Recency" date,Freqscore float,recencyscore float,brandscore float,brandbuckettype varchar(100),
+catscore float,catbuckettype varchar(100),demoscore float,demobuckettype  varchar(100),
+catfreq int,catrece varchar(100),age varchar(50),gender varchar(50),city varchar(100));
+
+
+insert into "GAIN_THEORY".ConsumerScoringTemp select 'inserting brandscorerecords',current_timestamp;
+
+
+insert into "GAIN_THEORY"."ConsumerScoring_BrandScoring"
+("mobile_number","region", "brand", "category","Frequency","Recency" )
+select "best_mobile_number_hash","region_lookup_number", "updated_Brand_Name", "category",
+count(distinct interactiondate) "Frequency",max(interactiondate) "Recency" 
+FROM "GAIN_THEORY".ConsumerScoringPhase1Data
+group by "mobile_number","region_lookup_number", "updated_Brand_Name", "category";
+
+
+delete from "GAIN_THEORY"."ConsumerScoring_BrandScoring"
+where length(mobile_number)=0;
+
+
+----calcualting recency score
+
+
+insert into "GAIN_THEORY".ConsumerScoringTemp select 'cal rece brandscore',current_timestamp;
+
+
+update "GAIN_THEORY"."ConsumerScoring_BrandScoring"
+set recencyscore= case 
+when CURRENT_DATE - "Recency"   >='0' and CURRENT_DATE - "Recency"   <='90' then 1
+when CURRENT_DATE - "Recency"   >='91' and CURRENT_DATE - "Recency"   <='180' then 0.90
+when CURRENT_DATE - "Recency"   >='181' and CURRENT_DATE - "Recency"   <='270' then 0.80
+when CURRENT_DATE - "Recency"   >='271' and CURRENT_DATE - "Recency"   <='360' then 0.70
+when CURRENT_DATE - "Recency"   >='361' and CURRENT_DATE - "Recency"   <='450' then 0.60
+when CURRENT_DATE - "Recency"   >='451' and CURRENT_DATE - "Recency"   <='540' then 0.50
+when CURRENT_DATE - "Recency"   >='541' and CURRENT_DATE - "Recency"   <='630' then 0.40
+when CURRENT_DATE - "Recency"   >='631' and CURRENT_DATE - "Recency"   <='720' then 0.30
+when CURRENT_DATE - "Recency"   >='721'  then 0.20 end;
+
+
+insert into "GAIN_THEORY".ConsumerScoringTemp select 'cal freq brandscore',current_timestamp;
+
+
+---------creating freq table
+drop table "GAIN_THEORY".ConsumerScoringFreq;
+
+
+create table "GAIN_THEORY".ConsumerScoringFreq as (
+select distinct brand,max(frequency) val
+from "GAIN_THEORY"."ConsumerScoring_BrandScoring" where length(mobile_number)>0 group by 1
+) WITH DATA;
+
+
+
+update "GAIN_THEORY"."ConsumerScoring_BrandScoring"
+from "GAIN_THEORY".ConsumerScoringFreq a
+set Freqscore= case 
+when cast(cast(Frequency as float)/cast(val as float)  AS DECIMAL (5,2)) >=0.80 then 1
+when cast(cast(Frequency as float)/cast(val as float)  AS DECIMAL (5,2)) between 0.60 and 0.79 then 0.80
+when cast(cast(Frequency as float)/cast(val as float)  AS DECIMAL (5,2)) between 0.40 and 0.59 then 0.60
+when cast(cast(Frequency as float)/cast(val as float) AS DECIMAL (5,2)) between 0.20 and 0.39 then 0.40
+when cast(cast(Frequency as float)/cast(val as float)  AS DECIMAL (5,2)) between 0 and 0.19 then 0.20
+end
+where "GAIN_THEORY"."ConsumerScoring_BrandScoring".brand=a.brand;
+
+
+insert into "GAIN_THEORY".ConsumerScoringTemp select 'cal final brand score',current_timestamp;
+
+----final brand scoring
+
+update "GAIN_THEORY"."ConsumerScoring_BrandScoring"
+set brandscore=cast((Freqscore+recencyscore)/2.0 AS DECIMAL (5,2));
+
+update "GAIN_THEORY"."ConsumerScoring_BrandScoring"
+set brandbuckettype=case
+when brandscore >=0.80 then 'Engaged'
+when brandscore between 0.60 and 0.79 then 'High Engag'
+when brandscore between 0.40 and 0.59 then 'Med Engag'
+when brandscore between 0.20 and 0.39 then 'Low Engag'
+when brandscore between 0 and 0.19 then 'Disengaged'
+end;
+
+
+
+
+/*-----------------category scoring---------------*/
+
+insert into "GAIN_THEORY".ConsumerScoringTemp select 'cal cat data',current_timestamp;
+
+
+-----category scoring
+
+DROP TABLE  "GAIN_THEORY"."ConsumerScoring_CategoryScoring" ;
+CREATE TABLE  "GAIN_THEORY"."ConsumerScoring_CategoryScoring"
+(
+"mobile_number" varchar(300) ,  "category" varchar(300),"Frequency" integer
+,"Recency" date,Freqscore float,recencyscore float,catscore float,catbucket varchar(100));
+
+----inserting  cat score data
+
+insert into "GAIN_THEORY"."ConsumerScoring_CategoryScoring"
+("mobile_number", "category","Frequency","Recency" )
+select "best_mobile_number_hash","category",
+count(distinct interactiondate) "Frequency",max(interactiondate) "Recency" 
+FROM "GAIN_THEORY".ConsumerScoringPhase1Data
+group by "best_mobile_number_hash","category";
+
+
+delete from "GAIN_THEORY"."ConsumerScoring_CategoryScoring"
+where length(mobile_number)=0;
+
+insert into "GAIN_THEORY".ConsumerScoringTemp select 'cal rece cat score',current_timestamp;
+
+
+--------calculating rececny score
+update "GAIN_THEORY"."ConsumerScoring_CategoryScoring"
+set recencyscore= case 
+when CURRENT_DATE - "Recency"   >='0' and CURRENT_DATE - "Recency"   <='90' then 1
+when CURRENT_DATE - "Recency"   >='91' and CURRENT_DATE - "Recency"   <='180' then 0.90
+when CURRENT_DATE - "Recency"   >='181' and CURRENT_DATE - "Recency"   <='270' then 0.80
+when CURRENT_DATE - "Recency"   >='271' and CURRENT_DATE - "Recency"   <='360' then 0.70
+when CURRENT_DATE - "Recency"   >='361' and CURRENT_DATE - "Recency"   <='450' then 0.60
+when CURRENT_DATE - "Recency"   >='451' and CURRENT_DATE - "Recency"   <='540' then 0.50
+when CURRENT_DATE - "Recency"   >='541' and CURRENT_DATE - "Recency"   <='630' then 0.40
+when CURRENT_DATE - "Recency"   >='631' and CURRENT_DATE - "Recency"   <='720' then 0.30
+when CURRENT_DATE - "Recency"   >='721'  then 0.20 end;
+
+insert into "GAIN_THEORY".ConsumerScoringTemp select 'cat freq max',current_timestamp;
+---------creating catfreq table
+
+drop table "GAIN_THEORY".ConsumerScoringFreqCat;
+
+create table "GAIN_THEORY".ConsumerScoringFreqCat as (
+select distinct category,max(frequency) val
+from "GAIN_THEORY"."ConsumerScoring_CategoryScoring" where length(mobile_number)>0 group by 1
+) WITH DATA;
+
+----calcualting freq cat score
+insert into "GAIN_THEORY".ConsumerScoringTemp select 'cal freq cat score',current_timestamp;
+
+update "GAIN_THEORY"."ConsumerScoring_CategoryScoring"
+from "GAIN_THEORY".ConsumerScoringFreqCat a
+set Freqscore= case 
+when cast(cast(Frequency as float)/cast(val as float)  AS DECIMAL (5,2)) >=0.80 then 1
+when cast(cast(Frequency as float)/cast(val as float)  AS DECIMAL (5,2)) between 0.60 and 0.79 then 0.80
+when cast(cast(Frequency as float)/cast(val as float)  AS DECIMAL (5,2)) between 0.40 and 0.59 then 0.60
+when cast(cast(Frequency as float)/cast(val as float) AS DECIMAL (5,2)) between 0.20 and 0.39 then 0.40
+when cast(cast(Frequency as float)/cast(val as float)  AS DECIMAL (5,2)) between 0 and 0.19 then 0.20
+end
+where "GAIN_THEORY"."ConsumerScoring_CategoryScoring".category=a.category;
+
+
+insert into "GAIN_THEORY".ConsumerScoringTemp select 'cal cat score',current_timestamp;
+---final categroy scoring
+
+update "GAIN_THEORY"."ConsumerScoring_CategoryScoring"
+set catscore=cast((Freqscore+recencyscore)/2.0 AS DECIMAL (5,2));
+
+insert into "GAIN_THEORY".ConsumerScoringTemp select 'cal cat bucket',current_timestamp;
+
+
+update "GAIN_THEORY"."ConsumerScoring_CategoryScoring"
+set catbucket=case
+when catscore >=0.80 then 'Engaged'
+when catscore between 0.60 and 0.79 then 'High Engag'
+when catscore between 0.40 and 0.59 then 'Med Engag'
+when catscore between 0.20 and 0.39 then 'Low Engag'
+when catscore between 0 and 0.19 then 'Disengaged'
+end;
+
+update "GAIN_THEORY"."ConsumerScoring_BrandScoring"
+from "GAIN_THEORY"."ConsumerScoring_CategoryScoring" a
+set catscore=a.catscore,catbuckettype=a.catbucket
+where "GAIN_THEORY"."ConsumerScoring_BrandScoring".mobile_number=a.mobile_number
+and "GAIN_THEORY"."ConsumerScoring_BrandScoring".category=a.category;
+
+----updating region
+
+insert into "GAIN_THEORY".ConsumerScoringTemp select 'updating region',current_timestamp;
+
+update "GAIN_THEORY"."ConsumerScoring_BrandScoring"
+from PRM.ref_mobile_lookup a
+set region=a.region
+where "GAIN_THEORY"."ConsumerScoring_BrandScoring".region=a.lookup_prefix5;
+
+
+
+update "GAIN_THEORY"."ConsumerScoring_BrandScoring"
+set region='Unknown'
+where region  between '0' and '9999999999999999' ;
+
+
+insert into "GAIN_THEORY".ConsumerScoringTemp select 'updating LSM',current_timestamp;
+
+-----mapping lsm age gender
+update "GAIN_THEORY"."ConsumerScoring_BrandScoring"
+from "GAIN_THEORY".ConsumerScoringDemomapping b 
+set lsm=b.lsm,confidence=b.confidence,age=b.age,gender=b.gender,city=b.city
+where "GAIN_THEORY"."ConsumerScoring_BrandScoring".mobile_number=b.mobile_number;
+
+
+insert into "GAIN_THEORY".ConsumerScoringTemp select 'final scoring',current_timestamp;
+
+
+-----------------------final scoring
+alter table "GAIN_THEORY"."ConsumerScoring_BrandScoring" add Finalscore float;
+alter table "GAIN_THEORY"."ConsumerScoring_BrandScoring" add Finalbuckettype  varchar(100);
+
+update "GAIN_THEORY"."ConsumerScoring_BrandScoring"
+set Finalscore=(catscore+brandscore)/2.0;
+
+
+update "GAIN_THEORY"."ConsumerScoring_BrandScoring"
+set Finalbuckettype=case
+when Finalscore >=0.80 then 'Engaged'
+when Finalscore between 0.60 and 0.79 then 'High Engag'
+when Finalscore between 0.40 and 0.59 then 'Med Engag'
+when Finalscore between 0.20 and 0.39 then 'Low Engag'
+when Finalscore between 0 and 0.19 then 'Disengaged' end;
+
+
+
+-------------Final Table for tableau
+
+create table "GAIN_Theory"."ConsumerScoringTableau" as(
+select region,lsm,confidence,brand,category,brandscore,catscore,Finalscore,Finalbuckettype,age,gender,city,
+count(distinct mobile_number )counts
+from "GAIN_THEORY"."ConsumerScoring_BrandScoring"
+group by region,lsm,confidence,brand,category,brandscore,catscore,Finalscore,Finalbuckettype
+,age,gender,city ) WITH DATA;
+
+
+
+
+
+
+
+
+/*----------------------20170416--------------------*/
+
+alter table "GAIN_THEORY"."ConsumerScoring_BrandScoring" add names varchar(10);
+alter table "GAIN_THEORY"."ConsumerScoring_BrandScoring" add email varchar(10);
+alter table "GAIN_THEORY"."ConsumerScoring_BrandScoring" add pincode varchar(10);
+
+
+update "GAIN_THEORY"."ConsumerScoring_BrandScoring" 
+set names='Y'
+where mobile_number in (
+select distinct mobile_number from GAIN_THEORY.PRMDashboard_data
+where length(city)>0);
+
+
+update "GAIN_THEORY"."ConsumerScoring_BrandScoring" 
+set email='Y'
+where mobile_number in (
+select distinct mobile_number from GAIN_THEORY.PRMDashboard_data
+where length(email)>0);
+
+update "GAIN_THEORY"."ConsumerScoring_BrandScoring" 
+set pincode='Y'
+where mobile_number in (
+select distinct mobile_number from GAIN_THEORY.PRMDashboard_data
+where length(pincode)>0);
+
+
+
+
+
+drop table "GAIN_Theory"."ConsumerScoringTableau";
+create table "GAIN_Theory"."ConsumerScoringTableau" as(
+select region,lsm,confidence,brand,category,brandscore,catscore,Finalscore,Finalbuckettype,age,gender,city,names,email,pincode,
+count(distinct mobile_number )counts
+from "GAIN_THEORY"."ConsumerScoring_BrandScoring"
+group by region,lsm,confidence,brand,category,brandscore,catscore,Finalscore,Finalbuckettype
+,age,gender,city,names,email,pincode ) WITH DATA;
+
+
+
