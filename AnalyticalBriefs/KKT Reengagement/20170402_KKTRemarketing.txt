@@ -1,0 +1,42 @@
+
+create table "GAIN_THEORY"."KKTRemarketing_Tableau" as (
+
+select "customer_type", "call_type", "year","month","day","hour", "status","best_mobile_number_hash" 
+,"region", "gender", "RFM_Score", "RFM_Bucket",sum("duration")"duration" from (
+SELECT "customer_type", "call_type", extract(year from "call_start_time")"year",
+extract(month from "call_start_time")"Month",extract(day from "call_start_time")"day",
+extract(hour from "call_start_time")"hour", "status","best_mobile_number_hash" 
+,"region", "gender", "RFM_Score", "RFM_Bucket",customer , avg("duration")"duration"
+FROM "GAIN_THEORY"."KKTRemarketing_SplitData"
+group by "customer_type", "call_type", extract(year from "call_start_time"),
+extract(month from "call_start_time"),extract(day from "call_start_time"),
+extract(hour from "call_start_time"), "status","best_mobile_number_hash" 
+,"region", "gender", "RFM_Score", "RFM_Bucket",customer) as a
+group by "customer_type", "call_type", "year","month","day","hour", "status","best_mobile_number_hash" 
+,"region", "gender", "RFM_Score", "RFM_Bucket") WITH DATA;
+
+
+create table "GAIN_THEORY"."KKTRemarketing_TableauFinal" as (
+select  "year","month","day","hour","region", "gender", "RFM_Score"
+, "RFM_Bucket","duration",count(distinct "best_mobile_number_hash" )"best_mobile_number_hash" 
+from "GAIN_THEORY"."KKTRemarketing_Tableau"
+group by  "year","month","day","hour","region", "gender", "RFM_Score"
+, "RFM_Bucket","duration") WITH DATA;
+
+
+
+create table "GAIN_THEORY"."KKTRemarketing_TableauFinal" as (
+
+select  "year","month","day","hour","region", "gender", "RFM_Score"
+, "RFM_Bucket","duration",count(distinct "best_mobile_number_hash" )"best_mobile_number_hash" 
+from (
+select  "best_mobile_number_hash","year","month","day","hour","region", "gender"
+, "RFM_Score", "RFM_Bucket",case 
+when "duration">=0 and "duration"<=10 then '0-10' when "duration">10 and "duration"<=30 then '11-30'
+when "duration">30 and "duration"<=60 then '31-60' when "duration">60 and "duration"<=90 then '61-90'
+when "duration">90 and "duration"<=120 then '91-120' when "duration">120 and "duration"<=180 then '121-180'
+when "duration">180 and "duration"<=240 then '181-240'when "duration">240 and "duration"<=360 then '241-360'
+when "duration">360 and "duration"<=540 then '361-540'when "duration">540 then '>540' end "duration"
+from "GAIN_THEORY"."KKTRemarketing_Tableau" ) as a
+group by  "year","month","day","hour","region", "gender", "RFM_Score"
+, "RFM_Bucket","duration") WITH DATA;

@@ -1,0 +1,47 @@
+create table "GAIN_THEORY".KKTRemarketing_TempRecency 
+("best_mobile_number_hash" varchar(300),"call_start_time" timestamp,recency varchar(50));
+
+
+insert into "GAIN_THEORY".KKTRemarketing_TempRecency("best_mobile_number_hash" ,"call_start_time")
+select best_mobile_number_hash,max(cast("call_start_time" as date))
+from "GAIN_THEORY".KKTRemarketing_SourceData 
+group by best_mobile_number_hash;
+
+update "GAIN_THEORY".KKTRemarketing_TempRecency
+set recency=
+case when cast('2016-09-30' as date) - cast("call_start_time" as date)  >='0' and cast('2016-09-30' as date) - cast("call_start_time" as date)  <='90' then '0-90 Days'
+when cast('2016-09-30' as date) - cast("call_start_time" as date)  >='91' and cast('2016-09-30' as date) - cast("call_start_time" as date)  <='180' then '91-180 Days'
+when cast('2016-09-30' as date) - cast("call_start_time" as date)  >='181' then '>181 Days'
+end;
+
+
+
+alter table "GAIN_THEORY".KKTRemarketing_SplitData add recency varchar(100);
+
+
+update "GAIN_THEORY".KKTRemarketing_SplitData 
+from"GAIN_THEORY".KKTRemarketing_TempRecency b 
+set  recency=b.recency
+where "GAIN_THEORY".KKTRemarketing_SplitData.best_mobile_number_hash=b.best_mobile_number_hash;
+----------------------frequency
+
+select times,count(distinct best_mobile_number_hash)
+ from (
+select best_mobile_number_hash,(count( distinct EXTRACT(MONTH from "call_start_time" )))times
+from "GAIN_THEORY".KKTRemarketing_SourceData 
+group by best_mobile_number_hash ) as a group by times;
+
+select times,count(distinct best_mobile_number_hash)
+ from (
+select best_mobile_number_hash,(count( distinct EXTRACT(MONTH from "call_start_time" )))times
+from PRM.kkt_cdrlobd
+where cast("call_start_time" as date)>='2016-10-01'
+group by best_mobile_number_hash ) as a group by times;
+
+select times,count(distinct best_mobile_number_hash)
+ from (
+select best_mobile_number_hash,(count( distinct EXTRACT(MONTH from "call_start_time" )))times
+from PRM.kkt_cdrlobd
+where cast("call_start_time" as date)>='2016-10-01'
+and cast("call_start_time" as date)<'2017-04-01'
+group by best_mobile_number_hash ) as a group by times;

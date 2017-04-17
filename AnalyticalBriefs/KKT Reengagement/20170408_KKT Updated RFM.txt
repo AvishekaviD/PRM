@@ -1,0 +1,193 @@
+----taking backup of old RFE
+create table "GAIN_THEORY".KKTRemarketing_RFEbk as ( select *  from "GAIN_THEORY".KKTRemarketing_RFE) WITH DATA ;
+
+
+/*------------------calculating for 0-90 days bucket---------------------*/
+
+-----------cacluating actual R,F and E value
+
+create table "GAIN_THEORY".KKTRemarketing_RFE
+(best_mobile_number_hash varchar(300),Recency date ,Frequency int,Engagement float,
+RecencyQuintiles float,FrequencyQuintiles float, MonetaryQuintiles float,outliers float,
+RFM_Score float, RFM_Bucket varchar(20),recencybucket varchar(100));
+
+
+insert into "GAIN_THEORY".KKTRemarketing_RFE(best_mobile_number_hash,Recency ,Frequency ,Engagement,recencybucket )
+select best_mobile_number_hash,max(cast(call_start_time as date)) as Recency,
+count(distinct cast(call_start_time as date)) as Frequency,sum(cast(duration as float)) as Engagement,'0-90 Days'
+from "GAIN_THEORY".KKTRemarketing_SourceData
+where duration>0 and best_mobile_number_hash in (select distinct best_mobile_number_hash from "GAIN_THEORY".KKTRemarketing_TempRecency
+where recency='0-90 Days')
+group by 1;
+
+
+
+---creating percentile for ranking
+
+drop table "GAIN_THEORY".KKTRemarketing_r_rank;
+drop table "GAIN_THEORY".KKTRemarketing_f_rank;
+drop table "GAIN_THEORY".KKTRemarketing_e_rank;
+
+create table "GAIN_THEORY".KKTRemarketing_r_rank(best_mobile_number_hash varchar(300),recency date,per_val float);
+create table "GAIN_THEORY".KKTRemarketing_f_rank (best_mobile_number_hash  varchar(300), frequency int, per_val float);
+create table "GAIN_THEORY".KKTRemarketing_e_rank (best_mobile_number_hash  varchar(300),engagement float,per_val float);
+  
+ 
+insert into "GAIN_THEORY".KKTRemarketing_r_rank
+select best_mobile_number_hash,"Recency",percent_rank()over(order by "Recency") per_val
+from "GAIN_THEORY".KKTRemarketing_RFE;
+
+
+insert into "GAIN_THEORY".KKTRemarketing_f_rank
+select best_mobile_number_hash,"Frequency",percent_rank()over(order by "Frequency") per_val
+from "GAIN_THEORY".KKTRemarketing_RFE;
+
+insert into "GAIN_THEORY".KKTRemarketing_e_rank
+select best_mobile_number_hash,"engagement",percent_rank()over(order by "engagement") per_val
+from "GAIN_THEORY".KKTRemarketing_RFE;
+ 
+ 
+
+----updating quintiles value
+
+update a
+from "GAIN_THEORY".KKTRemarketing_RFE as a,"GAIN_THEORY".KKTRemarketing_r_rank as b
+set RecencyQuintiles = case when b.per_val <= 0.2 then 1
+when b.per_val >0.2 and b.per_val <=0.4 then 2
+when b.per_val >0.4 and b.per_val <=0.6 then 3
+when b.per_val >0.6 and b.per_val <=0.8 then 4
+when b.per_val >0.8 then 5
+end where a.best_mobile_number_hash = b.best_mobile_number_hash;
+
+update a
+from "GAIN_THEORY".KKTRemarketing_RFE as a,"GAIN_THEORY".KKTRemarketing_r_rank as b
+set FrequencyQuintiles = case when b.per_val <= 0.2 then 1
+when b.per_val >0.2 and b.per_val <=0.4 then 2
+when b.per_val >0.4 and b.per_val <=0.6 then 3
+when b.per_val >0.6 and b.per_val <=0.8 then 4
+when b.per_val >0.8 then 5
+end where a.best_mobile_number_hash = b.best_mobile_number_hash;
+
+
+
+update a
+from "GAIN_THEORY".KKTRemarketing_RFE as a,"GAIN_THEORY".KKTRemarketing_r_rank as b
+set MonetaryQuintiles = case when b.per_val <= 0.2 then 1
+when b.per_val >0.2 and b.per_val <=0.4 then 2
+when b.per_val >0.4 and b.per_val <=0.6 then 3
+when b.per_val >0.6 and b.per_val <=0.8 then 4
+when b.per_val >0.8 then 5
+end where a.best_mobile_number_hash = b.best_mobile_number_hash;
+
+
+/*--------------90-180 days--------------------*/
+
+insert into "GAIN_THEORY".KKTRemarketing_RFE(best_mobile_number_hash,Recency ,Frequency ,Engagement,recencybucket )
+select best_mobile_number_hash,max(cast(call_start_time as date)) as Recency,
+count(distinct cast(call_start_time as date)) as Frequency,sum(cast(duration as float)) as Engagement,'91-180 Days'
+from "GAIN_THEORY".KKTRemarketing_SourceData
+where duration>0 and best_mobile_number_hash in (select distinct best_mobile_number_hash from "GAIN_THEORY".KKTRemarketing_TempRecency
+where recency='91-180 Days')
+group by 1;
+
+
+
+---creating percentile for ranking
+
+drop table "GAIN_THEORY".KKTRemarketing_r_rank;
+drop table "GAIN_THEORY".KKTRemarketing_f_rank;
+drop table "GAIN_THEORY".KKTRemarketing_e_rank;
+
+create table "GAIN_THEORY".KKTRemarketing_r_rank(best_mobile_number_hash varchar(300),recency date,per_val float);
+create table "GAIN_THEORY".KKTRemarketing_f_rank (best_mobile_number_hash  varchar(300), frequency int, per_val float);
+create table "GAIN_THEORY".KKTRemarketing_e_rank (best_mobile_number_hash  varchar(300),engagement float,per_val float);
+  
+ 
+insert into "GAIN_THEORY".KKTRemarketing_r_rank
+select best_mobile_number_hash,"Recency",percent_rank()over(order by "Recency") per_val
+from "GAIN_THEORY".KKTRemarketing_RFE
+where recencybucket='91-180 Days';
+
+
+insert into "GAIN_THEORY".KKTRemarketing_f_rank
+select best_mobile_number_hash,"Frequency",percent_rank()over(order by "Frequency") per_val
+from "GAIN_THEORY".KKTRemarketing_RFE where recencybucket='91-180 Days';
+
+insert into "GAIN_THEORY".KKTRemarketing_e_rank
+select best_mobile_number_hash,"engagement",percent_rank()over(order by "engagement") per_val
+from "GAIN_THEORY".KKTRemarketing_RFE where recencybucket='91-180 Days';
+ 
+ 
+
+----updating quintiles value
+
+update a
+from "GAIN_THEORY".KKTRemarketing_RFE as a,"GAIN_THEORY".KKTRemarketing_r_rank as b
+set RecencyQuintiles = case when b.per_val <= 0.2 then 1
+when b.per_val >0.2 and b.per_val <=0.4 then 2
+when b.per_val >0.4 and b.per_val <=0.6 then 3
+when b.per_val >0.6 and b.per_val <=0.8 then 4
+when b.per_val >0.8 then 5
+end where a.best_mobile_number_hash = b.best_mobile_number_hash and RecencyQuintiles is null ;
+
+update a
+from "GAIN_THEORY".KKTRemarketing_RFE as a,"GAIN_THEORY".KKTRemarketing_r_rank as b
+set FrequencyQuintiles = case when b.per_val <= 0.2 then 1
+when b.per_val >0.2 and b.per_val <=0.4 then 2
+when b.per_val >0.4 and b.per_val <=0.6 then 3
+when b.per_val >0.6 and b.per_val <=0.8 then 4
+when b.per_val >0.8 then 5
+end where a.best_mobile_number_hash = b.best_mobile_number_hash and FrequencyQuintiles is null ;
+
+
+
+update a
+from "GAIN_THEORY".KKTRemarketing_RFE as a,"GAIN_THEORY".KKTRemarketing_r_rank as b
+set MonetaryQuintiles = case when b.per_val <= 0.2 then 1
+when b.per_val >0.2 and b.per_val <=0.4 then 2
+when b.per_val >0.4 and b.per_val <=0.6 then 3
+when b.per_val >0.6 and b.per_val <=0.8 then 4
+when b.per_val >0.8 then 5
+end where a.best_mobile_number_hash = b.best_mobile_number_hash and MonetaryQuintiles is null ;
+
+
+---calculaitng final RFM score
+
+update "GAIN_THEORY".KKTRemarketing_RFE
+set RFM_Score = ((RecencyQuintiles * 0.25) +(FrequencyQuintiles * 0.50)+ (MonetaryQuintiles * 0.25));
+
+update "GAIN_THEORY".KKTRemarketing_RFE
+set RFM_Bucket = case when RFM_Score <= 2.0 then 'Red'
+when RFM_Score > 2.0 and RFM_Score <= 2.8 then 'Brick Red'
+when RFM_Score >2.8 and RFM_Score <=3.5 then 'Yellow'
+when RFM_Score >3.5 and RFM_Score <=4.5 then 'Blue'
+when RFM_Score >4.5 then 'Green'
+end;
+
+
+
+
+
+
+
+
+
+
+
+
+-----------mapping to source data
+
+alter table "GAIN_THEORY".KKTRemarketing_SplitData add UpdatedRFM_Score float;
+alter table "GAIN_THEORY".KKTRemarketing_SplitData add UpdatedRFM_Bucket varchar(100);
+
+update "GAIN_THEORY".KKTRemarketing_SplitData 
+from "GAIN_THEORY".KKTRemarketing_RFE b 
+set  UpdatedRFM_Score=b.RFM_Score,UpdatedRFM_Bucket=b.RFM_Bucket
+where "GAIN_THEORY".KKTRemarketing_SplitData.best_mobile_number_hash=b.best_mobile_number_hash;
+
+
+
+
+
+
+
