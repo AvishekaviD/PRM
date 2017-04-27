@@ -1,0 +1,67 @@
+select case when lower(a.region) like '%uttar%' then 'Uttar Pradesh'
+end as region, case when current_date - a.lastinteractiondate <= 30 then '1 month'
+when current_date - a.lastinteractiondate > 30 and current_date - a.lastinteractiondate <= 90 then '1-3 months'
+when current_date - a.lastinteractiondate > 90 and current_date - a.lastinteractiondate <= 180 then '4-6 months'
+else 'more than 6 months' end as recency,'0-4' LSM, count(distinct a.best_mobile_number_hash)
+from (select best_mobile_number_hash,region,max(lastinteractiondate) lastinteractiondate
+from GAIN_THEORY.PRMActiveInactiveSourceFinal
+where lower(region) like '%uttar%'
+group by 1,2) a
+where lower(a.region) like '%uttar%'
+and a.best_mobile_number_hash in (select distinct best_mobile_number_hash 
+from GAIN_THEORY.LSM3_CombinedSourceSKU b
+where b.FinalLSM = '4-7' and finalconfidence in ('60','90'))
+group by 1,2
+union 
+select case when lower(a.region) like '%uttar%' then 'Uttar Pradesh'
+end as region, case when current_date - a.lastinteractiondate <= 30 then '1 month'
+when current_date - a.lastinteractiondate > 30 and current_date - a.lastinteractiondate <= 90 then '1-3 months'
+when current_date - a.lastinteractiondate > 90 and current_date - a.lastinteractiondate <= 180 then '4-6 months'
+else 'more than 6 months' end as recency,'7+' LSM, count(distinct a.best_mobile_number_hash)
+from (select best_mobile_number_hash,region,max(lastinteractiondate) lastinteractiondate
+from GAIN_THEORY.PRMActiveInactiveSourceFinal
+where lower(region) like '%uttar%'
+group by 1,2) a
+where lower(a.region) like '%uttar%'
+and a.best_mobile_number_hash in (select distinct best_mobile_number_hash 
+from GAIN_THEORY.LSM3_CombinedSourceSKU b
+where b.FinalLSM = '7+')
+group by 1,2
+;
+
+
+
+
+
+
+select case when lower(a.region) like '%uttar%' then 'Uttar Pradesh'
+end as region, case when current_date - a.lastinteractiondate <= 90 then '0-3 months'
+when current_date - a.lastinteractiondate > 90 and current_date - a.lastinteractiondate <= 180 then '4-6 months'
+when current_date - a.lastinteractiondate > 180 and current_date - a.lastinteractiondate <= 365 then '7-12 months'
+when current_date - a.lastinteractiondate > 365 then 'more than 12 months' end as recency,'4-7' LSM, count(distinct a.best_mobile_number_hash)
+from (select best_mobile_number_hash,region,max(lastinteractiondate) lastinteractiondate
+from GAIN_THEORY.PRMActiveInactiveSourceFinal
+where lower(region) like '%uttar%'
+group by 1,2) a
+where lower(a.region) like '%uttar%'
+and a.best_mobile_number_hash in (select distinct best_mobile_number_hash 
+from GAIN_THEORY.LSM3_CombinedSourceSKU b
+where b.FinalLSM = '4-7' and finalconfidence in ('60','90'))
+group by 1,2
+union 
+select case when lower(a.region) like '%uttar%' then 'Uttar Pradesh'
+end as region, case when current_date - a.lastinteractiondate <= 90 then '0-3 months'
+when current_date - a.lastinteractiondate > 90 and current_date - a.lastinteractiondate <= 180 then '4-6 months'
+when current_date - a.lastinteractiondate > 180 and current_date - a.lastinteractiondate <= 360 then '7-12 months'
+when current_date - a.lastinteractiondate > 360 then 'more than 12 months' end as recency,'7+' LSM, count(distinct a.best_mobile_number_hash)
+from (select best_mobile_number_hash,region,max(lastinteractiondate) lastinteractiondate
+from GAIN_THEORY.PRMActiveInactiveSourceFinal
+where lower(region) like '%uttar%'
+group by 1,2) a
+where lower(a.region) like '%uttar%'
+and a.best_mobile_number_hash in (select distinct best_mobile_number_hash 
+from GAIN_THEORY.LSM3_CombinedSourceSKU b
+where b.FinalLSM = '7+')
+group by 1,2;
+
+

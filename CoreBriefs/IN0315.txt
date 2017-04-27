@@ -1,0 +1,116 @@
+SELECT  substr("age",1,4), 
+case when lower(city) like '%mumbai%' then 'mumbai'
+when lower(city) like '%kolkata%' then 'kolkata'
+when lower(city) like '%delhi%' then 'delhi'
+when lower(city) like '%bangalore%' then 'bangalore' end 
+"city1", count(distinct "best_mobile_number_hash")
+FROM "PRM"."bb_registration" 
+where lower(city) like '%mumbai%' or lower(city) like '%kolkata%' or lower(city) like '%delhi%'
+or lower(city) like '%bangalore%'
+group by city1,substr("age",1,4)
+
+SELECT  substr("age",1,4), 
+case when lower(city) like '%mumbai%' then 'mumbai'
+when lower(city) like '%kolkata%' then 'kolkata'
+when lower(city) like '%delhi%' then 'delhi'
+when lower(city) like '%bangalore%' then 'bangalore' end 
+"city1", count(distinct "best_mobile_number_hash")
+FROM "PRM"."bb_registration" 
+where substr("age",1,4) = '' and 
+(lower(city) like '%mumbai%' or lower(city) like '%kolkata%' or lower(city) like '%delhi%'
+or lower(city) like '%bangalore%')
+group by city1,substr("age",1,4);
+
+SELECT  substr("age",1,4), 
+case when lower(city) like '%mumbai%' then 'mumbai'
+when lower(city) like '%kolkata%' then 'kolkata'
+when lower(city) like '%delhi%' then 'delhi'
+when lower(city) like '%bangalore%' then 'bangalore' end 
+"city1", count(distinct "best_mobile_number_hash")
+FROM "PRM"."bb_registration" 
+where substr("age",1,4) in ('18','19','20','21','22','23','24','1992','1993','1994','1995','1996','1997','1998')
+and (lower(city) like '%mumbai%' or lower(city) like '%kolkata%' or lower(city) like '%delhi%'
+or lower(city) like '%bangalore%')
+group by city1,substr("age",1,4);
+
+
+
+
+
+
+ select 
+    distinct 'IN' as market
+    , 'BB' as provider
+	, a.best_mobile_number_hash as mobileno
+	, '1' as optin_hierarchy_level
+	, 'Unilever' as optin_hierarchy_value
+ FROM "PRM"."bb_registration" 
+where substr("age",1,4) = '' and lower(city) like '%mumbai%' ;
+
+ select 
+    distinct 'IN' as market
+    , 'BB' as provider
+	, a.best_mobile_number_hash as mobileno
+	, '1' as optin_hierarchy_level
+	, 'Unilever' as optin_hierarchy_value
+ FROM "PRM"."bb_registration" 
+where substr("age",1,4) = '' and lower(city) like '%kolkata%';
+
+ select 
+    distinct 'IN' as market
+    , 'BB' as provider
+	, a.best_mobile_number_hash as mobileno
+	, '1' as optin_hierarchy_level
+	, 'Unilever' as optin_hierarchy_value
+ FROM "PRM"."bb_registration" 
+where substr("age",1,4) = '' and  lower(city) like '%delhi%';
+	
+ select 
+    distinct 'IN' as market
+    , 'BB' as provider
+	, a.best_mobile_number_hash as mobileno
+	, '1' as optin_hierarchy_level
+	, 'Unilever' as optin_hierarchy_value
+ FROM "PRM"."bb_registration" 
+where substr("age",1,4) = '' and  lower(city) like '%bangalore%';
+	
+ select 
+    distinct 'IN' as market
+    , 'BB' as provider
+	, a.best_mobile_number_hash as mobileno
+	, '1' as optin_hierarchy_level
+	, 'Unilever' as optin_hierarchy_value
+ FROM "PRM"."bb_registration" 
+where substr("age",1,4) in ('18','19','20','21','22','23','24','1992','1993','1994','1995','1996','1997','1998')
+and (lower(city) like '%mumbai%');
+	
+ select 
+    distinct 'IN' as market
+    , 'BB' as provider
+	, a.best_mobile_number_hash as mobileno
+	, '1' as optin_hierarchy_level
+	, 'Unilever' as optin_hierarchy_value
+ FROM "PRM"."bb_registration" 
+where substr("age",1,4) in ('18','19','20','21','22','23','24','1992','1993','1994','1995','1996','1997','1998')
+and (lower(city) like '%kolkata%');
+
+ select 
+    distinct 'IN' as market
+    , 'BB' as provider
+	, a.best_mobile_number_hash as mobileno
+	, '1' as optin_hierarchy_level
+	, 'Unilever' as optin_hierarchy_value
+ FROM "PRM"."bb_registration" 
+where substr("age",1,4) in ('18','19','20','21','22','23','24','1992','1993','1994','1995','1996','1997','1998')
+and (lower(city) like '%delhi%');
+
+ select 
+    distinct 'IN' as market
+    , 'BB' as provider
+	, a.best_mobile_number_hash as mobileno
+	, '1' as optin_hierarchy_level
+	, 'Unilever' as optin_hierarchy_value
+FROM "PRM"."bb_registration" 
+where substr("age",1,4) in ('18','19','20','21','22','23','24','1992','1993','1994','1995','1996','1997','1998')
+and (lower(city) like '%bangalore%');
+

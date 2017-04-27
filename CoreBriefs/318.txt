@@ -1,0 +1,324 @@
+
+select b.region Circles,
+case when lower(a.brand) like '%lifeb%' then 'Lifebuoy'
+when lower(a.brand) like 'lb%' then 'Lifebuoy'
+when lower(a.brand) like 'clinic%' then 'Clinic'
+when lower(a.brand) like 'clear%' then 'Clear'
+when lower(a.brand) like '%all%cl%' then 'Clear'
+when lower(a.brand) like 'lux%' then 'Lux'
+when lower(a.brand) like '%borwn%polson%' then 'Borwn & Polson'
+when lower(a.brand) like 'b p%' then 'Borwn & Polson'
+when lower(a.brand) like 'bpbs%' then 'Borwn & Polson'
+when lower(a.brand) like 'bpfc%' then 'Borwn & Polson'
+when lower(a.brand) like '%b&p%' then 'Borwn & Polson'
+when lower(a.brand) like '%bedhe%' then 'Bedhead'
+when lower(a.brand) like 'pond%' then 'Ponds'
+when lower(a.brand) like 'vasel%' then 'Vaseline'
+when lower(a.brand) like '%brook%' then 'Brooke Bond'
+when lower(a.brand) like 'rin%' then 'RIN'
+when lower(a.brand) like '%rose%' then '3 roses'
+when lower(a.brand) like '%wheel%' then 'Wheel'
+when lower(a.brand) like 'vim%' then 'Vim'
+when lower(a.brand) like 'f&l%' then 'Fair & Lovely'
+when lower(a.brand) like 'fal%' then 'Fair & Lovely'
+when lower(a.brand) like 'fl%' then 'Fair & Lovely'
+when lower(a.brand) like '%fair%love%' then 'Fair & Lovely'
+when lower(a.brand) like 'bru%' then 'Bru'
+when lower(a.brand) like 'coffee%' then 'Bru'
+when lower(a.brand) like '%surf%' then 'Surf Excel'
+when lower(a.brand) like 'vim%' then 'Vim'
+when lower(a.brand) like '%vim%' then 'Vim'
+when lower(a.brand) like 'axe%' then 'Axe'
+when lower(a.brand) like 'close%' then 'Close UP'
+when lower(a.brand) like 'comfor%' then 'Comfort'
+when lower(a.brand) like 'domex%' then 'Domex'
+when lower(a.brand) like 'doemx%' then 'Domex'
+when lower(a.brand) like 'dmx%' then 'Domex'
+when lower(a.brand) like 'dove%' then 'Dove'
+when lower(a.brand) like 'dream%' then 'Dreamflower'
+when lower(a.brand) like 'ell%' then 'Ell 18'
+when lower(a.brand) like '%18%' then 'Ell 18'
+when lower(a.brand) like 'll%' then 'Ell 18'
+when lower(a.brand) like 'kissan%' then 'Kissan'
+when lower(a.brand) like '%ketchup%' then 'Kissan'
+when lower(a.brand) like '%lipton%' then 'Lipton'
+when lower(a.brand) like 'knor%' then 'Knorr'
+when lower(a.brand) like 'kw%' then 'Kwality Wall''s'
+when lower(a.brand) like 'liri%' then 'Liril'
+when lower(a.brand) like 'pear%' then 'Pears'
+when lower(a.brand) like 'pep%' then 'Pepsodent'
+when lower(a.brand) like 'trese%' then 'Tresemme'
+when lower(a.brand) like 'sunsil%' then 'Sunsilk'
+when lower(a.brand) like '%taj%' then 'Taj mahal'
+when lower(a.brand) like '%taaz%' then 'Taaza'
+when lower(a.brand) like '%tazz%' then 'Taaza'
+when lower(a.brand) like 'tigi%' then 'TIGI'
+when lower(a.brand) like 'anna%' then 'Annapurna'
+when lower(a.brand) like 'avian%' then 'Aviance'
+when lower(a.brand) like 'ayu%' then 'Ayush'
+when lower(a.brand) like 'bree%' then 'Breeze'
+when lower(a.brand) like 'cif%' then 'Cif'
+when lower(a.brand) like 'hama%' then 'Hamam'
+when lower(a.brand) like '%brylcre%' then 'Brylcream'
+when lower(a.brand) like '%caterplan%' then 'Caterplan'
+when lower(a.brand) like '%captain%cook%' then 'Captain Cook'
+when lower(a.brand) like 'cc%' then 'Captain Cook'
+when lower(a.brand) like 'cornetto%' then 'Cornetto'
+when lower(a.brand) like '%denim%' then 'Denim'
+when lower(a.brand) like '%dipy%' then 'Dipy'
+when lower(a.brand) like '%huggi%' then 'Huggies'
+when lower(a.brand) like '%kkd%' then 'kkd'
+when lower(a.brand) like '%kotex%' then 'Kotex'
+when lower(a.brand) like '%magic%' then 'Magic'
+when lower(a.brand) like '%modern%' then 'Modern'
+when lower(a.brand) like 'ok%' then 'OK'
+when lower(a.brand) like '%red%l%' then 'Red Label'
+when lower(a.brand) like 'rexo%' then 'Rexona'
+when lower(a.brand) like '%sunli%' then 'Sunlight'
+when lower(a.brand) like '' then ''
+else 'Others' end as brand, 
+case when datediff(day,lastinteractiondate,getdate()) <= 90 then '0-3 Months'
+when datediff(day,lastinteractiondate,getdate()) > 90 and datediff(day,lastinteractiondate,getdate()) <= 180 then '4-6 Months'
+when datediff(day,lastinteractiondate,getdate()) > 180 then 'More than 6 Months'
+else 'More than 6 Months' end as Recency,
+count(distinct a.mobileno)
+from
+    southasia.pdwh_counting_mobile a
+    join southasia.pdwh_ref_region b
+    on a.mobileprefix = b.mobileprefix
+where 
+    --a.optinhulbrand in ('A','C') and 
+	a.ismobilevalid = 'Y'
+	and (lower(b.region) like 'chen%' 
+or lower(b.region) like 'mum%' )
+group by 1,2,3
+order by 1,2,3
+;
+
+
+
+
+
+select 
+case when lower(a.city) like 'bangalu%' then 'Bengaluru'
+when lower(a.city) like 'bangalo%' then 'Bengaluru'
+when lower(a.city) like 'banagal%' then 'Bengaluru'
+when lower(a.city) like 'bengalu%' then 'Bengaluru'
+when lower(a.city) like 'bangalo%' then 'Bengaluru'
+when lower(a.city) like 'bangl%' then 'Bengaluru'
+when lower(a.city) like 'bengl%' then 'Bengaluru'
+when lower(a.city) like 'bango%' then 'Bengaluru'
+when lower(a.city) like 'bangu%' then 'Bengaluru'
+when lower(a.city) like 'blr%' then 'Bengaluru'
+when lower(a.city) like 'bnag%' then 'Bengaluru'
+when lower(a.city) like 'blore%' then 'Bengaluru'
+when lower(a.city) like 'hyder%' then 'Hyderbad'
+when lower(a.city) like 'hydra%' then 'Hyderbad'
+when lower(a.city) like 'puna%' then 'Pune'
+when lower(a.city) like 'poona%' then 'Pune'
+when lower(a.city) like 'pune%' then 'Pune'
+else '' end as Circles,
+case when lower(a.brand) like '%lifeb%' then 'Lifebuoy'
+when lower(a.brand) like 'lb%' then 'Lifebuoy'
+when lower(a.brand) like 'clinic%' then 'Clinic'
+when lower(a.brand) like 'clear%' then 'Clear'
+when lower(a.brand) like '%all%cl%' then 'Clear'
+when lower(a.brand) like 'lux%' then 'Lux'
+when lower(a.brand) like '%borwn%polson%' then 'Borwn & Polson'
+when lower(a.brand) like 'b p%' then 'Borwn & Polson'
+when lower(a.brand) like 'bpbs%' then 'Borwn & Polson'
+when lower(a.brand) like 'bpfc%' then 'Borwn & Polson'
+when lower(a.brand) like '%b&p%' then 'Borwn & Polson'
+when lower(a.brand) like '%bedhe%' then 'Bedhead'
+when lower(a.brand) like 'pond%' then 'Ponds'
+when lower(a.brand) like 'vasel%' then 'Vaseline'
+when lower(a.brand) like '%brook%' then 'Brooke Bond'
+when lower(a.brand) like 'rin%' then 'RIN'
+when lower(a.brand) like '%rose%' then '3 roses'
+when lower(a.brand) like '%wheel%' then 'Wheel'
+when lower(a.brand) like 'vim%' then 'Vim'
+when lower(a.brand) like 'f&l%' then 'Fair & Lovely'
+when lower(a.brand) like 'fal%' then 'Fair & Lovely'
+when lower(a.brand) like 'fl%' then 'Fair & Lovely'
+when lower(a.brand) like '%fair%love%' then 'Fair & Lovely'
+when lower(a.brand) like 'bru%' then 'Bru'
+when lower(a.brand) like 'coffee%' then 'Bru'
+when lower(a.brand) like '%surf%' then 'Surf Excel'
+when lower(a.brand) like 'vim%' then 'Vim'
+when lower(a.brand) like '%vim%' then 'Vim'
+when lower(a.brand) like 'axe%' then 'Axe'
+when lower(a.brand) like 'close%' then 'Close UP'
+when lower(a.brand) like 'comfor%' then 'Comfort'
+when lower(a.brand) like 'domex%' then 'Domex'
+when lower(a.brand) like 'doemx%' then 'Domex'
+when lower(a.brand) like 'dmx%' then 'Domex'
+when lower(a.brand) like 'dove%' then 'Dove'
+when lower(a.brand) like 'dream%' then 'Dreamflower'
+when lower(a.brand) like 'ell%' then 'Ell 18'
+when lower(a.brand) like '%18%' then 'Ell 18'
+when lower(a.brand) like 'll%' then 'Ell 18'
+when lower(a.brand) like 'kissan%' then 'Kissan'
+when lower(a.brand) like '%ketchup%' then 'Kissan'
+when lower(a.brand) like '%lipton%' then 'Lipton'
+when lower(a.brand) like 'knor%' then 'Knorr'
+when lower(a.brand) like 'kw%' then 'Kwality Wall''s'
+when lower(a.brand) like 'liri%' then 'Liril'
+when lower(a.brand) like 'pear%' then 'Pears'
+when lower(a.brand) like 'pep%' then 'Pepsodent'
+when lower(a.brand) like 'trese%' then 'Tresemme'
+when lower(a.brand) like 'sunsil%' then 'Sunsilk'
+when lower(a.brand) like '%taj%' then 'Taj mahal'
+when lower(a.brand) like '%taaz%' then 'Taaza'
+when lower(a.brand) like '%tazz%' then 'Taaza'
+when lower(a.brand) like 'tigi%' then 'TIGI'
+when lower(a.brand) like 'anna%' then 'Annapurna'
+when lower(a.brand) like 'avian%' then 'Aviance'
+when lower(a.brand) like 'ayu%' then 'Ayush'
+when lower(a.brand) like 'bree%' then 'Breeze'
+when lower(a.brand) like 'cif%' then 'Cif'
+when lower(a.brand) like 'hama%' then 'Hamam'
+when lower(a.brand) like '%brylcre%' then 'Brylcream'
+when lower(a.brand) like '%caterplan%' then 'Caterplan'
+when lower(a.brand) like '%captain%cook%' then 'Captain Cook'
+when lower(a.brand) like 'cc%' then 'Captain Cook'
+when lower(a.brand) like 'cornetto%' then 'Cornetto'
+when lower(a.brand) like '%denim%' then 'Denim'
+when lower(a.brand) like '%dipy%' then 'Dipy'
+when lower(a.brand) like '%huggi%' then 'Huggies'
+when lower(a.brand) like '%kkd%' then 'kkd'
+when lower(a.brand) like '%kotex%' then 'Kotex'
+when lower(a.brand) like '%magic%' then 'Magic'
+when lower(a.brand) like '%modern%' then 'Modern'
+when lower(a.brand) like 'ok%' then 'OK'
+when lower(a.brand) like '%red%l%' then 'Red Label'
+when lower(a.brand) like 'rexo%' then 'Rexona'
+when lower(a.brand) like '%sunli%' then 'Sunlight'
+when lower(a.brand) like '' then ''
+else 'Others' end as brand, 
+case when datediff(day,lastinteractiondate,getdate()) <= 90 then '0-3 Months'
+when datediff(day,lastinteractiondate,getdate()) > 90 and datediff(day,lastinteractiondate,getdate()) <= 180 then '4-6 Months'
+when datediff(day,lastinteractiondate,getdate()) > 180 then 'More than 6 Months'
+else 'More than 6 Months' end as Recency,
+count(distinct a.mobileno)
+from
+    southasia.pdwh_counting_mobile a
+where 
+    a.optinhulbrand in ('A','C') and 
+	a.ismobilevalid = 'Y'
+	and (lower(a.city) like 'bangalu%'
+or lower(a.city) like 'bangalo%'
+or lower(a.city) like 'banagal%'
+or lower(a.city) like 'bengalu%'
+or lower(a.city) like 'bangalo%'
+or lower(a.city) like 'bangl%' 
+or lower(a.city) like 'bengl%'
+or lower(a.city) like 'bango%'
+or lower(a.city) like 'bangu%'
+or lower(a.city) like 'blr%'
+or lower(a.city) like 'bnag%' 
+or lower(a.city) like 'blore%'
+or lower(a.city) like 'hyder%'
+or lower(a.city) like 'hydra%'
+or lower(a.city) like 'puna%' 
+or lower(a.city) like 'poona%'
+or lower(a.city) like 'pune%' 
+or lower(a.city) like 'ahmed%'
+or lower(a.city) like 'ahmad%'
+or lower(a.city) like 'ahmd%' 
+or lower(a.city) like 'aham%' 
+or lower(a.city) like 'ahem%' )
+group by 1,2,3
+order by 1,2,3
+;
+
+
+
+
+select b.region Circles,case 
+when lower(a.provider) like 'lak%' then 'Lakme'
+when lower(a.provider) like 'beb%' then 'BB'
+when lower(a.provider) like 'pure%' then 'PureIT'
+else '' end as brand,
+case when datediff(day,lastinteractiondate,getdate()) <= 90 then '0-3 Months'
+when datediff(day,lastinteractiondate,getdate()) > 90 and datediff(day,lastinteractiondate,getdate()) <= 180 then '4-6 Months'
+when datediff(day,lastinteractiondate,getdate()) > 180 then 'More than 6 Months'
+else 'More than 6 Months' end as Recency,
+count(distinct a.mobileno)
+from
+    southasia.pdwh_counting_mobile a
+    join southasia.pdwh_ref_region b
+    on a.mobileprefix = b.mobileprefix
+where 
+    --a.optinhulbrand in ('A','C') and 
+	a.ismobilevalid = 'Y'
+	and (lower(b.region) like 'chen%' 
+or lower(b.region) like 'mum%' )
+group by 1,2,3
+order by 1,2,3
+;
+
+
+
+select 
+case when lower(a.city) like 'bangalu%' then 'Bengaluru'
+when lower(a.city) like 'bangalo%' then 'Bengaluru'
+when lower(a.city) like 'banagal%' then 'Bengaluru'
+when lower(a.city) like 'bengalu%' then 'Bengaluru'
+when lower(a.city) like 'bangalo%' then 'Bengaluru'
+when lower(a.city) like 'bangl%' then 'Bengaluru'
+when lower(a.city) like 'bengl%' then 'Bengaluru'
+when lower(a.city) like 'bango%' then 'Bengaluru'
+when lower(a.city) like 'bangu%' then 'Bengaluru'
+when lower(a.city) like 'blr%' then 'Bengaluru'
+when lower(a.city) like 'bnag%' then 'Bengaluru'
+when lower(a.city) like 'blore%' then 'Bengaluru'
+when lower(a.city) like 'hyder%' then 'Hyderbad'
+when lower(a.city) like 'hydra%' then 'Hyderbad'
+when lower(a.city) like 'puna%' then 'Pune'
+when lower(a.city) like 'poona%' then 'Pune'
+when lower(a.city) like 'pune%' then 'Pune'
+else '' end as Circles,case 
+when lower(a.provider) like 'lak%' then 'Lakme'
+when lower(a.provider) like 'beb%' then 'BB'
+when lower(a.provider) like 'pure%' then 'PureIT'
+else '' end as brand,
+case when datediff(day,lastinteractiondate,getdate()) <= 90 then '0-3 Months'
+when datediff(day,lastinteractiondate,getdate()) > 90 and datediff(day,lastinteractiondate,getdate()) <= 180 then '4-6 Months'
+when datediff(day,lastinteractiondate,getdate()) > 180 then 'More than 6 Months'
+else 'More than 6 Months' end as Recency,
+count(distinct a.mobileno)
+from
+    southasia.pdwh_counting_mobile a
+where 
+    --a.optinhulbrand in ('A','C') and 
+	a.ismobilevalid = 'Y'
+	and (lower(a.city) like 'bangalu%'
+or lower(a.city) like 'bangalo%'
+or lower(a.city) like 'banagal%'
+or lower(a.city) like 'bengalu%'
+or lower(a.city) like 'bangalo%'
+or lower(a.city) like 'bangl%' 
+or lower(a.city) like 'bengl%'
+or lower(a.city) like 'bango%'
+or lower(a.city) like 'bangu%'
+or lower(a.city) like 'blr%'
+or lower(a.city) like 'bnag%' 
+or lower(a.city) like 'blore%'
+or lower(a.city) like 'hyder%'
+or lower(a.city) like 'hydra%'
+or lower(a.city) like 'puna%' 
+or lower(a.city) like 'poona%'
+or lower(a.city) like 'pune%' 
+or lower(a.city) like 'ahmed%'
+or lower(a.city) like 'ahmad%'
+or lower(a.city) like 'ahmd%' 
+or lower(a.city) like 'aham%' 
+or lower(a.city) like 'ahem%' )
+group by 1,2,3
+order by 1,2,3
+;
+
+
+
+
+

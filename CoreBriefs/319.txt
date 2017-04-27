@@ -1,0 +1,31 @@
+select substr(date_of_interaction,1,2) as "date",channel,count(best_mobile_number_hash) from (
+select date_of_interaction,channel,best_mobile_number_hash from PRM.dl197_transaction
+union all select cast(date_of_interaction as varchar(100)) date_of_interaction,channel,best_mobile_number_hash from PRM.dloz_tier3
+union all select datetime_of_interaction as date_of_interaction,channel,best_mobile_number_hash from PRM.dlts_transaction
+union all select datetime_of_interaction as date_of_interaction,channel,best_mobile_number_hash from PRM.dlzd_transaction
+union all select cast(date_of_interaction as varchar(100)) date_of_interaction,channel,best_mobile_number_hash from PRM.mgage_tier3
+union all select cast(date_of_interaction as varchar(100)) date_of_interaction,channel,best_mobile_number_hash from PRM.imimobile_tier3) as a
+where lower(channel) like '%sms%' and length(substr(date_of_interaction,1,10)) < 10
+group by substr(date_of_interaction,1,2),channel;
+
+select substr(date_of_interaction,7,4) as "date",channel,count(best_mobile_number_hash) from (
+select date_of_interaction,channel,best_mobile_number_hash from PRM.dl197_transaction
+union all select cast(date_of_interaction as varchar(100)) date_of_interaction,channel,best_mobile_number_hash from PRM.dloz_tier3
+union all select datetime_of_interaction as date_of_interaction,channel,best_mobile_number_hash from PRM.dlts_transaction
+union all select datetime_of_interaction as date_of_interaction,channel,best_mobile_number_hash from PRM.dlzd_transaction
+union all select cast(date_of_interaction as varchar(100)) date_of_interaction,channel,best_mobile_number_hash from PRM.mgage_tier3
+union all select cast(date_of_interaction as varchar(100)) date_of_interaction,channel,best_mobile_number_hash from PRM.imimobile_tier3) as a
+where lower(channel) like '%sms%' and length(substr(date_of_interaction,1,10)) > 8
+and substr(date_of_interaction,7,4) in ('2014','2015','2016')
+group by substr(date_of_interaction,7,4),channel;
+
+select substr(date_of_interaction,1,4) as "date",channel,count(best_mobile_number_hash) from (
+select date_of_interaction,channel,best_mobile_number_hash from PRM.dl197_transaction
+union all select cast(date_of_interaction as varchar(100)) date_of_interaction,channel,best_mobile_number_hash from PRM.dloz_tier3
+union all select datetime_of_interaction as date_of_interaction,channel,best_mobile_number_hash from PRM.dlts_transaction
+union all select datetime_of_interaction as date_of_interaction,channel,best_mobile_number_hash from PRM.dlzd_transaction
+union all select cast(date_of_interaction as varchar(100)) date_of_interaction,channel,best_mobile_number_hash from PRM.mgage_tier3
+union all select cast(date_of_interaction as varchar(100)) date_of_interaction,channel,best_mobile_number_hash from PRM.imimobile_tier3) as a
+where lower(channel) like '%sms%' and length(substr(date_of_interaction,1,10)) > 8
+and substr(date_of_interaction,7,4) not in ('2014','2015','2016')
+group by substr(date_of_interaction,1,4),channel;

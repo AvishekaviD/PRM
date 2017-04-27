@@ -1,0 +1,5 @@
+select device_category,count(distinct best_mobile_number_hash) from (
+select best_mobile_number_hash,device_category,device_series from PRM.pi_consumer
+union all
+select best_mobile_number_hash,device_category,device_series from PRM.pi_consumer_pti748) as a
+group by 1;

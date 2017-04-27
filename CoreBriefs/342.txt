@@ -1,0 +1,47 @@
+select 
+    distinct 'IN' as market
+    , 'DL' as provider
+	, best_mobile_number_hash as mobileno
+	, '1' as optin_hierarchy_level
+	, 'Unilever' as optin_hierarchy_value
+from PRM.thinkwalnut_tier3
+where lower(brand_name) like '%comfort%' and lower(campaign_name) like '%galaxy%'
+and best_mobile_number_hash in (select distinct best_mobile_number_hash from (select distinct city,best_mobile_number_hash 
+from PRM.bb_registration
+where city is not null
+union
+select distinct city,best_mobile_number_hash from PRM.cl_call
+where city is not null
+union
+select distinct city,best_mobile_number_hash from PRM.cl_call_backup_14062016
+where city is not null
+union
+select distinct city,best_mobile_number_hash from PRM.cl_call_pti748
+where city is not null
+union
+select distinct city,best_mobile_number_hash from PRM.cl_call_till_dec2015
+where city is not null
+union
+select distinct city,best_mobile_number_hash from PRM.cl_calls_01Mar2014_30jun2014
+where city is not null
+union
+select distinct city,best_mobile_number_hash from PRM.cl_calls_2013_2014
+where city is not null
+union
+select distinct city,best_mobile_number_hash from PRM.cl_calls_aug_sep_2014
+where city is not null
+union
+select distinct city,best_mobile_number_hash from PRM.h2h_transaction
+where city is not null
+union
+select distinct city,best_mobile_number_hash from PRM.pi_consumer
+where city is not null
+union
+select distinct city,best_mobile_number_hash from PRM.mindtree_data
+where city is not null
+union
+select distinct '' city,best_mobile_number_hash from PRM.lk_customer
+where city is not null
+union
+select distinct '' city,best_mobile_number_hash from PRM.lk_customer_pti748
+where city is not null) as a);

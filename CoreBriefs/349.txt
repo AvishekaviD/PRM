@@ -1,0 +1,51 @@
+select case when lower(store_address4) like 'amit%' then 'amritsar'
+when lower(store_address4) like 'banga%' then 'bangalore'
+when lower(store_address4) like 'chan%' then 'chennai'
+when lower(store_address4) like '%gurg%' then 'gurgaon'
+when lower(store_address4) like 'mum%' then 'mumbai'
+else lower(store_address4) end city,
+case 
+when current_date - lastinteractiondate < 365 then '1 year'
+else '> 1 year' end as recency,count(distinct best_mobile_number_hash) as counts 
+from (select distinct best_mobile_number_hash ,lk_store_id store_id
+,max(cast(transaction_date as date)) lastinteractiondate
+from PRM.lk_transaction_all_years
+--where cast(transaction_date as date) >(select max(lastinteractiondate) from "GAIN_THEORY".PRMActiveInactiveOriginal where source like 
+--'LKtransaction_all_years')
+group by 1,2
+union 
+select distinct best_mobile_number_hash ,store_id 
+,max(cast(SUBSTR(trans_date,7,4)||'-'||SUBSTR(trans_date,1,2)||'-'||SUBSTR(trans_date,4,2) as date))
+from PRM.lk_transaction
+--where cast(SUBSTR(trans_date,7,4)||'-'||SUBSTR(trans_date,1,2)||'-'||SUBSTR(trans_date,4,2) as date) >(select max(lastinteractiondate) 
+--from "GAIN_THEORY".PRMActiveInactiveOriginal where source like 'LKtransaction')
+group by 1,2
+union 
+select distinct best_mobile_number_hash ,store_id 
+,max(cast(date_created as date))
+from  PRM.lk_customer
+--where cast(date_created as date) >(select max(lastinteractiondate) from "GAIN_THEORY".PRMActiveInactiveOriginal where source like 
+--'LKcustomer')
+group by 1,2
+union 
+select distinct best_mobile_number_hash ,store_id 
+,max(cast(SUBSTR(lk_date,7,4)||'-'||SUBSTR(lk_date,1,2)||'-'||SUBSTR(lk_date,4,2) as date))
+from PRM.lk_redeem_transaction
+--where cast(SUBSTR(lk_date,7,4)||'-'||SUBSTR(lk_date,1,2)||'-'||SUBSTR(lk_date,4,2) as date) >(select max(lastinteractiondate) from 
+--"GAIN_THEORY".PRMActiveInactiveOriginal where source like 'LKredeemtransaction')
+group by 1,2
+union 
+select distinct best_mobile_number_hash ,lk_store_id 
+,max(cast(SUBSTR(transaction_date,7,4)||'-'||SUBSTR(transaction_date,1,2)||'-'||SUBSTR(transaction_date,4,2) as date))
+from PRM.lk_redemption_all_years
+--where cast(SUBSTR(transaction_date,7,4)||'-'||SUBSTR(transaction_date,1,2)||'-'||SUBSTR(transaction_date,4,2) as date) >(select max
+--(lastinteractiondate) from "GAIN_THEORY".PRMActiveInactiveOriginal where source like 'LKredemptionallyears')
+group by 1,2) a inner join PRM.lk_salon_store_master b
+on a.store_id = b.store_id
+group by 1,2;
+
+
+
+
+select distinct lower(city),count(distinct best_mobile_number_hash) from PRM.bb_registration
+group by 1;
